@@ -283,7 +283,7 @@ const Home = () => {
               </Button>
               <Button
                 target="_blank"
-                href="https://www.youtube.com/watch?v=rqzoyNXcRsA"
+                href="https://youtu.be/uS1glvh5A7Q"
                 className={'tutorial ' + classes.button}
                 style={{ margin: '10px' }}
               >

@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 // import Button from '../Button'
 import { useLotteryMin, useNumDepositTicketsRemaining } from '../../hooks/useDetonator'
@@ -14,6 +14,18 @@ interface TokenInputProps extends InputProps {
 }
 
 const TicketInput: React.FC<TokenInputProps> = ({ max, symbol, availableSymbol, onChange, onSelectMax, value }) => {
+  const [width, setWidth] = useState(window.innerWidth);
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    }
+  }, []);
+
+  const isMobile = width <= 768
   const ticketPrice = useLotteryMin()
   const remainingTickets = useNumDepositTicketsRemaining()
   const numTickets = value && ticketPrice && remainingTickets ? Math.min(Math.floor(+value / getBalance(ticketPrice)), remainingTickets.toNumber()) : 0
@@ -24,7 +36,7 @@ const TicketInput: React.FC<TokenInputProps> = ({ max, symbol, availableSymbol, 
       <Input
         endAdornment={
           <StyledTokenAdornmentWrapper>
-            <StyledTokenSymbol>{symbol}</StyledTokenSymbol>
+            <StyledTokenSymbol isMobile={isMobile}>{symbol}</StyledTokenSymbol>
             <StyledSpacer />
             <div>
               <Button className="shinyButtonSecondary" size="small" onClick={onSelectMax}>
@@ -77,9 +89,10 @@ const StyledTicketsText = styled.div`
   justify-content: flex-start;
 `
 
-const StyledTokenSymbol = styled.span`
+const StyledTokenSymbol = styled.span< {isMobile?: boolean} >`
   color: #155aca;
   font-weight: 700;
+  display: ${(props) => (props.isMobile ? 'none' : 'initial')};
 `
 
 export default TicketInput

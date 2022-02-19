@@ -32,7 +32,7 @@ const Detonator: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const { account } = useWallet();
 
-  const startTime = 1645056000
+  const startTime = 0 // 1645056900
 
   const handleClick = (index: number) => {
     setActiveIndex(index)

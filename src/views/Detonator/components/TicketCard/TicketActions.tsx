@@ -49,7 +49,7 @@ const TicketCard: React.FC = () => {
 
   const minRef = 0.15;
   const refLink =
-    account && userInfo && +userInfo.total_deposits / 1e18 >= 0.15 && `${window.location.origin}/detonator?ref=${account}`
+    account && userInfo && +userInfo.total_deposits / 1e18 >= 0.15 && `https://emp.money/detonator?ref=${account}`
 
   // const [onPresentApprove] = useModal(<PurchaseWarningModal />)
   const [onPresentBuy] = useModal(<BuyTicketModal max={new BigNumber(empBalance.toString())} tokenName="EMP-ETH-LP" />)

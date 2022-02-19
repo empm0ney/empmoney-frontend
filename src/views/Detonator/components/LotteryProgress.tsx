@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Progress } from '../../../components/Progress'
 import { Text } from '../../../components/Text'
-import { useCurrentTime } from '../../../hooks/useTimer'
-import { useLotteryTime, useLargestTime } from '../../../hooks/useDetonator'
+import { useLotteryTime } from '../../../hooks/useDetonator'
 import { getLotteryDrawStep, getLotteryRewardTime, getStep } from '../helpers/CountdownHelpers'
 
 const ProgressWrapper = styled.div`
@@ -40,7 +39,7 @@ const LotteryProgress = () => {
   // const secondsToLargest = rewardTime && +rewardTime - Date.now() / 1000
   const secondsToLottery =  lotteryTime && +lotteryTime - (Date.now() / 1000)
   // const timeUntilLargestDraw = secondsToLargest && getLotteryRewardTime(secondsToLargest > 0 ? secondsToLargest : 0, true)
-  const timeUntilLotteryDraw = secondsToLottery && getLotteryRewardTime(secondsToLottery > 0 ? secondsToLottery : 0)
+  const timeUntilLotteryDraw = secondsToLottery && getLotteryRewardTime(secondsToLottery > 0 ? secondsToLottery : 0, true)
 
   return (
     <ProgressWrapper>
@@ -55,9 +54,9 @@ const LotteryProgress = () => {
         <Text color="rgb(189, 189, 189)">
           Daily Draw @ 12:00am UTC<br />
         </Text>
-        <StyledPrimaryText color="rgb(189, 189, 189)">
+        {/* <StyledPrimaryText color="rgb(189, 189, 189)">
           Day Ends {timeUntilLotteryDraw}
-        </StyledPrimaryText>
+        </StyledPrimaryText> */}
       </BottomTextWrapper>
     </ProgressWrapper>
   )

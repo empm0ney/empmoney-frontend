@@ -1,6 +1,6 @@
 {
   "Detonator": {
-    "address": "0x0000000000000000000000000000000000000000",
+    "address": "0xf7A20637C3b88f0FC3ac6B3AFfe707A03d1A554d",
     "abi": [
       {
         "inputs": [
@@ -2192,11 +2192,6 @@
         "type": "receive"
       }
     ]
-    
-    
-    
-    
-    
   },
   "Zapper": {
     "address": "0x1732Bb86dcd3D29e041Aa88fF8fee947c8ABAEd2",

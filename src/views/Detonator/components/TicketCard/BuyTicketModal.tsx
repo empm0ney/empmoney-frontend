@@ -39,7 +39,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
   }, [max])
 
   const maxTickets = useMemo(() => {
-    return getBalance(new BigNumber(max.toString()))
+    return getBalance(new BigNumber(max.toString())).toFixed(4)
   }, [max])
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => setVal(e.currentTarget.value)

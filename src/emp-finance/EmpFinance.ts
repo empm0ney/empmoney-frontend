@@ -347,13 +347,13 @@ export class EmpFinance {
     }
     const rewardPerSecond = await poolContract.tSharePerSecond();
     if (depositTokenName === 'EMP-ETH-LP') {
-      return rewardPerSecond.mul(140).div(1000);
+      return rewardPerSecond.mul(650).div(1000);
     } else if (depositTokenName === 'EMP-ESHARE-LP') {
-      return rewardPerSecond.mul(30).div(1000);
+      return rewardPerSecond.mul(10).div(1000);
     } else if (depositTokenName === 'EMP') {
-      return rewardPerSecond.mul(700).div(1000)
+      return rewardPerSecond.mul(0).div(1000)
     } else {
-      return rewardPerSecond.mul(130).div(1000);
+      return rewardPerSecond.mul(340).div(1000);
     }
   }
 
@@ -440,14 +440,18 @@ export class EmpFinance {
       totalValue += poolValue;
     }
 
-    const [shareStat, boardroomV2tShareBalanceOf] = await Promise.all([
+    const [shareStat, boardroomV2tShareBalance, lpStat, detonatorBalance] = await Promise.all([
       this.getShareStat(),
-      this.ESHARE.balanceOf(this.currentBoardroom(1).address)
+      this.ESHARE.balanceOf(this.currentBoardroom(1).address),
+      this.getLPStat('EMP-ETH-LP'),
+      this.EMPETH_LP.balanceOf(this.contracts.Detonator.address)
     ]);
     const ESHAREPrice = shareStat.priceInDollars;
-    const boardroomV2TVL = Number(getDisplayBalance(boardroomV2tShareBalanceOf, this.ESHARE.decimal)) * Number(ESHAREPrice);
+    const LpPrice = lpStat.priceOfOne;
+    const boardroomV2TVL = Number(getDisplayBalance(boardroomV2tShareBalance, this.ESHARE.decimal)) * Number(ESHAREPrice);
+    const detonatorTVL = Number(getDisplayBalance(detonatorBalance, 18)) * Number(LpPrice);
 
-    return totalValue + boardroomV2TVL;
+    return totalValue + boardroomV2TVL + detonatorTVL;
   }
 
   /**

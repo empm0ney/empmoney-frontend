@@ -89,9 +89,9 @@ const Farm = () => {
                   <Typography color="textPrimary" align="center" variant="h4" gutterBottom style={{marginTop: '20px'}}>
                     Earn EShare By Staking EMP
                   </Typography>
-                  {/* <Alert variant="filled" severity="warning">
-                    Genesis pools have ended. Please claim all rewards and remove funds from Genesis pools.
-                  </Alert> */}
+                  <Alert variant="filled" severity="info">
+                    EMP pool has ended. Please claim all rewards and remove funds from the pool.
+                  </Alert>
                   <Grid container spacing={3} style={{marginTop: '20px'}}>
                     {activeBanks
                       .filter((bank) => bank.sectionInUI === 0)

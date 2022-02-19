@@ -19,7 +19,6 @@ const TokenInput: React.FC<TokenInputProps> = ({max, symbol, onChange, onSelectM
       <Input
         endAdornment={
           <StyledTokenAdornmentWrapper>
-            {/* <StyledTokenSymbol>{symbol}</StyledTokenSymbol> */}
             <StyledSpacer />
             <div>
               <Button size="small" color="primary" variant="contained" onClick={onSelectMax}>

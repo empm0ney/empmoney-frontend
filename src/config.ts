@@ -298,7 +298,7 @@ export const bankDefinitions: {[contractName: string]: BankInfo} = {
     earnTokenName: 'ESHARE',
     finished: false,
     sort: 9,
-    closedForStaking: false,
+    closedForStaking: true,
   },
 
   // EmpEthLPApeEShareRewardPool: {
