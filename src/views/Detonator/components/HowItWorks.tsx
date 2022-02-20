@@ -103,7 +103,7 @@ const HowItWorks = () => {
             How It Works
           </StyledHeading>
           <StyledText>
-            Deposit EMP-ETH LP for drip rewards, instant rewards, daily largest awards, and entry into the daily lottery!
+            Deposit EMP-ETH LP for burst rewards, instant rewards, daily largest prize, and entry into the daily lottery!
           </StyledText>
           <StyledText>
             💰 DAILY LARGEST DEPOSITOR 💰

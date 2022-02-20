@@ -25,7 +25,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
   const ticketPrice = getFullDisplayBalance(useLotteryMin())
 
   const largestDeposit = useLargestDeposit()
-  const min = poolBalance && poolBalance.times('0.0025')
+  const min = poolBalance && poolBalance.times('0')
   const minLargest = min && largestDeposit ? (min.gte(largestDeposit) 
     ? getFullDisplayBalance(min)
     : getFullDisplayBalance(largestDeposit)) : '0'
