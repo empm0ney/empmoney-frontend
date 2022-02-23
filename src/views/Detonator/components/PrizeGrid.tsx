@@ -63,15 +63,15 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
   return (
     <Grid>
       {/* 4 matches row */}
-      <GridItem>
+      <GridItem style={{marginTop: '-1rem'}}>
         <Text bold fontSize="18px">
           Total Deposited
         </Text>
       </GridItem>
-      <GridItem>
+      <GridItem style={{marginTop: '-1rem'}}>
         <RightAlignedText>
           <CardValue value={+(totalDeposited)} fontSize="18px" decimals={2} bold={false} />
-          <CardValue color='rgb(189,189,189)' value={+totalDeposited * +glassPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
+          <CardValue color='rgb(189,189,189)' value={+totalDeposited * +glassPrice} fontSize="11px" decimals={0} bold={false} prefix="~$" />
         </RightAlignedText>
       </GridItem>
       {/* 2 matches row */}
@@ -83,7 +83,7 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
       <GridItem>
         <RightAlignedText>
           <CardValue value={Number(totalRewards)} fontSize="18px" decimals={2} bold={false} />
-          <CardValue color='rgb(189,189,189)' value={+totalRewards * +glassPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
+          <CardValue color='rgb(189,189,189)' value={+totalRewards * +glassPrice} fontSize="11px" decimals={0} bold={false} prefix="~$" />
         </RightAlignedText>
       </GridItem>
       <GridItem>
@@ -94,27 +94,26 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
       <GridItem>
         <RightAlignedText>
           <CardValue value={Number(largestPrize)} fontSize="18px" decimals={2} bold={false} />
-          <CardValue color='rgb(189,189,189)' value={+largestPrize * +glassPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
+          <CardValue color='rgb(189,189,189)' value={+largestPrize * +glassPrice} fontSize="11px" decimals={0} bold={false} prefix="~$" />
         </RightAlignedText>
       </GridItem>
-      <GridItem>
+      <GridItem >
         <Text bold fontSize="18px">
           Largest Deposit
         </Text>
       </GridItem>
-      <GridItem>
+      <GridItem >
         <RightAlignedText>
           <CardValue value={Number(largestDeposit)} fontSize="18px" decimals={2} bold={false} />
-          <Text color='rgb(189,189,189)' fontSize="11px">{parseAddr(largestDepositor)}</Text>
+          <Text color='rgb(189,189,189)' fontSize="11px">{parseAddr(largestDepositor)} 💰 ~${(+largestDeposit * +glassPrice).toFixed(0)}</Text>
         </RightAlignedText>
       </GridItem>
-      {/* 3 matches row */}
-      <GridItem marginBottom="0">
+      <GridItem marginBottom='0'>
         <Text bold fontSize="18px">
           Total Users
         </Text>
       </GridItem>
-      <GridItem marginBottom="0">
+      <GridItem marginBottom='0'>
         <RightAlignedText>
           <CardValue value={Number(totalUsers)} fontSize="18px" decimals={0} bold={false} />
         </RightAlignedText>

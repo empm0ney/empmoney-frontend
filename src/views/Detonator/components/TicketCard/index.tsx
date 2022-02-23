@@ -4,12 +4,11 @@ import BigNumber from 'bignumber.js'
 import Card from '../../../../components/Card'
 import { Text } from '../../../../components/Text'
 import CardContent from '../../../../components/CardContent'
-import { useDayDeposits, useDayDripEstimate, useGetUserInfo, useReferralRewards, useTotalDeposited, useWhaleTax } from '../../../../hooks/useDetonator'
+import { useDayDripEstimate, useDepositMultiplier, useGetUserInfo, useTotalDeposited, useWhaleTax } from '../../../../hooks/useDetonator'
 import { useCurrentTime } from '../../../../hooks/useTimer'
-import { formatBalance, getBalance, getFullDisplayBalance } from '../../../../utils/formatBalance'
+import { getFullDisplayBalance } from '../../../../utils/formatBalance'
 import { getLotteryRewardTime } from '../../helpers/CountdownHelpers'
 import TicketActions from './TicketActions'
-import { Heading } from '../../../../components/Heading'
 import CardValue from '../CardValue'
 import useLpStats from '../../../../hooks/useLpStats'
 
@@ -47,6 +46,8 @@ const TicketCard: React.FC<CardProps> = ({ isSecondCard = false }) => {
   const lpPrice = useMemo(() => (empEthLpStats ? Number(empEthLpStats.priceOfOne).toFixed(2) : null), [empEthLpStats]);
   const user = useGetUserInfo()
   const deposits = user.total_deposits_scaled && +user.total_deposits_scaled > 0 ? getFullDisplayBalance(new BigNumber(user.total_deposits_scaled.toString())) : '0'
+  const maxPayout = user.total_deposits_scaled && +user.total_deposits_scaled > 0 ? getFullDisplayBalance(new BigNumber(user.total_deposits_scaled.toString()).times(3.65)) : '0'
+  const depositMultiplier = useDepositMultiplier().div(10000);
   // const numReferrals = user.num_referrals ? user.num_referrals.toString() : '0'
   // const dayDeposits = user && rewardTime && +user.deposit_time >= +rewardTime - 86400 ? formatBalance(getBalanceNumber(user.day_deposits) * 1.111111111111111111) : '0'
 
@@ -80,50 +81,56 @@ const TicketCard: React.FC<CardProps> = ({ isSecondCard = false }) => {
             <Text bold marginLeft="10px" fontSize="14px" color="#155aca">
               You've Deposited
             </Text>
-            <div style={{marginLeft: "10px"}}>
-              <CardValue value={+deposits} decimals={4} fontSize="24px" lineHeight={1.1} bold />
+            <div style={{ marginLeft: "10px" }}>
+              <CardValue value={+deposits} decimals={2} fontSize="24px" lineHeight={1.1} bold />
             </div>
-            <div style={{ marginLeft: "12px" }}>
+            <div style={{ marginLeft: "10px" }}>
               <CardValue color='rgb(189,189,189)' value={+deposits * +lpPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
             </div>
             <Text bold marginLeft="10px" fontSize="14px" color="#155aca">
-              Last Deposit
+              Max Payout
             </Text>
-            <Heading marginLeft="10px" size="lg">
-              <div style={{ color: 'white' }}>{timeSinceDepositFormat}</div>
-            </Heading>
-            <br />
-            <Text bold marginLeft="10px" fontSize="14px" color="#155aca">
-              Est Daily Burst
-            </Text>
-            <div style={{marginLeft: "10px"}}>
-              <CardValue value={+dayDripEstimate} decimals={4} lineHeight={1.1} fontSize="24px" bold />
+            <div style={{ marginLeft: "10px" }}>
+              <CardValue value={+maxPayout} decimals={2} lineHeight={1.1} fontSize="24px" bold />
             </div>
+            <div style={{ marginLeft: "10px" }}>
+              <CardValue color='rgb(189,189,189)' value={+maxPayout * +lpPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
+            </div>
+            <Text bold marginLeft="10px" fontSize="14px" color="#155aca">
+              Multiplier
+            </Text>
+            <div style={{ marginLeft: "10px" }}>
+              <CardValue value={depositMultiplier.gt(0) ? depositMultiplier.toNumber() : 1} decimals={2} lineHeight={1.1} fontSize="24px" bold />
+            </div>
+            {/* <div style={{ marginLeft: "10px" }}>
+              <CardValue color='rgb(189,189,189)' value={0 * +lpPrice} postfix=" / 100" fontSize="11px" decimals={2} bold={false} prefix="+$" />
+            </div> */}
           </Column>
           <span style={{ margin: 'auto auto' }} />
           <Column style={{ textAlign: 'right' }}>
             <Text bold marginRight="10px" fontSize="14px" color="#155aca">
               You've Claimed
             </Text>
-            <div style={{marginRight: "10px"}}>
-              <CardValue value={+withdrawsScaled} decimals={4} lineHeight={1.1} fontSize="24px" bold />
+            <div style={{ marginRight: "10px" }}>
+              <CardValue value={+withdrawsScaled} decimals={2} lineHeight={1.1} fontSize="24px" bold />
             </div>
-            <div style={{ marginRight: "12px" }}>
+            <div style={{ marginRight: "10px" }}>
               <CardValue color='rgb(189,189,189)' value={+withdrawsScaled * +lpPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
             </div>
-            {/* <br /> */}
             <Text bold marginRight="10px" fontSize="14px" color="#155aca">
-              Last Claim
+              Daily Burst
             </Text>
-            <Heading marginRight="10px" size="lg">
-              <div style={{ color: 'white' }}>{timeSinceClaimFormat}</div>
-            </Heading>
-            <br />
+            <div style={{ marginRight: "10px" }}>
+              <CardValue value={+dayDripEstimate} decimals={2} lineHeight={1.1} fontSize="24px" bold />
+            </div>
+            <div style={{ marginRight: "10px" }}>
+              <CardValue color='rgb(189,189,189)' value={+dayDripEstimate * +lpPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
+            </div>
             <Text bold marginRight="10px" fontSize="14px" color="#155aca">
               Share
             </Text>
-            <div style={{marginRight: "10px"}}>
-              <CardValue value={+share} postfix="%" decimals={3} lineHeight={1.1} fontSize="24px" bold />
+            <div style={{ marginRight: "10px" }}>
+              <CardValue value={+share} postfix="%" decimals={2} lineHeight={1.1} fontSize="24px" bold />
             </div>
           </Column>
         </CardHeader>

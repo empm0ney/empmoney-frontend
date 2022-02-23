@@ -4,7 +4,7 @@ import { useWallet } from 'use-wallet'
 import BigNumber from 'bignumber.js'
 import useEmpFinance from './useEmpFinance';
 import useRefresh from './useRefresh'
-import { claim, compound, deposit, getNumCompoundTicketsRemaining, getNumDepositTicketsRemaining, getNumTicketsTotal, getNumTicketsDay, getLotteryTime, getPastRandomWinners, getContractInfoTotals, getDayDripEstimate, getGlassBalance, getGlassBalancePool, getLargestDayDepositor, getTimeToReward, getTotalDeposited, getTotalRewards, getUserInfo, getUserInfoTotals, getLargestTime, getLotteryMin, getNumRandQualified, getTotalUsers, getDistributionRewards, getLargestTimeIncrement, getLotteryTimeIncrement, getPastTicketWinners, getDayDeposits, getDayTime, getDayTimeIncrement, getPastLargestDepositor, getLargestDeposit, getWhaleTax, getReferralRewards } from '../utils/detonatorUtils'
+import { claim, compound, deposit, getDepositMultiplier, getNumCompoundTicketsRemaining, getNumDepositTicketsRemaining, getNumTicketsTotal, getNumTicketsDay, getLotteryTime, getPastRandomWinners, getContractInfoTotals, getDayDripEstimate, getGlassBalance, getGlassBalancePool, getLargestDayDepositor, getTimeToReward, getTotalDeposited, getTotalRewards, getUserInfo, getUserInfoTotals, getLargestTime, getLotteryMin, getNumRandQualified, getTotalUsers, getDistributionRewards, getLargestTimeIncrement, getLotteryTimeIncrement, getPastTicketWinners, getDayDeposits, getDayTime, getDayTimeIncrement, getPastLargestDepositor, getLargestDeposit, getWhaleTax, getReferralRewards } from '../utils/detonatorUtils'
 import { getDefaultProvider } from '../utils/provider';
 
 export const useClaimLottery = () => {
@@ -389,6 +389,24 @@ export const useDayDripEstimate = () => {
       fetchBalance()
     }
   }, [fastRefresh, Detonator, setDayDripEstimate, account])
+
+  return dayDripEstimate
+}
+
+export const useDepositMultiplier = () => {
+  const [dayDripEstimate, setDayDripEstimate] = useState(new BigNumber(0))
+  const { Detonator } = useEmpFinance().contracts;
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const deposit = await getDepositMultiplier(Detonator)
+      setDayDripEstimate(new BigNumber(deposit.toString()))
+    }
+
+    if (Detonator) {
+      fetchBalance()
+    }
+  }, [Detonator, setDayDripEstimate])
 
   return dayDripEstimate
 }

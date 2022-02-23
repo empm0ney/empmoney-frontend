@@ -82,6 +82,10 @@ export const getLargestTimeIncrement = async (lotteryContract) => {
   return lotteryContract.largestTimeIncrement()
 }
 
+export const getDepositMultiplier = async (lotteryContract) => {
+  return lotteryContract.depositMultiplierBP()
+}
+
 export const getLotteryTime = async (lotteryContract) => {
   return lotteryContract.lotteryTime()
 }
