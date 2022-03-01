@@ -24,7 +24,7 @@ body {
 /* .MuiTypography-body1,
 .MuiPaper-root, */
 h2 {
-  color: #155aca !important;
+  color: #1d48b6 !important;
 }
 
 body {
@@ -47,7 +47,7 @@ h5,
 h6 {
   font-family: 'Rubik', cursive !important;
   text-transform: uppercase;
-  color: #155aca;
+  color: #1d48b6;
 }
 
 .MuiToolbar-regular {
@@ -74,7 +74,7 @@ code {
   text-transform: none !important;
 }
 .wallet-button:hover {
-  color: #155aca !important;
+  color: #1d48b6 !important;
 }
 
 .navLink {
@@ -82,7 +82,7 @@ code {
 }
 
 .navLink:hover {
-  color: #155aca !important;
+  color: #1d48b6 !important;
 }
 
 .shinyButton {
@@ -93,7 +93,7 @@ code {
   border-radius: 15px;
   font-size: 1rem !important;
   padding-left: 5px;
-  color: #155aca !important;
+  color: #1d48b6 !important;
   box-shadow: 0px 0px 5px 0px rgba(26, 107, 158, 1);
 }
 
@@ -115,8 +115,8 @@ code {
   border-radius: 15px;
   font-size: 1rem !important;
   padding-left: 5px;
-  background-color: #155aca !important;
-  color: #10131e !important;
+  background-color: #1d48b6 !important;
+  color: #08090d !important;
   box-shadow: 0px 0px 5px 0px rgba(26, 107, 158, 1);
 }
 
@@ -128,13 +128,13 @@ code {
 }
 
 .shinyButton:hover {
-  background-color: #155aca !important;
-  color: #10131e !important;
+  background-color: #1d48b6 !important;
+  color: #08090d !important;
 }
 
 .tutorial:hover {
-  background-color: #155aca !important;
-  color: #10131e !important;
+  background-color: #1d48b6 !important;
+  color: #08090d !important;
   box-shadow: 0px 0px 10px 0px rgba(26, 107, 158, 1);
 }
 
@@ -145,8 +145,8 @@ code {
   border-radius: 15px;
   font-size: 1rem !important;
   padding-left: 5px;
-  background-color: #155aca !important;
-  color: #10131e !important;
+  background-color: #1d48b6 !important;
+  color: #08090d !important;
   /* box-shadow: 0px 0px 5px 0px rgba(26, 107, 158, 1); */
 }
 
@@ -158,8 +158,8 @@ code {
 }
 
 .shinyButtonSecondary:hover {
-  background-color: #155aca !important;
-  color: #10131e !important;
+  background-color: #1d48b6 !important;
+  color: #08090d !important;
   box-shadow: 0px 0px 5px 0px rgba(26, 107, 158, 1);
 }
 

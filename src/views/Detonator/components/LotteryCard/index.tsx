@@ -117,7 +117,7 @@ const LotteryCard = () => {
             <Left>
               <Icon isMobile={isMobile}>🎲</Icon>
               <PrizeCountWrapper>
-                <Text bold fontSize="14px" color="#155aca">
+                <Text bold fontSize="14px" color="#1d48b6">
                   Lottery Prize
                 </Text>
                 <Heading size="lg"><div style={{ color: 'white' }}><CardValue value={lotteryPrize} fontSize="24px" decimals={2} bold /></div></Heading>

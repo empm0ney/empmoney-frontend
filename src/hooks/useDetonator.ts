@@ -360,8 +360,8 @@ export const usePastLargestWinner = (prevRound = 0) => {
 
   useEffect(() => {
     const fetchBalance = async () => {
-      const [largestTime, largestTimeIncrement] = await Promise.all([getLargestTime(Detonator), getLargestTimeIncrement(Detonator)])
-      const addr = await getPastLargestDepositor(Detonator, +largestTime - (+largestTimeIncrement * prevRound))
+      const largestTime = await getLargestTime(Detonator)
+      const addr = await getPastLargestDepositor(Detonator, +largestTime - (+86400 * prevRound))
       setLargestDayDepositer(addr)
     }
 
@@ -517,8 +517,8 @@ export const usePastRandomWinners = (prevRound = 1) => {
 
   useEffect(() => {
     const fetchBalance = async () => {
-      const [lotteryTime, lotteryTimeIncrement] = await Promise.all([getLotteryTime(Detonator), getLotteryTimeIncrement(Detonator)])
-      const info = await getPastRandomWinners(Detonator, +lotteryTime - (+lotteryTimeIncrement * prevRound))
+      const lotteryTime = await getLotteryTime(Detonator)
+      const info = await getPastRandomWinners(Detonator, +lotteryTime - (86400 * prevRound))
       setPastRandomWinner(info)
     }
 

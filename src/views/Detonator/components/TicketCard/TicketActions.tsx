@@ -49,7 +49,7 @@ const TicketCard: React.FC = () => {
     account && userInfo && +userInfo.total_deposits / 1e18 >= 0.15 && `https://emp.money/detonator?ref=${account}`
 
   // const [onPresentApprove] = useModal(<PurchaseWarningModal />)
-  const [onPresentBuy] = useModal(<BuyTicketModal max={new BigNumber(empBalance.toString())} tokenName="EMP-ETH-LP" />)
+  const [onPresentBuy] = useModal(<BuyTicketModal max={new BigNumber(empBalance.toString()).toFixed(4, BigNumber.ROUND_DOWN)} tokenName="EMP-ETH-LP" />)
 
   const REF_KEY = 'REF_KEY'
   const regex = new RegExp('[?&]ref=([^&#]*)').exec(window.location.search)
@@ -112,7 +112,7 @@ const TicketCard: React.FC = () => {
           <Copy onClick={copyRef}>
             <Text color="purple">Referral Link</Text>
           </Copy>
-          {/* <Text margin="auto auto 10px" color="#155aca" >
+          {/* <Text margin="auto auto 10px" color="#1d48b6" >
             Temporarily Disabled For Improvements {enableTimeFormat}
           </Text> */}
           <Button

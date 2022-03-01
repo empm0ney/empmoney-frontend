@@ -16,8 +16,8 @@ export const purple = {
 export const yellow = {
   200: '#31b1d8',
   400: '#ab47bc',
-  700: '#155aca',
-  800: '#153aca',
+  700: '#1d48b6',
+  800: '#182a62',
 };
 
 export const red = {

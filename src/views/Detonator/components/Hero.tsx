@@ -8,7 +8,7 @@ import Container from '../../../components/layout/Container'
 import LotteryProgress from './LotteryProgress'
 
 const Title = styled(Heading).attrs({ as: 'h1', size: 'xl' })<{ isMobile?: boolean }>`
-  color: #155aca;
+  color: #1d48b6;
   margin-bottom: 24px;
   text-align: ${(props) => (props.isMobile ? 'center' : 'left')};
 `

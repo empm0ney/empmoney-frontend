@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBar: {
-    color: '#155aca',
-    'background-color': '#10131e',
+    color: '#1d48b6',
+    'background-color': '#08090d',
     // borderBottom: `1px solid ${theme.palette.divider}`,
     padding: '10px',
     marginBottom: '3rem',
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textTransform: 'uppercase',
-    color: '#155aca',
+    color: '#1d48b6',
     fontSize: '16px',
     marginTop: '15px',
     margin: theme.spacing(10, 1, 1, 2),
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
   brandLink: {
     textDecoration: 'none',
-    color: '#155aca',
+    color: '#d48b6',
     '&:hover': {
       textDecoration: 'none',
     },
@@ -152,7 +152,7 @@ const Nav = () => {
               <a href="https://yieldwolf.finance/bsc/emp-money" className={'navLink ' + classes.link} rel="noopener" target="_blank">
                 AutoVaults
               </a>
-              <a href="https://docs.emp.money/documents" className={'navLink ' + classes.link} rel="noopener" target="_blank">
+              <a href="https://empmoneyv2.gitbook.io/emp.money/" className={'navLink ' + classes.link} rel="noopener" target="_blank">
                 Docs
               </a>
             </Box>
@@ -233,7 +233,7 @@ const Nav = () => {
                 <ListItem button component="a" href="https://yieldwolf.finance/bsc/emp-money">
                   <ListItemText>AutoVaults</ListItemText>
                 </ListItem>
-                <ListItem button component="a" href="https://docs.emp.money/documents">
+                <ListItem button component="a" href="https://empmoneyv2.gitbook.io/emp.money/">
                   <ListItemText>Docs</ListItemText>
                 </ListItem>
               </List>

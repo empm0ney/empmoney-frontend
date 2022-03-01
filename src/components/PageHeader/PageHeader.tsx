@@ -29,7 +29,7 @@ const StyledPageHeader = styled.div`
 `;
 
 const StyledTitle = styled.h1`
-  color: '#155aca';
+  color: '#1d48b6';
   font-size: 36px;
   font-weight: 700;
   margin: 0;

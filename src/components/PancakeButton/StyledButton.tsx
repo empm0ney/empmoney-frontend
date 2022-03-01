@@ -47,10 +47,10 @@ const removePointerEvents = ({ disabled, as }: ThemedProps) => {
 
 const StyledButton = styled.button<ButtonProps>`
   align-items: center;
-  background-color: #155aca;
-  border: #155aca;
+  background-color: #1d48b6;
+  border: #1d48b6;
   border-radius: 16px;
-  box-shadow: #155aca;
+  box-shadow: #1d48b6;
   color: white;
   cursor: pointer;
   display: inline-flex;
@@ -69,8 +69,8 @@ const StyledButton = styled.button<ButtonProps>`
   opacity: ${({ isLoading }) => (isLoading ? 0.5 : 1)};
 
   &:hover:not(:disabled):not(.button--disabled):not(:active) {
-    background-color: #155aca;
-    border-color: #155aca;
+    background-color: #1d48b6;
+    border-color: #1d48b6;
   }
 
   &:focus:not(:active) {
@@ -78,8 +78,8 @@ const StyledButton = styled.button<ButtonProps>`
   }
 
   &:active {
-    background-color: #155aca;
-    box-shadow: #155aca;
+    background-color: #1d48b6;
+    box-shadow: #1d48b6;
   }
 
   ${getDisabledStyles}

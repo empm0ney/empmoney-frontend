@@ -24,7 +24,7 @@ const BackgroundImage = createGlobalStyle`
   body {
     background: url(${BondImage}) no-repeat !important;
     background-size: cover !important;
-    background-color: #10131e;
+    background-color: #08090d;
   }
 `;
 

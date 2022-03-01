@@ -90,7 +90,7 @@ const TotalPrizesCard = () => {
           <Left>
             <StyledImage />
             <PrizeCountWrapper>
-              <Text fontSize="14px" color="#155aca" bold>
+              <Text fontSize="14px" color="#1d48b6" bold>
                 Pool Balance
               </Text>
               <Heading size="lg"><CardValue value={poolBalanceFormat} fontSize="24px" decimals={2} bold> EMP-ETH LP</CardValue></Heading>

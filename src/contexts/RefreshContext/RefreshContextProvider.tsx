@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-const INSTANT_INTERVAL = 3000
+const INSTANT_INTERVAL = 1000
 const FAST_INTERVAL = 10000;
 const SLOW_INTERVAL = 60000;
 

@@ -11,7 +11,7 @@ import { Button } from '@material-ui/core'
 import BigNumber from 'bignumber.js'
 
 interface BuyTicketModalProps {
-  max: BigNumber
+  max: string
   onConfirm?: (amount: string, numbers: Array<number>) => void
   onDismiss?: () => void
   tokenName?: string
@@ -39,7 +39,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
   }, [max])
 
   const maxTickets = useMemo(() => {
-    return getBalance(new BigNumber(max.toString())).toFixed(4)
+    return getBalance(new BigNumber(max.toString()))
   }, [max])
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => setVal(e.currentTarget.value)
@@ -116,7 +116,7 @@ const Tips = styled.div`
   text-align: center;
   font-size: 14px;
   font-weight: 600;
-  color: #155aca;
+  color: #1d48b6;
 `
 
 const Final = styled.div`
@@ -124,7 +124,7 @@ const Final = styled.div`
   text-align: center;
   font-size: 20px;
   font-weight: 600;
-  color: #155aca;
+  color: #1d48b6;
 `
 const Announce = styled.div`
   margin-top: -8px;

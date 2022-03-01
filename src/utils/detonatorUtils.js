@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 
 export const deposit = async (lotteryContract, amount, account) => {
   try {
-    const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
+    const TREASURY_ADDRESS = '0xCa8015fB86217ED9a980C0c7B9F487a67d682D34'
     const REF_KEY = 'REF_KEY'
     let ref = new RegExp('[?&]ref=([^&#]*)').exec(window.location.search);
     ref = ref && ref.length > 1 ? ref[1] : null
@@ -11,18 +11,18 @@ export const deposit = async (lotteryContract, amount, account) => {
     if (ref === null || ref === undefined) {
       ref = localStorage.getItem(REF_KEY)
 
-      if (!ref || ref === null || ref === undefined) {
-        ref = ZERO_ADDRESS
+      if (!ref || ref === null || ref === undefined || ref.toString().toLowerCase() === '0xFA3aAC5c2BD753Bc5D39e8fA6307A9d0C72D6fE5'.toLowerCase()) {
+        ref = TREASURY_ADDRESS
       }
     }
 
-    if (ref && ref === account) {
+    if (ref && ref.toString().toLowerCase() === account.toLowerCase()) {
       if (localStorage.getItem(REF_KEY)) localStorage.removeItem(REF_KEY)
       return alert('Cannot refer yourself')
     }
 
     const tx = await lotteryContract.deposit(new BigNumber(amount).times(new BigNumber(10).pow(18)).toFixed(), ref)
-    if (ref !== ZERO_ADDRESS) localStorage.setItem(REF_KEY, ref)
+    if (ref !== TREASURY_ADDRESS) localStorage.setItem(REF_KEY, ref)
     return tx
       
   } catch (err) {

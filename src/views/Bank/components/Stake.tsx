@@ -105,7 +105,7 @@ const Stake: React.FC<StakeProps> = ({bank}) => {
                  <Typography style={{textTransform: 'uppercase', color: '#fffff'}}>
                       {`≈ $${earnedInDollars}`}
             </Typography>
-               <Typography style={{textTransform: 'uppercase', color: '#155aca'}}>
+               <Typography style={{textTransform: 'uppercase', color: '#1d48b6'}}>
               {`${bank.depositTokenName} Staked`}
                     </Typography>
             {/* <Label text={`${bank.depositTokenName} Staked`} /> */}

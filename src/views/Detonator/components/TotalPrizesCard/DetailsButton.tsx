@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 const DetailsButton: React.FC<DetailsButtonProps> = ({ onClick }) => {
   return (
     <Wrapper onClick={() => onClick()}>
-      <Text color="#155aca" bold>
+      <Text color="#1d48b6" bold>
         Details
       </Text>
       <ChevronDownIcon />

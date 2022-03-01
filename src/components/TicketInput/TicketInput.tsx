@@ -72,7 +72,7 @@ const StyledTokenAdornmentWrapper = styled.div`
 
 const StyledMaxText = styled.div`
   align-items: center;
-  color: #155aca;
+  color: #1d48b6;
   display: flex;
   font-size: 14px;
   font-weight: 700;
@@ -81,7 +81,7 @@ const StyledMaxText = styled.div`
 `
 const StyledTicketsText = styled.div`
   align-items: center;
-  color: #155aca;
+  color: #1d48b6;
   display: flex;
   font-size: 14px;
   font-weight: 700;
@@ -90,7 +90,7 @@ const StyledTicketsText = styled.div`
 `
 
 const StyledTokenSymbol = styled.span< {isMobile?: boolean} >`
-  color: #155aca;
+  color: #1d48b6;
   font-weight: 700;
   display: ${(props) => (props.isMobile ? 'none' : 'initial')};
 `

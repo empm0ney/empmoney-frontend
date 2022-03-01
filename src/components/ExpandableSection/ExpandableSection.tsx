@@ -13,10 +13,10 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #155aca;
+  color: #1d48b6;
 
   svg {
-    fill: #155aca;
+    fill: #1d48b6;
   }
 `
 

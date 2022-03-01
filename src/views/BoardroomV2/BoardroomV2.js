@@ -27,13 +27,13 @@ import useWithdrawCheck from '../../hooks/boardroom/useWithdrawCheck';
 import ProgressCountdown from './components/ProgressCountdown';
 import { createGlobalStyle } from 'styled-components';
 
-import HomeImage from '../../assets/img/background.png';
+import HomeImage from '../../assets/img/background2.jpg';
 import LaunchCountdown from '../../components/LaunchCountdown';
 const BackgroundImage = createGlobalStyle`
   body {
     background: url(${HomeImage}) repeat !important;
     background-size: cover !important;
-    background-color: #10131e;
+    background-color: #08090d;
   }
 `;
 
@@ -76,7 +76,7 @@ const BoardroomV2 = () => {
                 <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                   <Card className={classes.gridItem}>
                     <CardContent style={{ textAlign: 'center' }}>
-                      <Typography style={{ textTransform: 'uppercase', color: '#155aca' }}>Next Epoch</Typography>
+                      <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>Next Epoch</Typography>
                       <ProgressCountdown base={moment().toDate()} hideBar={true} deadline={to} description="Next Epoch" />
                     </CardContent>
                   </Card>
@@ -84,7 +84,7 @@ const BoardroomV2 = () => {
                 <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                   <Card className={classes.gridItem}>
                     <CardContent align="center">
-                      <Typography style={{ textTransform: 'uppercase', color: '#155aca' }}>Current Epoch</Typography>
+                      <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>Current Epoch</Typography>
                       <Typography>{Number(currentEpoch)}</Typography>
                     </CardContent>
                   </Card>
@@ -92,7 +92,7 @@ const BoardroomV2 = () => {
                 <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                   <Card className={classes.gridItem}>
                     <CardContent align="center">
-                      <Typography style={{ textTransform: 'uppercase', color: '#155aca' }}>
+                      <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>
                         EMP PEG <small>(TWAP)</small>
                       </Typography>
                       <Typography>{scalingFactor} ETH</Typography>
@@ -105,7 +105,7 @@ const BoardroomV2 = () => {
                 <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                   <Card className={classes.gridItem}>
                     <CardContent align="center">
-                      <Typography style={{ textTransform: 'uppercase', color: '#155aca' }}>APR</Typography>
+                      <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>APR</Typography>
                       <Typography>{boardroomAPR.toFixed(2)}%</Typography>
                     </CardContent>
                   </Card>
@@ -113,7 +113,7 @@ const BoardroomV2 = () => {
                 <Grid item xs={12} md={2} lg={2}>
                   <Card className={classes.gridItem}>
                     <CardContent align="center">
-                      <Typography style={{ textTransform: 'uppercase', color: '#155aca' }}>ESHARES Staked</Typography>
+                      <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>ESHARES Staked</Typography>
                       <Typography>{getDisplayBalance(totalStaked)}</Typography>
                     </CardContent>
                   </Card>

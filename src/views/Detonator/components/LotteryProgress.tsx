@@ -1,8 +1,10 @@
+import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 import { Progress } from '../../../components/Progress'
 import { Text } from '../../../components/Text'
 import { useLotteryTime } from '../../../hooks/useDetonator'
+import ProgressCountdown from './ProgressCountdown'
 import { getLotteryDrawStep, getLotteryRewardTime, getStep } from '../helpers/CountdownHelpers'
 
 const ProgressWrapper = styled.div`
@@ -37,7 +39,7 @@ const LotteryProgress = () => {
   const lotteryTime = useLotteryTime()
 
   // const secondsToLargest = rewardTime && +rewardTime - Date.now() / 1000
-  const secondsToLottery =  lotteryTime && +lotteryTime - (Date.now() / 1000)
+  const secondsToLottery = lotteryTime && +lotteryTime - (Date.now() / 1000)
   // const timeUntilLargestDraw = secondsToLargest && getLotteryRewardTime(secondsToLargest > 0 ? secondsToLargest : 0, true)
   const timeUntilLotteryDraw = secondsToLottery && getLotteryRewardTime(secondsToLottery > 0 ? secondsToLottery : 0, true)
 
@@ -46,7 +48,7 @@ const LotteryProgress = () => {
       <Progress primaryStep={getLotteryDrawStep(secondsToLottery)} secondaryStep={getStep()} showProgressBunny />
       <TopTextWrapper>
         <StyledPrimaryText fontSize="20px" bold color="white">
-        ⚡ {timeUntilLotteryDraw} ⚡
+          <ProgressCountdown base={moment().toDate()} hideBar={true} deadline={new Date(+lotteryTime * 1000)} description="" />
         </StyledPrimaryText>
       </TopTextWrapper>
 

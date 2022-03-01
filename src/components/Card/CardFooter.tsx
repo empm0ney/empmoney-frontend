@@ -4,7 +4,7 @@ import { space, SpaceProps } from "styled-system";
 export type CardFooterProps = SpaceProps;
 
 const CardFooter = styled.div<CardFooterProps>`
-  border-top: 1px solid #10131e;
+  border-top: 1px solid #08090d;
   ${space}
 `;
 

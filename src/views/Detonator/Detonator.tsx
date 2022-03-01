@@ -7,7 +7,7 @@ import Hero from './components/Hero'
 import NextDrawPage from './NextDrawPage'
 import StartTimer from './components/StartTimer'
 import Page from '../../components/Page'
-import HomeImage from '../../assets/img/background.png';
+import HomeImage from '../../assets/img/background2.jpg';
 import useWallet from 'use-wallet'
 import UnlockWallet from '../../components/UnlockWallet'
 
@@ -15,7 +15,7 @@ const BackgroundImage = createGlobalStyle`
   body {
     background: url(${HomeImage}) repeat !important;
     background-size: cover !important;
-    background-color: #10131e;
+    background-color: #08090d;
   }
 `;
 

@@ -14,7 +14,7 @@ import {createGlobalStyle} from 'styled-components';
 
 import useBanks from '../../hooks/useBanks';
 
-import HomeImage from '../../assets/img/background.png';
+import HomeImage from '../../assets/img/background2.jpg';
 import LaunchCountdown from '../../components/LaunchCountdown';
 import config from '../../config';
 
@@ -22,7 +22,7 @@ const BackgroundImage = createGlobalStyle`
   body {
     background: url(${HomeImage}) repeat !important;
     background-size: cover !important;
-    background-color: #10131e;
+    background-color: #08090d;
   }
 `;
 

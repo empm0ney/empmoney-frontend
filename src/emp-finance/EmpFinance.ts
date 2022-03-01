@@ -347,13 +347,13 @@ export class EmpFinance {
     }
     const rewardPerSecond = await poolContract.tSharePerSecond();
     if (depositTokenName === 'EMP-ETH-LP') {
-      return rewardPerSecond.mul(650).div(1000);
+      return rewardPerSecond.mul(550).div(1000);
     } else if (depositTokenName === 'EMP-ESHARE-LP') {
       return rewardPerSecond.mul(10).div(1000);
     } else if (depositTokenName === 'EMP') {
       return rewardPerSecond.mul(0).div(1000)
     } else {
-      return rewardPerSecond.mul(340).div(1000);
+      return rewardPerSecond.mul(440).div(1000);
     }
   }
 

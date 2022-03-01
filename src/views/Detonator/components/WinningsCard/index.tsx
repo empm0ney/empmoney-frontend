@@ -111,7 +111,7 @@ const WinningsCard = () => {
             <Left>
               <Icon isMobile={isMobile}>🏅</Icon>
               <PrizeCountWrapper>
-                <Text bold fontSize="14px" color="#155aca">
+                <Text bold fontSize="14px" color="#1d48b6">
                   Your Winnings
                 </Text>
                 <Heading size="lg"><div style={{ color: 'white' }}><CardValue value={+totalWinnings} fontSize="24px" decimals={2} bold /></div></Heading>

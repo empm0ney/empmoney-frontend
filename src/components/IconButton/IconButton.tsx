@@ -33,9 +33,9 @@ const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;
   border: 2px solid;
   border-radius: 28px;
-  background-color: #10131e;
+  background-color: #08090d;
   box-shadow: ${(props) => ('0px 0px 5px 0px ' + !props.disabled ? 'rgba(251,221,76,1)' : 'grey' + ';')};
-  color: ${(props) => (!props.disabled ? '#155aca' : 'grey')};
+  color: ${(props) => (!props.disabled ? '#1d48b6' : 'grey')};
   cursor: pointer;
   display: flex;
   font-weight: 700;
@@ -50,8 +50,8 @@ const StyledButton = styled.button<StyledButtonProps>`
   width: 56px;
 
   &:hover {
-    background-color: #155aca;
-    color: #10131e;
+    background-color: #1d48b6;
+    color: #08090d;
   }
 `;
 

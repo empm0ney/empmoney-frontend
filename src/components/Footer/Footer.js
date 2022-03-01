@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '15px',
     width: '100%',
     color: 'white',
-    backgroundColor: '#191b26',
+    backgroundColor: '#08090d',
     textAlign: 'center',
     height: '1.3rem',
     [theme.breakpoints.down('xs')]: {
@@ -65,7 +65,7 @@ const Footer = () => {
             <a href="https://t.me/empmoney" rel="noopener noreferrer" target="_blank" className={classes.link}>
               <IconTelegram style={{fill: '#dddfee', height: '20px'}} />
             </a>
-            <a href="https://discord.gg/Rve2acBPvx" rel="noopener noreferrer" target="_blank" className={classes.link}>
+            <a href="https://discord.gg/9wDDa26Z6e" rel="noopener noreferrer" target="_blank" className={classes.link}>
               <IconDiscord style={{fill: '#dddfee', height: '20px'}} />
             </a>
           </Grid>

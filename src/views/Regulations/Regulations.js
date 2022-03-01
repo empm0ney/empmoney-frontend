@@ -12,7 +12,7 @@ const BackgroundImage = createGlobalStyle`
   body, html {
     background: url(${RegulationsImage}) no-repeat !important;
     background-size: cover !important;
-    background-color: #10131e;
+    background-color: #08090d;
   }
 `;
 const StyledTableCell = withStyles((theme) => ({

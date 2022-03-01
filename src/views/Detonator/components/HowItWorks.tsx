@@ -132,7 +132,7 @@ const HowItWorks = () => {
       <Text color='rgb(189,189,189)' fontSize="11px" style={{ marginLeft: '5rem', marginRight: '5rem', marginTop: '18px' }}>
         Distribution: 90% reward pool, 6% all depositors (based on total deposits), 3% referrer, 1% Treasury.
       </Text>
-      {/* <StyledLink href="https://ourglass2021.gitbook.io/our-glass/the-game">Read more</StyledLink> */}
+      <StyledLink href="https://emp.money/detonator_whitepaper.pdf" marginTop="8px">Read more</StyledLink>
     </LayoutWrapper>
   )
 }

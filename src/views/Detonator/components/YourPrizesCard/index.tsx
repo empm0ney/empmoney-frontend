@@ -51,17 +51,17 @@ const Wrapper = styled.div<{ isDisabled: boolean }>`
     background-color: unset;
     box-shadow: unset;
     position: relative;
-    background: #10131e;
+    background: #08090d;
     border-radius: 32px;
     box-shadow: 0px 2px 12px -8px rgba(25, 19, 38, 0.1), 0px 1px 1px rgba(25, 19, 38, 0.05);
-    border: 1px solid #10131e;
+    border: 1px solid #08090d;
     @media (pointer:none), (pointer:coarse) {
       margin-top: 24px;
     }
     ` : `
     margin-bottom: 24px;
     position: relative;
-    background: #10131e;
+    background: #08090d;
     border-radius: 32px;
     box-shadow: 0px 2px 12px -8px rgba(25, 19, 38, 0.1), 0px 1px 1px rgba(25, 19, 38, 0.05);
     `}

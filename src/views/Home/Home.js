@@ -30,14 +30,14 @@ import EmpImage from '../../assets/img/emp_animated.gif';
 import RugDocImage from '../../assets/img/rugdoc-badge.png';
 import ZrxGuardImage from '../../assets/img/0x-guard.png';
 
-import HomeImage from '../../assets/img/background.png';
+import HomeImage from '../../assets/img/background2.jpg';
 import useStrategy from '../../hooks/useStrategy';
 import useApproveStrategy, { ApprovalState } from '../../hooks/useApproveStrategy';
 const BackgroundImage = createGlobalStyle`
   body {
     background: url(${HomeImage}) repeat !important;
     background-size: cover !important;
-    background-color: #10131e;
+    background-color: #08090d;
   }
 `;
 
@@ -283,7 +283,7 @@ const Home = () => {
               </Button>
               <Button
                 target="_blank"
-                href="https://youtu.be/uS1glvh5A7Q"
+                href="https://emp-academy.thinkific.com/courses/Emp-Academy"
                 className={'tutorial ' + classes.button}
                 style={{ margin: '10px' }}
               >
@@ -533,7 +533,7 @@ const Home = () => {
                     :
                     <div style={{ flexDirection: 'column', flexGrow: 1 }}>
                       <CircularProgress color='inherit' />
-                      <div style={{ fontSize: '12px', marginTop: '12px', color: '#155aca' }}><i>Submitting multiple transactions...</i></div>
+                      <div style={{ fontSize: '12px', marginTop: '12px', color: '#1d48b6' }}><i>Submitting multiple transactions...</i></div>
                     </div>
                   }
                 </Box>

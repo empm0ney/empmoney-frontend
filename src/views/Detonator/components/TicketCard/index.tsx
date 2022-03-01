@@ -63,11 +63,13 @@ const TicketCard: React.FC<CardProps> = ({ isSecondCard = false }) => {
 
   const totalDeposits = useTotalDeposited()
   const share = user.total_deposits_scaled && totalDeposits.gt(0) ? new BigNumber(user.total_deposits_scaled.toString()).div(totalDeposits).times(100).toString() : 0
+  const burstApr = useDayDripEstimate().times(0.8).times(whaleTax.gt(0) ? (100 - whaleTax.toNumber()) / 100 : 1).times(365).div(deposits).times(100)
+  const burstAprFormat = burstApr.isNaN() ? 0 : getFullDisplayBalance(burstApr)
 
-  const timeSinceDeposit = user.deposit_time && time && time / 1000 - +user.deposit_time
-  const timeSinceDepositFormat = timeSinceDeposit && +user.deposit_time > 0 ? `${getLotteryRewardTime(timeSinceDeposit)}` : '⏳'
-  const timeSinceClaim = user.claim_time && time && time / 1000 - +user.claim_time
-  const timeSinceClaimFormat = timeSinceClaim && +user.claim_time > 0 ? `${getLotteryRewardTime(timeSinceClaim)}` : '⏳'
+  // const timeSinceDeposit = user.deposit_time && time && time / 1000 - +user.deposit_time
+  // const timeSinceDepositFormat = timeSinceDeposit && +user.deposit_time > 0 ? `${getLotteryRewardTime(timeSinceDeposit)}` : '⏳'
+  // const timeSinceClaim = user.claim_time && time && time / 1000 - +user.claim_time
+  // const timeSinceClaimFormat = timeSinceClaim && +user.claim_time > 0 ? `${getLotteryRewardTime(timeSinceClaim)}` : '⏳'
 
   return (
     <StyledCard isSecondCard={isSecondCard}>
@@ -78,7 +80,7 @@ const TicketCard: React.FC<CardProps> = ({ isSecondCard = false }) => {
             <TicketRound />
           </IconWrapper> */}
           <Column>
-            <Text bold marginLeft="10px" fontSize="14px" color="#155aca">
+            <Text bold marginLeft="10px" fontSize="14px" color="#1d48b6">
               You've Deposited
             </Text>
             <div style={{ marginLeft: "10px" }}>
@@ -87,7 +89,7 @@ const TicketCard: React.FC<CardProps> = ({ isSecondCard = false }) => {
             <div style={{ marginLeft: "10px" }}>
               <CardValue color='rgb(189,189,189)' value={+deposits * +lpPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
             </div>
-            <Text bold marginLeft="10px" fontSize="14px" color="#155aca">
+            <Text bold marginLeft="10px" fontSize="14px" color="#1d48b6">
               Max Payout
             </Text>
             <div style={{ marginLeft: "10px" }}>
@@ -96,7 +98,7 @@ const TicketCard: React.FC<CardProps> = ({ isSecondCard = false }) => {
             <div style={{ marginLeft: "10px" }}>
               <CardValue color='rgb(189,189,189)' value={+maxPayout * +lpPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
             </div>
-            <Text bold marginLeft="10px" fontSize="14px" color="#155aca">
+            <Text bold marginLeft="10px" fontSize="14px" color="#1d48b6">
               Multiplier
             </Text>
             <div style={{ marginLeft: "10px" }}>
@@ -108,7 +110,7 @@ const TicketCard: React.FC<CardProps> = ({ isSecondCard = false }) => {
           </Column>
           <span style={{ margin: 'auto auto' }} />
           <Column style={{ textAlign: 'right' }}>
-            <Text bold marginRight="10px" fontSize="14px" color="#155aca">
+            <Text bold marginRight="10px" fontSize="14px" color="#1d48b6">
               You've Claimed
             </Text>
             <div style={{ marginRight: "10px" }}>
@@ -117,16 +119,18 @@ const TicketCard: React.FC<CardProps> = ({ isSecondCard = false }) => {
             <div style={{ marginRight: "10px" }}>
               <CardValue color='rgb(189,189,189)' value={+withdrawsScaled * +lpPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
             </div>
-            <Text bold marginRight="10px" fontSize="14px" color="#155aca">
+            <Text bold marginRight="10px" fontSize="14px" color="#1d48b6">
               Daily Burst
             </Text>
             <div style={{ marginRight: "10px" }}>
               <CardValue value={+dayDripEstimate} decimals={2} lineHeight={1.1} fontSize="24px" bold />
+              {/* <CardValue value={+burstAprFormat} lineHeight={1.1} fontSize="24px" decimals={0} bold postfix="% APR" /> */}
             </div>
             <div style={{ marginRight: "10px" }}>
               <CardValue color='rgb(189,189,189)' value={+dayDripEstimate * +lpPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
+              {/* <CardValue color='rgb(189,189,189)' value={+burstAprFormat} fontSize="11px" decimals={0} bold={false} postfix="% APR" /> */}
             </div>
-            <Text bold marginRight="10px" fontSize="14px" color="#155aca">
+            <Text bold marginRight="10px" fontSize="14px" color="#1d48b6">
               Share
             </Text>
             <div style={{ marginRight: "10px" }}>
