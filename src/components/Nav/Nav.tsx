@@ -155,6 +155,9 @@ const Nav = () => {
               <a href="https://empmoneyv2.gitbook.io/emp.money/" className={'navLink ' + classes.link} rel="noopener" target="_blank">
                 Docs
               </a>
+              {/* <a href="https://empmoneyv2.gitbook.io/emp.money/" className={'navLink ' + classes.link} rel="noopener" target="_blank">
+                Docs
+              </a> */}
             </Box>
 
             <Box

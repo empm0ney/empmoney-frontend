@@ -64,7 +64,7 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
     <Grid>
       {/* 4 matches row */}
       <GridItem style={{marginTop: '-1rem'}}>
-        <Text bold fontSize="18px">
+        <Text bold fontSize="18px" color="white">
           Total Deposited
         </Text>
       </GridItem>
@@ -76,7 +76,7 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
       </GridItem>
       {/* 2 matches row */}
       <GridItem>
-        <Text bold fontSize="18px">
+        <Text color="white" bold fontSize="18px">
           Total Claimed
         </Text>
       </GridItem>
@@ -87,7 +87,7 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
         </RightAlignedText>
       </GridItem>
       <GridItem>
-        <Text bold fontSize="18px">
+        <Text color="white" bold fontSize="18px">
           Largest Prize
         </Text>
       </GridItem>
@@ -98,7 +98,7 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
         </RightAlignedText>
       </GridItem>
       <GridItem >
-        <Text bold fontSize="18px">
+        <Text color="white" bold fontSize="18px">
           Largest Deposit
         </Text>
       </GridItem>
@@ -109,7 +109,7 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
         </RightAlignedText>
       </GridItem>
       <GridItem marginBottom='0'>
-        <Text bold fontSize="18px">
+        <Text color="white" bold fontSize="18px">
           Total Users
         </Text>
       </GridItem>

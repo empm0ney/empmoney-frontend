@@ -11,7 +11,7 @@ const newTheme = createTheme({
     },
     background: {
       default: '#08090d',
-      paper: '#08090d',
+      paper: 'rgb(8, 9, 13, 0.9)',
     },
     primary: {
       light: '#51a1ed',

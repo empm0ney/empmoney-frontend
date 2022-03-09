@@ -8,6 +8,7 @@ interface ModalTitleProps {
 const ModalTitle: React.FC<ModalTitleProps> = ({text}) => <StyledModalTitle>{text}</StyledModalTitle>;
 
 const StyledModalTitle = styled.div`
+  color: white;
   align-items: center;
   display: flex;
   font-size: 1.5rem;

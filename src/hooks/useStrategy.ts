@@ -14,9 +14,9 @@ const useStrategy = () => {
     if ((await empFinance.canUserClaimRewardFromBoardroom(1)) && (await empFinance.getEarningsOnBoardroom(1)).gt(ZERO))
       harvestTxs.push(await empFinance.harvestCashFromBoardroom(1));
     if ((await empFinance.earnedFromBank('EShareBnbEShareRewardPool', ESHARE_TICKER, 0, empFinance.myAccount)).gt(ZERO))
-      harvestTxs.push(await empFinance.harvest('EShareBnbEShareRewardPool', 0));
+      harvestTxs.push(await empFinance.harvest('EShareBnbEShareRewardPool', 0, 2));
     if ((await empFinance.earnedFromBank('EmpEthEShareRewardPool', ESHARE_TICKER, 1, empFinance.myAccount)).gt(ZERO))
-      harvestTxs.push(await empFinance.harvest('EmpEthEShareRewardPool', 1));
+      harvestTxs.push(await empFinance.harvest('EmpEthEShareRewardPool', 1, 2));
 
     await Promise.all(harvestTxs.map((tx) => tx.wait()));
     let shareBoardroomAmount = ZERO;
@@ -60,9 +60,9 @@ const useStrategy = () => {
     const stakeTxs = [];
 
     if (balanceEMPLP.gt(ZERO))
-      stakeTxs.push(await empFinance.stake('EmpEthEShareRewardPool', 1, balanceEMPLP));
+      stakeTxs.push(await empFinance.stake('EmpEthEShareRewardPool', 1, 2, balanceEMPLP));
     if (balanceSHARELP.gt(ZERO))
-      stakeTxs.push(await empFinance.stake('EShareBnbEShareRewardPool', 0, balanceSHARELP));
+      stakeTxs.push(await empFinance.stake('EShareBnbEShareRewardPool', 0, 2, balanceSHARELP));
     if (stakeBoardroom > 0 && shareBoardroomAmount.gt(ZERO))
       stakeTxs.push(await empFinance.currentBoardroom(1).stake(shareBoardroomAmount));
 

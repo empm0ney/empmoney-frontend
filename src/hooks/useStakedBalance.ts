@@ -1,28 +1,27 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 
 import {BigNumber} from 'ethers';
 import useEmpFinance from './useEmpFinance';
 import {ContractName} from '../emp-finance';
 import config from '../config';
 
-const useStakedBalance = (poolName: ContractName, poolId: Number) => {
+const useStakedBalance = (poolName: ContractName, poolId: Number, sectionInUI: Number, account: string) => {
   const [balance, setBalance] = useState(BigNumber.from(0));
   const empFinance = useEmpFinance();
-  const isUnlocked = empFinance?.isUnlocked;
 
   const fetchBalance = useCallback(async () => {
-    const balance = await empFinance.stakedBalanceOnBank(poolName, poolId, empFinance.myAccount);
+    const balance = await empFinance.stakedBalanceOnBank(poolName, poolId, sectionInUI, account);
     setBalance(balance);
-  }, [poolName, poolId, empFinance]);
+  }, [poolName, poolId, sectionInUI, account, empFinance]);
 
   useEffect(() => {
-    if (isUnlocked) {
+    if (account) {
       fetchBalance().catch((err) => console.error(err.stack));
 
       const refreshBalance = setInterval(fetchBalance, config.refreshInterval);
       return () => clearInterval(refreshBalance);
     }
-  }, [isUnlocked, poolName, setBalance, empFinance, fetchBalance]);
+  }, [account, poolName, empFinance, sectionInUI, fetchBalance]);
 
   return balance;
 };

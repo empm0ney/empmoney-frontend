@@ -122,7 +122,7 @@ const empEthLpStats = useLpStats('EMP-ETH-LP');
   return (
     <StyledCardContentInner>
       <Pulse />
-      <ReactTooltip effect="solid" clickable type="info" />
+      <ReactTooltip effect="solid" clickable type="dark" />
       <StyledImage />
       <Heading as="h3" size="lg" color="secondary" style={{ marginTop: '12px' }}>
         YOUR REWARDS!

@@ -31,6 +31,7 @@ import RugDocImage from '../../assets/img/rugdoc-badge.png';
 import ZrxGuardImage from '../../assets/img/0x-guard.png';
 
 import HomeImage from '../../assets/img/background2.jpg';
+import AcademyBanner from '../../assets/img/academy-button.png';
 import useStrategy from '../../hooks/useStrategy';
 import useApproveStrategy, { ApprovalState } from '../../hooks/useApproveStrategy';
 const BackgroundImage = createGlobalStyle`
@@ -205,7 +206,7 @@ const Home = () => {
         {/* Explanation text */}
         <Grid item xs={12} sm={8}>
           <Paper>
-            <Box p={4} style={{ textAlign: 'center' }}>
+            <Box p={4} style={{ textAlign: 'center', paddingBottom: '18px' }}>
               <h2>Welcome to Emp</h2>
               <p>
                 The algocoin that follows Ethereum's price! Now you can have high yields normally only found on risky assets, but with exposure to the world’s favorite cryptocurrency instead.
@@ -229,6 +230,11 @@ const Home = () => {
               </p>
             </Box>
           </Paper>
+          <div style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '-1rem' }}>
+            <a href="https://emp-academy.thinkific.com/courses/Emp-Academy" target="_blank">
+              <img src={AcademyBanner} alt="academy" style={{ width: '100%', maxHeight: '95px' }} />
+            </a>
+          </div>
         </Grid>
 
         {/* <Grid container spacing={3}>
@@ -247,9 +253,9 @@ const Home = () => {
         <Grid item xs={12} sm={4}>
           <Card>
             <CardContent align="center">
-              <h2 style={{paddingTop: '4px'}}>Total Value Locked</h2>
+              <h2 style={{ paddingTop: '4px' }}>Total Value Locked</h2>
               <CountUp style={{ fontSize: '25px' }} end={TVL} separator="," prefix="$" />
-              <div style={{paddingBottom: '18px'}}>{' '}</div>
+              <div style={{ paddingBottom: '18px' }}>{' '}</div>
             </CardContent>
           </Card>
         </Grid>
@@ -268,32 +274,48 @@ const Home = () => {
               <Button
                 target="_blank"
                 href={buyEmpAddress}
-                style={{ margin: '10px' }}
-                className={'shinyButton ' + classes.button}
+                style={{ margin: '4px' }}
+                className={'shinyButtonSecondary ' + classes.button}
               >
                 Buy EMP
               </Button>
               <Button
                 target="_blank"
-                href={buyEShareAddress}
-                className={'shinyButton ' + classes.button}
+                href={'https://dexscreener.com/bsc/0x84821bb588f049913dc579dc511e5e31eb22d5e4'}
                 style={{ margin: '10px' }}
+                className={'shinyButton ' + classes.button}
+              >
+                EMP Chart
+              </Button>
+              <Button
+                target="_blank"
+                href={buyEShareAddress}
+                className={'shinyButtonSecondary ' + classes.button}
+                style={{ margin: '4px' }}
               >
                 Buy ESHARE
               </Button>
               <Button
                 target="_blank"
-                href="https://emp-academy.thinkific.com/courses/Emp-Academy"
+                href={'https://dexscreener.com/bsc/0x1747af98ebf0b22d500014c7dd52985d736337d2'}
+                className={'shinyButton ' + classes.button}
+                style={{ margin: '10px' }}
+              >
+                ESHARE Chart
+              </Button>
+              {/* <Button
+                target="_blank"
+                href="https://empmoneyv2.gitbook.io/emp.money/"
                 className={'tutorial ' + classes.button}
                 style={{ margin: '10px' }}
               >
-                Tutorial
-              </Button>
+                Docs
+              </Button> */}
               <Button
                 target="_blank"
                 href="https://rugdoc.io/"
                 className={classes.button}
-                style={{ margin: '5px', padding: '0', height: '42px', width: '130px' }}
+                style={{ margin: '5px', padding: '0', height: '42px', width: '120px' }}
               >
                 <img src={RugDocImage} alt="rugdoc.io" height="65px" style={{ paddingTop: '4px' }} />
               </Button>
@@ -301,7 +323,7 @@ const Home = () => {
                 target="_blank"
                 href="https://github.com/0xGuard-com/audit-reports/blob/master/emp-money/EMP-Money_final-audit-report.pdf"
                 className={'zrx ' + classes.button}
-                style={{ backgroundColor: '#0c0c0c', marginLeft: '8px', padding: '0', height: '42px', width: '130px' }}
+                style={{ backgroundColor: '#0c0c0c', marginLeft: '8px', padding: '0', height: '40px', width: '120px' }}
               >
                 <img src={ZrxGuardImage} alt="0xguard.com" height="30px" style={{ paddingTop: '2px' }} />
               </Button>
@@ -315,7 +337,7 @@ const Home = () => {
             <CardContent align="center" style={{ position: 'relative' }}>
               <Box mt={2}>
                 <CardIcon>
-                  <TokenSymbol symbol="EMP" />
+                  <TokenSymbol symbol="EMPPNG" />
                 </CardIcon>
               </Box>
               <Button
@@ -456,7 +478,7 @@ const Home = () => {
           <Card>
             <CardContent align="center">
               <Box mt={2}>
-                <TokenSymbol symbol="EMP" />
+                <TokenSymbol symbol="EMPPNG" />
                 <span style={{ fontSize: '38px' }}>{' ♟️ '}</span>
                 <TokenSymbol symbol="ESHARE" />
               </Box>
@@ -554,7 +576,7 @@ const Home = () => {
                   <div style={{ marginTop: '12px', fontSize: '12px' }}>
                     <i>Disclaimer: Uses all liquid EMP & ESHARES in wallet</i>
                   </div>
-                  <Button size='small' style={{ marginTop: '16px', color: '#800080',  marginBottom: '-5px' }} onClick={onToggleExpansion}>
+                  <Button size='small' style={{ marginTop: '16px', color: '#800080', marginBottom: '-5px' }} onClick={onToggleExpansion}>
                     Collapse
                   </Button>
                 </Box>

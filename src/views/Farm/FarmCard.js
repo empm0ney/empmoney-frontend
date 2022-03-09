@@ -24,14 +24,15 @@ const FarmCard = ({bank}) => {
                 justifyContent: 'center',
               }}
             >
-              <TokenSymbol size={32} symbol={bank.depositTokenName} />
+              <TokenSymbol size={32} symbol={bank.sectionInUI !== 3 ? bank.depositTokenName : 'EMPNODE'} />
             </Box>
             <Typography variant="h5" component="h2">
               {bank.depositTokenName}
+              {/* {bank.depositTokenName}{bank.sectionInUI === 3 && ` - ${getLockupText(bank.poolId)}`} */}
             </Typography>
             <Typography color="textSecondary">
               {/* {bank.name} */}
-              Deposit {bank.depositTokenName.toUpperCase()} Earn {` ${bank.earnTokenName}`}
+              {bank.sectionInUI === 3 ? 'Nodes' : 'Deposit'} {bank.sectionInUI !== 3 && bank.depositTokenName.toUpperCase()} {bank.sectionInUI !== 3 ? 'Earn' : 'Generate'} {` ${bank.earnTokenName}`}
             </Typography>
           </Box>
         </CardContent>

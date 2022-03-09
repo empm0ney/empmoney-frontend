@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 const ExpandableSection: React.FC<ExpandableSectionProps> = ({ expanded }) => {
   return (
     <Wrapper aria-label="Hide or show expandable content">
-      <Text bold>
+      <Text color='#1d48b6' bold>
         {expanded ? 'Hide' : 'Details'}
       </Text>
       {expanded ? <ChevronUp /> : <ChevronDown />}

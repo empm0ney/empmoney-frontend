@@ -22,9 +22,10 @@ interface ZapProps extends ModalProps {
   onConfirm: (zapAsset: string, lpName: string, amount: string) => void;
   tokenName?: string;
   decimals?: number;
+  showEstimates?: boolean;
 }
 
-const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', decimals = 18 }) => {
+const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', decimals = 18, showEstimates = true }) => {
   const empFinance = useEmpFinance();
   const { balance } = useWallet();
   const ftmBalance = (Number(balance) / 1e18).toFixed(4).toString();
@@ -89,8 +90,8 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
       <InputLabel style={{ color: '#1d48b6' }} id="label">
         Select Token:
       </InputLabel>
-      <br/>
-      <Select onChange={handleChangeAsset} style={{ color: 'white' }} labelId="label" id="select" value={zappingToken}>
+      <br />
+      <Select variant="outlined" onChange={handleChangeAsset} style={{ color: 'white', background: 'rgb(8, 9, 13, 1)' }} labelId="label" id="select" value={zappingToken}>
         <StyledMenuItem value={BNB_TICKER}>BNB</StyledMenuItem>
         <StyledMenuItem value={ETH_TICKER}>ETH</StyledMenuItem>
         <StyledMenuItem value={ESHARE_TICKER}>ESHARE</StyledMenuItem>
@@ -103,25 +104,26 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
         max={zappingTokenBalance}
         symbol={zappingToken}
       />
-      <br/>
-      <Label variant="yellow" text="Zap Estimations:" />
-      <br/>
-      <StyledDescriptionText>
-        {' '}
-        {tokenName}: {Number(estimate.token0) / Number(ftmAmountPerLP)}
-      </StyledDescriptionText>
-      {tokenName.startsWith(EMP_TICKER) ?
+      <br />
+      {showEstimates && <><Label variant="yellow" text="Zap Estimations:" />
+        <br />
         <StyledDescriptionText>
           {' '}
-          ({Number(estimate.token0)} {tokenName.startsWith(EMP_TICKER) ? ETH_TICKER : EMP_TICKER} /{' '}
-          {Number(estimate.token1)} {tokenName.startsWith(EMP_TICKER) ? EMP_TICKER : ETH_TICKER}){' '}
+          {tokenName}: {Number(estimate.token0) / Number(ftmAmountPerLP)}
         </StyledDescriptionText>
-        :
-        <StyledDescriptionText>
-          {' '}
-          ({Number(estimate.token0)} {tokenName.startsWith(ESHARE_TICKER) ? ESHARE_TICKER : BNB_TICKER} /{' '}
-          {Number(estimate.token1)} {tokenName.startsWith(ESHARE_TICKER) ? BNB_TICKER : ESHARE_TICKER}){' '}
-        </StyledDescriptionText>}
+        {tokenName.startsWith(EMP_TICKER) ?
+          <StyledDescriptionText>
+            {' '}
+            ({Number(estimate.token0)} {tokenName.startsWith(EMP_TICKER) ? ETH_TICKER : EMP_TICKER} /{' '}
+            {Number(estimate.token1)} {tokenName.startsWith(EMP_TICKER) ? EMP_TICKER : ETH_TICKER}){' '}
+          </StyledDescriptionText>
+          :
+          <StyledDescriptionText>
+            {' '}
+            ({Number(estimate.token0)} {tokenName.startsWith(ESHARE_TICKER) ? ESHARE_TICKER : BNB_TICKER} /{' '}
+            {Number(estimate.token1)} {tokenName.startsWith(ESHARE_TICKER) ? BNB_TICKER : ESHARE_TICKER}){' '}
+          </StyledDescriptionText>}
+      </>}
       <ModalActions>
         <Button
           color="primary"

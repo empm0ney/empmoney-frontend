@@ -12,6 +12,8 @@ import { Text } from '../../../../components/Text'
 import { Button } from '@material-ui/core'
 import useModal from '../../../../hooks/useModal'
 import BigNumber from 'bignumber.js'
+import ZapModal from '../../../Bank/components/ZapModal'
+import useZap from '../../../../hooks/useZap'
 
 const CardActions = styled.div`
   display: flex;
@@ -36,7 +38,7 @@ const TicketCard: React.FC = () => {
   const { Detonator } = useEmpFinance().contracts
   const bank = useBank('EmpEthEShareRewardPool')
   const [approvalState, approve] = useApprove(bank.depositToken, Detonator.address);
-  const empBalance = useTokenBalance(bank.depositToken);
+  const lpBalance = useTokenBalance(bank.depositToken);
   // const displayEmpBalance = useMemo(() => getDisplayBalance(empBalance), [empBalance]);
   const { account } = useWallet()
   const userInfo = useGetUserInfoTotals()
@@ -49,7 +51,20 @@ const TicketCard: React.FC = () => {
     account && userInfo && +userInfo.total_deposits / 1e18 >= 0.15 && `https://emp.money/detonator?ref=${account}`
 
   // const [onPresentApprove] = useModal(<PurchaseWarningModal />)
-  const [onPresentBuy] = useModal(<BuyTicketModal max={new BigNumber(empBalance.toString()).toFixed(4, BigNumber.ROUND_DOWN)} tokenName="EMP-ETH-LP" />)
+  const [onPresentBuy] = useModal(<BuyTicketModal max={new BigNumber(lpBalance.toString()).toFixed(4, BigNumber.ROUND_DOWN)} tokenName="EMP-ETH-LP" />)
+  const { onZapIn } = useZap(bank);
+  const [onPresentZap, onDissmissZap] = useModal(
+    <ZapModal
+      decimals={bank.depositToken.decimal}
+      onConfirm={async (zappingToken, tokenName, amount) => {
+        if (Number(amount) <= 0 || isNaN(Number(amount))) return;
+        await onZapIn(zappingToken, tokenName, amount, lpBalance);
+        onDissmissZap();
+      }}
+      tokenName={bank.depositTokenName}
+      showEstimates={false}
+    />,
+  );
 
   const REF_KEY = 'REF_KEY'
   const regex = new RegExp('[?&]ref=([^&#]*)').exec(window.location.search)
@@ -115,13 +130,23 @@ const TicketCard: React.FC = () => {
           {/* <Text margin="auto auto 10px" color="#1d48b6" >
             Temporarily Disabled For Improvements {enableTimeFormat}
           </Text> */}
+          <Flex flexDirection="row" flexGrow={1}>
           <Button
-            id="lottery-buy-start"
-            fullWidth onClick={onPresentBuy}
-            className={"shinyButtonSecondary"}
-          >
-            Deposit
-          </Button>
+              id="lottery-zap-start"
+              fullWidth onClick={onPresentZap}
+              className={"shinyButtonSecondary"}
+            >
+              Zap In
+            </Button>
+            <div style={{ width: '2rem' }}>{' '}</div>
+            <Button
+              id="lottery-buy-start"
+              fullWidth onClick={onPresentBuy}
+              className={"shinyButtonSecondary"}
+            >
+              Deposit
+            </Button>
+          </Flex>
         </Flex>
       </>
     )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import { ButtonMenu, ButtonMenuItem } from '../../components/ButtonMenu'
 import { useCurrentTime } from '../../hooks/useTimer'
@@ -10,6 +10,7 @@ import Page from '../../components/Page'
 import HomeImage from '../../assets/img/background2.jpg';
 import useWallet from 'use-wallet'
 import UnlockWallet from '../../components/UnlockWallet'
+import BannerAd from '../../assets/img/hydro-whales.jpg';
 
 const BackgroundImage = createGlobalStyle`
   body {
@@ -31,6 +32,19 @@ const Detonator: React.FC = () => {
   const time = useCurrentTime()
   const [activeIndex, setActiveIndex] = useState(0)
   const { account } = useWallet();
+  const [width, setWidth] = useState(window.innerWidth);
+
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    }
+  }, []);
+
+  const isMobile = width <= 768;
 
   const startTime = 0 // 1645056900
 
@@ -43,19 +57,24 @@ const Detonator: React.FC = () => {
     return (
       <>
         <Page>
-          <BackgroundImage/>
+          <BackgroundImage />
           {!!account ? (<>
-          <Hero />
-          <Wrapper>
-            <ButtonMenu activeIndex={activeIndex} onClick={handleClick} size="sm" variant="subtle">
-              <ButtonMenuItem>Detonator</ButtonMenuItem>
-              <ButtonMenuItem>Ranking</ButtonMenuItem>
-            </ButtonMenu>
-          </Wrapper>
-          {/* <Divider /> */}
-          {activeIndex === 0 ? <NextDrawPage /> : <RankingPage />}
+            <div style={{ textAlign: 'center', marginTop: '-48px', marginBottom: '2rem' }}>
+              <a href="https://hydrowhalesclub.com" target="_blank">
+                <img src={BannerAd} alt="emp-logo" style={{ width: isMobile ? '100%' : '60%', maxHeight: '82px' }} />
+              </a>
+            </div>
+            <Hero />
+            <Wrapper>
+              <ButtonMenu activeIndex={activeIndex} onClick={handleClick} size="sm" variant="subtle">
+                <ButtonMenuItem>Detonator</ButtonMenuItem>
+                <ButtonMenuItem>Ranking</ButtonMenuItem>
+              </ButtonMenu>
+            </Wrapper>
+            {/* <Divider /> */}
+            {activeIndex === 0 ? <NextDrawPage /> : <RankingPage />}
           </>)
-          : <UnlockWallet />
+            : <UnlockWallet />
           }
         </Page>
       </>

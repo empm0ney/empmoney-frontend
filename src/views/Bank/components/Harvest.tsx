@@ -1,7 +1,7 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import {Button, Card, CardContent, Typography} from '@material-ui/core';
+import { Button, Card, CardContent, Typography } from '@material-ui/core';
 // import Button from '../../../components/Button';
 // import Card from '../../../components/Card';
 // import CardContent from '../../../components/CardContent';
@@ -10,19 +10,20 @@ import Value from '../../../components/Value';
 import useEarnings from '../../../hooks/useEarnings';
 import useHarvest from '../../../hooks/useHarvest';
 
-import {getDisplayBalance} from '../../../utils/formatBalance';
+import { getDisplayBalance } from '../../../utils/formatBalance';
 import TokenSymbol from '../../../components/TokenSymbol';
-import {Bank} from '../../../emp-finance';
+import { Bank } from '../../../emp-finance';
 import useEmpStats from '../../../hooks/useEmpStats';
 import useShareStats from '../../../hooks/useeShareStats';
+import useRedeem from '../../../hooks/useRedeem';
 
 interface HarvestProps {
   bank: Bank;
 }
 
-const Harvest: React.FC<HarvestProps> = ({bank}) => {
+const Harvest: React.FC<HarvestProps> = ({ bank }) => {
   const earnings = useEarnings(bank.contract, bank.earnTokenName, bank.poolId);
-  const {onReward} = useHarvest(bank);
+  const { onReward } = useHarvest(bank);
   const empStats = useEmpStats();
   const tShareStats = useShareStats();
 
@@ -42,14 +43,14 @@ const Harvest: React.FC<HarvestProps> = ({bank}) => {
               <TokenSymbol symbol={bank.earnToken.symbol} />
             </CardIcon>
             <Value value={getDisplayBalance(earnings)} />
-                          <Typography style={{textTransform: 'uppercase', color: '#fffff'}}>
-                      {`≈ $${earnedInDollars}`}
-                    </Typography>
+            <Typography style={{ textTransform: 'uppercase', color: '#fffff' }}>
+              {`≈ $${earnedInDollars}`}
+            </Typography>
             {/* <Label text={`≈ $${earnedInDollars}`} /> */}
-                  <Typography style={{textTransform: 'uppercase', color: '#1d48b6'}}>
-              {`${tokenName} Earned`}
-                    </Typography>
-             {/* <Label text={`${tokenName} Earned`} /> */}
+            <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>
+              {`${tokenName} ${bank.sectionInUI === 3 ? 'Generated' : 'Earned'}`}
+            </Typography>
+            {/* <Label text={`${tokenName} Earned`} /> */}
           </StyledCardHeader>
           <StyledCardActions>
             <Button

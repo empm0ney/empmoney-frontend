@@ -98,6 +98,7 @@ export const bankDefinitions: {[contractName: string]: BankInfo} = {
         - 0 = Single asset stake pools
         - 1 = LP asset staking rewarding EMP
         - 2 = LP asset staking rewarding ESHARE
+        - 3 = EMP Locker
   contract: the contract name which will be loaded from the deployment.environmnet.json
   depositTokenName : the name of the token to be deposited
   earnTokenName: the rewarded token
@@ -118,20 +119,20 @@ export const bankDefinitions: {[contractName: string]: BankInfo} = {
 
 
 
-  EmpETHLPEmpRewardPool: {
-    name: 'Earn EMP by EMP-ETH LP',
-    poolId: 0,
-    sectionInUI: 1,
-    contract: 'EmpRewardPool',
-    depositTokenName: 'EMP-ETH-LP',
-    earnTokenName: 'EMP',
-    finished: true,
-    sort: 2,
-    closedForStaking: true,
-  },
-
-
+  // EmpMasterNode: {
+  //   name: 'Generate EMP with Nodes',
+  //   poolId: 0,
+  //   sectionInUI: 3,
+  //   contract: 'EmpMasterNode',
+  //   depositTokenName: 'EMP',
+  //   earnTokenName: 'EMP',
+  //   finished: false,
+  //   sort: 2,
+  //   closedForStaking: false,
+  // },
   
+
+
   // EmpCakeRewardPool: {
   //   name: 'Earn EMP by CAKE',
   //   poolId: 0,
@@ -296,7 +297,7 @@ export const bankDefinitions: {[contractName: string]: BankInfo} = {
     contract: 'EmpEShareRewardPool',
     depositTokenName: 'EMP',
     earnTokenName: 'ESHARE',
-    finished: false,
+    finished: true,
     sort: 9,
     closedForStaking: true,
   },

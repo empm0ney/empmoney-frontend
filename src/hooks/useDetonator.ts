@@ -518,7 +518,7 @@ export const usePastRandomWinners = (prevRound = 1) => {
   useEffect(() => {
     const fetchBalance = async () => {
       const lotteryTime = await getLotteryTime(Detonator)
-      const info = await getPastRandomWinners(Detonator, +lotteryTime - (86400 * prevRound))
+      const info = await getPastRandomWinners(Detonator, +lotteryTime - (+86400 * prevRound))
       setPastRandomWinner(info)
     }
 

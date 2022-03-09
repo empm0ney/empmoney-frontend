@@ -20,6 +20,7 @@ const Banks: React.FC = ({children}) => {
         const balance = await empFinance.stakedBalanceOnBank(
           bankInfo.contract,
           bankInfo.poolId,
+          bankInfo.sectionInUI,
           empFinance.myAccount,
         );
         if (balance.lte(0)) {

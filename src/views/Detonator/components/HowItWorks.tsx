@@ -32,7 +32,7 @@ const StyledImage = styled.div<{ isMobile?: boolean }>`
   height: 90px;
   background-position: center center;
   width: ${(props) => (props.isMobile ? '100px' : '130px')};
-  background-size: ${(props) => (props.isMobile ? '70px' : '115px')};
+  background-size: ${(props) => (props.isMobile ? '45px' : '80px')};
   background-repeat: no-repeat;
   background-image: url('./detonator.png');
 `

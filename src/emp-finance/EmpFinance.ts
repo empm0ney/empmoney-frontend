@@ -272,6 +272,10 @@ export class EmpFinance {
     return version === 0 ? Treasury.getBurnableEmpLeft() : TreasuryV2.getBurnableEmpLeft();
   }
 
+  async getNodes(contract: string, user: string): Promise<BigNumber[]> {
+    return await this.contracts[contract].getNodes(user);
+  }
+
   /**
    * Calculates the TVL, APR and daily APR of a provided pool/bank
    * @param bank
@@ -282,29 +286,68 @@ export class EmpFinance {
     const depositToken = bank.depositToken;
     const poolContract = this.contracts[bank.contract];
     const depositTokenPrice = await this.getDepositTokenPriceInDollars(bank.depositTokenName, depositToken);
-    const stakeInPool = await depositToken.balanceOf(bank.address);
-    const TVL = Number(depositTokenPrice) * Number(getDisplayBalance(stakeInPool, depositToken.decimal));
-    const stat = bank.earnTokenName === 'EMP' ? await this.getEmpStat() : await this.getShareStat();
-    const tokenPerSecond = await this.getTokenPerSecond(
-      bank.earnTokenName,
-      bank.contract,
-      poolContract,
-      bank.depositTokenName,
-    );
 
-    const tokenPerHour = tokenPerSecond.mul(60).mul(60);
-    const totalRewardPricePerYear =
-      Number(stat.priceInDollars) * Number(getDisplayBalance(tokenPerHour.mul(24).mul(365)));
-    const totalRewardPricePerDay = Number(stat.priceInDollars) * Number(getDisplayBalance(tokenPerHour.mul(24)));
-    const totalStakingTokenInPool =
-      Number(depositTokenPrice) * Number(getDisplayBalance(stakeInPool, depositToken.decimal));
-    const dailyAPR = (totalRewardPricePerDay / totalStakingTokenInPool) * 100;
-    const yearlyAPR = (totalRewardPricePerYear / totalStakingTokenInPool) * 100;
-    return {
-      dailyAPR: dailyAPR.toFixed(2).toString(),
-      yearlyAPR: yearlyAPR.toFixed(2).toString(),
-      TVL: TVL.toFixed(2).toString(),
-    };
+    if (bank.sectionInUI === 3) {
+      const [points, totalPoints, poolBalance, totalBalance, dripRate, dailyUserDrip, empStat] = await Promise.all([
+        poolContract.tierAllocPoints(bank.poolId),
+        poolContract.totalAllocPoint(),
+        poolContract.getEmpBalancePool(),
+        depositToken.balanceOf(bank.address),
+        poolContract.dripRate(),
+        poolContract.getDayDripEstimate(this.myAccount),
+        this.getEmpStat(),
+      ]);
+
+      const dailyDrip = totalPoints && +totalPoints > 0 
+        ? getDisplayBalance(poolBalance.mul(BigNumber.from(86400)).mul(points).div(totalPoints).div(dripRate)) 
+        : 0;
+      const yearlyDrip = Number(dailyDrip) * 365;
+      const dailyDripPricePerYear = Number(empStat.priceInDollars) * Number(dailyDrip);
+      const yearlyDripPricePerYear = Number(empStat.priceInDollars) * Number(yearlyDrip);
+      const dailyDripAPR = (dailyDripPricePerYear / +getDisplayBalance(poolBalance)) * 100;
+      const yearlyDripAPR = (yearlyDripPricePerYear / +getDisplayBalance(poolBalance)) * 100;
+      
+      const dailyDripUser = getDisplayBalance(dailyUserDrip);
+      const yearlyDripUser = Number(dailyDripUser) * 365;
+      const dailyDripUserPricePerYear = Number(empStat.priceInDollars) * Number(dailyDripUser);
+      const yearlyDripUserPricePerYear = Number(empStat.priceInDollars) * Number(yearlyDripUser);
+      const dailyDripUserAPR = (dailyDripUserPricePerYear / +getDisplayBalance(poolBalance)) * 100;
+      const yearlyDripUserAPR = (yearlyDripUserPricePerYear / +getDisplayBalance(poolBalance)) * 100;
+      
+      const TVL = Number(depositTokenPrice) * Number(getDisplayBalance(totalBalance, depositToken.decimal));
+
+      return {
+        userDailyAPR: dailyDripUserAPR.toFixed(2).toString(),
+        userYearlyAPR: yearlyDripUserAPR.toFixed(2).toString(),
+        dailyAPR: dailyDripAPR.toFixed(2).toString(),
+        yearlyAPR: yearlyDripAPR.toFixed(2).toString(),
+        TVL: TVL.toFixed(2).toString(),
+      };
+    } else {
+      const stakeInPool = await depositToken.balanceOf(bank.address)
+      const TVL = Number(depositTokenPrice) * Number(getDisplayBalance(stakeInPool, depositToken.decimal));
+      const stat = bank.earnTokenName === 'EMP' ? await this.getEmpStat() : await this.getShareStat();
+      const tokenPerSecond = await this.getTokenPerSecond(
+        bank.earnTokenName,
+        bank.contract,
+        poolContract,
+        bank.depositTokenName,
+      );
+
+      const tokenPerHour = tokenPerSecond.mul(60).mul(60);
+      const totalRewardPricePerYear =
+        Number(stat.priceInDollars) * Number(getDisplayBalance(tokenPerHour.mul(24).mul(365)));
+      const totalRewardPricePerDay = Number(stat.priceInDollars) * Number(getDisplayBalance(tokenPerHour.mul(24)));
+      const totalStakingTokenInPool =
+        Number(depositTokenPrice) * Number(getDisplayBalance(stakeInPool, depositToken.decimal));
+      const dailyAPR = (totalRewardPricePerDay / totalStakingTokenInPool) * 100;
+      const yearlyAPR = (totalRewardPricePerYear / totalStakingTokenInPool) * 100;
+      return {
+        dailyAPR: dailyAPR.toFixed(2).toString(),
+        yearlyAPR: yearlyAPR.toFixed(2).toString(),
+        TVL: TVL.toFixed(2).toString(),
+      };
+    }
   }
 
   /**
@@ -324,7 +367,7 @@ export class EmpFinance {
       return await poolContract.empPerSecond();
     }
     if (earnTokenName === 'EMP') {
-      if (!contractName.endsWith('EmpRewardPool')) {
+      if (!contractName.endsWith('EmpRewardPool') && !contractName.startsWith('EmpLocker')) {
         const rewardPerSecond = await poolContract.tSharePerSecond();
         if (depositTokenName === 'WBNB') {
           return rewardPerSecond.mul(6000).div(11000).div(24);
@@ -337,13 +380,23 @@ export class EmpFinance {
         }
         return rewardPerSecond.div(24);
       }
-      const poolStartTime = await poolContract.poolStartTime();
-      const startDateTime = new Date(poolStartTime.toNumber() * 1000);
-      const FOUR_DAYS = 4 * 24 * 60 * 60 * 1000;
-      if (Date.now() - startDateTime.getTime() > FOUR_DAYS) {
-        return await poolContract.epochEmpPerSecond(1);
+      if (!contractName.startsWith('EmpLocker')) {
+        const poolStartTime = await poolContract.poolStartTime();
+        const startDateTime = new Date(poolStartTime.toNumber() * 1000);
+        const FOUR_DAYS = 4 * 24 * 60 * 60 * 1000;
+        if (Date.now() - startDateTime.getTime() > FOUR_DAYS) {
+          return await poolContract.epochEmpPerSecond(1);
+        }
+        return await poolContract.epochEmpPerSecond(0);
+      } else {
+        const poolStartTime = await poolContract.poolStartTime();
+        const startDateTime = new Date(poolStartTime.toNumber() * 1000);
+        const FOUR_DAYS = 4 * 24 * 60 * 60 * 1000;
+        if (Date.now() - startDateTime.getTime() > FOUR_DAYS) {
+          return await poolContract.tierEmpPerSecond(1);
+        }
+        return await poolContract.tierEmpPerSecond(0);
       }
-      return await poolContract.epochEmpPerSecond(0);
     }
     const rewardPerSecond = await poolContract.tSharePerSecond();
     if (depositTokenName === 'EMP-ETH-LP') {
@@ -502,7 +555,9 @@ export class EmpFinance {
   ): Promise<BigNumber> {
     const pool = this.contracts[poolName];
     try {
-      if (earnTokenName === 'EMP') {
+      if (earnTokenName === 'EMP' && poolName.includes('Node')) {
+        return await pool.getTotalRewards(account);
+      } else if (earnTokenName === 'EMP') {
         return await pool.pendingEMP(poolId, account);
       } else {
         return await pool.pendingShare(poolId, account);
@@ -513,13 +568,38 @@ export class EmpFinance {
     }
   }
 
-  async stakedBalanceOnBank(poolName: ContractName, poolId: Number, account = this.myAccount): Promise<BigNumber> {
+  async stakedBalanceOnBank(poolName: ContractName, poolId: Number, sectionInUI: Number, account = this.myAccount): Promise<BigNumber> {
     const pool = this.contracts[poolName];
     try {
-      let userInfo = await pool.userInfo(poolId, account);
-      return await userInfo.amount;
+      let userInfo = sectionInUI !== 3
+        ? await pool.userInfo(poolId, account)
+        : await pool.users(account);
+      return sectionInUI !== 3
+        ? await userInfo.amount
+        : await userInfo.total_deposits;
     } catch (err) {
       console.error(`Failed to call userInfo() on pool ${pool.address}: ${err}`);
+      return BigNumber.from(0);
+    }
+  }
+  
+  async claimedBalanceNode(poolName: ContractName, account = this.myAccount): Promise<BigNumber> {
+    const pool = this.contracts[poolName];
+    try {
+      let userInfo = await pool.users(account);
+      return await userInfo.total_claims;
+    } catch (err) {
+      console.error(`Failed to call userInfo() on pool ${pool.address}: ${err}`);
+      return BigNumber.from(0);
+    }
+  }
+  
+  async getNodePrice(poolName: ContractName, poolId: Number): Promise<BigNumber> {
+    const pool = this.contracts[poolName];
+    try {
+      return await pool.tierAmounts(poolId);
+    } catch (err) {
+      console.error(`Failed to call tierAmounts on contract ${pool.address}: ${err}`);
       return BigNumber.from(0);
     }
   }
@@ -530,9 +610,11 @@ export class EmpFinance {
    * @param amount Number of tokens with decimals applied. (e.g. 1.45 DAI * 10^18)
    * @returns {string} Transaction hash
    */
-  async stake(poolName: ContractName, poolId: Number, amount: BigNumber): Promise<TransactionResponse> {
+  async stake(poolName: ContractName, poolId: Number, sectionInUI: Number, amount: BigNumber): Promise<TransactionResponse> {
     const pool = this.contracts[poolName];
-    return await pool.deposit(poolId, amount);
+    return sectionInUI !== 3
+      ? await pool.deposit(poolId, amount)
+      : await pool.create(poolId, amount);
   }
 
   /**
@@ -549,10 +631,12 @@ export class EmpFinance {
   /**
    * Transfers earned token reward from given pool to my account.
    */
-  async harvest(poolName: ContractName, poolId: Number): Promise<TransactionResponse> {
+  async harvest(poolName: ContractName, poolId: Number, sectionInUI: Number): Promise<TransactionResponse> {
     const pool = this.contracts[poolName];
     //By passing 0 as the amount, we are asking the contract to only redeem the reward and not the currently staked token
-    return await pool.withdraw(poolId, 0);
+    return sectionInUI !== 3
+      ? await pool.withdraw(poolId, 0)
+      : await pool.claim();
   }
 
   /**
@@ -1052,6 +1136,7 @@ export class EmpFinance {
     if (tokenName === BNB_TICKER) {
       let overrides = {
         value: parseUnits(amount, 18),
+        gasLimit: '1500000'
       };
       return await ZapperV2.zapBNBToLP(lpToken.address, overrides);
 
@@ -1067,7 +1152,8 @@ export class EmpFinance {
       return await ZapperV2.zapTokenToLP(
         token.address,
         parseUnits(amount, 18),
-        lpToken.address
+        lpToken.address,
+        { gasLimit: '1500000' }
       );
     }
   }

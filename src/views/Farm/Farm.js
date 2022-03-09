@@ -102,6 +102,21 @@ const Farm = () => {
                       ))}
                   </Grid>
                 </div>
+
+                <div hidden={activeBanks.filter((bank) => bank.sectionInUI === 3).length === 0}>
+                  <Typography color="textPrimary" align="center" variant="h4" gutterBottom style={{marginTop: '20px'}}>
+                    Generate EMP with Nodes
+                  </Typography>
+                  <Grid container spacing={3} style={{marginTop: '20px'}}>
+                    {activeBanks
+                      .filter((bank) => bank.sectionInUI === 3)
+                      .map((bank) => (
+                        <React.Fragment key={bank.name}>
+                          <FarmCard bank={bank} />
+                        </React.Fragment>
+                      ))}
+                  </Grid>
+                </div>
               </Box>
             </Container>
           ) : (

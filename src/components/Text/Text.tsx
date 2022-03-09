@@ -16,7 +16,7 @@ const getFontSize = ({ fontSize, small }: TextProps) => {
 };
 
 const Text = styled.div<TextProps>`
-  color: ${({ color }) => (color ? color : 'white')};
+  color: ${({ color }) => (!!color ? color : 'white')};
   font-size: ${getFontSize};
   font-weight: ${({ bold }) => (bold ? 600 : 400)};
   line-height: 1.5;
@@ -25,7 +25,7 @@ const Text = styled.div<TextProps>`
 `;
 
 Text.defaultProps = {
-  color: "text",
+  color: "white",
   small: false,
 };
 

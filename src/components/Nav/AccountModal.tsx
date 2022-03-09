@@ -33,7 +33,7 @@ const AccountModal: React.FC<ModalProps> = ({onDismiss}) => {
           <TokenSymbol symbol="EMP" />
           <StyledBalance>
             <StyledValue>{displayEmpBalance}</StyledValue>
-            <Label text="EMP Available" />
+            <Label text="EMP Available" color="#1d48b6" />
           </StyledBalance>
         </StyledBalanceWrapper>
 
@@ -41,7 +41,7 @@ const AccountModal: React.FC<ModalProps> = ({onDismiss}) => {
           <TokenSymbol symbol="ESHARE" />
           <StyledBalance>
             <StyledValue>{displayEshareBalance}</StyledValue>
-            <Label text="ESHARE Available" />
+            <Label text="ESHARE Available" color="#1d48b6" />
           </StyledBalance>
         </StyledBalanceWrapper>
 
@@ -49,7 +49,7 @@ const AccountModal: React.FC<ModalProps> = ({onDismiss}) => {
           <TokenSymbol symbol="EBOND" />
           <StyledBalance>
             <StyledValue>{displayBbondBalance}</StyledValue>
-            <Label text="EBOND Available" />
+            <Label text="EBOND Available" color="#1d48b6" />
           </StyledBalance>
         </StyledBalanceWrapper>
       </Balances>
@@ -58,7 +58,7 @@ const AccountModal: React.FC<ModalProps> = ({onDismiss}) => {
 };
 
 const StyledValue = styled.div`
-  //color: ${(props) => props.theme.color.grey[300]};
+  color: white;
   font-size: 30px;
   font-weight: 700;
 `;
@@ -73,14 +73,14 @@ const Balances = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-bottom: ${(props) => props.theme.spacing[4]}px;
+  // margin-bottom: 1rem;
 `;
 
 const StyledBalanceWrapper = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin: 0 ${(props) => props.theme.spacing[3]}px;
+  margin: 0 16px;
 `;
 
 export default AccountModal;
