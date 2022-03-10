@@ -18836,10 +18836,16 @@
     ]
   },
   "EmpMasterNode": {
-    "address": "0x7F82794f28aff1952Ff19964aF2C92A122B67112",
+    "address": "0x647765861d5b7d5C05362CECe70808A00393F12d",
     "abi": [
       {
-        "inputs": [],
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_startTime",
+            "type": "uint256"
+          }
+        ],
         "stateMutability": "nonpayable",
         "type": "constructor"
       },
@@ -19265,6 +19271,19 @@
       {
         "inputs": [
           {
+            "internalType": "uint256",
+            "name": "_startTime",
+            "type": "uint256"
+          }
+        ],
+        "name": "setStartTime",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
             "internalType": "uint256[]",
             "name": "_tierAllocPoints",
             "type": "uint256[]"
@@ -19331,6 +19350,19 @@
         "name": "setUser",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "startTime",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
         "type": "function"
       },
       {
@@ -19545,7 +19577,6 @@
         "stateMutability": "payable",
         "type": "receive"
       }
-    ]
-    
+    ]    
   }
 }

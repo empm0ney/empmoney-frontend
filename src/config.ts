@@ -119,17 +119,17 @@ export const bankDefinitions: {[contractName: string]: BankInfo} = {
 
 
 
-  // EmpMasterNode: {
-  //   name: 'Generate EMP with Nodes',
-  //   poolId: 0,
-  //   sectionInUI: 3,
-  //   contract: 'EmpMasterNode',
-  //   depositTokenName: 'EMP',
-  //   earnTokenName: 'EMP',
-  //   finished: false,
-  //   sort: 2,
-  //   closedForStaking: false,
-  // },
+  EmpMasterNode: {
+    name: 'Generate EMP with Nodes',
+    poolId: 0,
+    sectionInUI: 3,
+    contract: 'EmpMasterNode',
+    depositTokenName: 'EMP',
+    earnTokenName: 'EMP',
+    finished: false,
+    sort: 2,
+    closedForStaking: false,
+  },
   
 
 

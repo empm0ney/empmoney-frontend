@@ -2,14 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import { useCurrentTime } from '../../../hooks/useTimer'
 import { getLotteryDrawStep, getLotteryRewardTime, getStep } from '../helpers/CountdownHelpers'
-import {Text} from '../../../components/Text'
-import {Progress} from '../../../components/Progress'
+import { Text } from '../../../components/Text'
+import { Progress } from '../../../components/Progress'
+import { Flex } from '../../../components/Flex'
 
 const ProgressWrapper = styled.div`
   display: block;
-  margin: 33% auto auto 25%;
+  margin: 10% auto auto auto;
   height: 100%;
-  position absolute;
+  // position absolute;
   width: 50%;
 `
 
@@ -37,17 +38,21 @@ const StartTimer = ({ startTime }: { startTime: number }) => {
   const timeUntilLotteryDraw = getLotteryRewardTime(secondsToStart, true)
 
   return (
-    <ProgressWrapper>
-      <Progress primaryStep={getLotteryDrawStep(secondsToStart)} secondaryStep={getStep()} showProgressBunny />
-      <TopTextWrapper>
-        <StyledPrimaryText fontSize="20px" bold color='white'>
-           {timeUntilLotteryDraw}
-        </StyledPrimaryText>
-      </TopTextWrapper>
-      <BottomTextWrapper>
-        <Text color='rgb(189,189,189)'>⚡ Until Launch ⚡</Text>
-      </BottomTextWrapper>
-    </ProgressWrapper>
+    <Flex>
+      <div style={{ width: '33%'}}>{' '}</div>
+      <ProgressWrapper>
+        <Progress primaryStep={getLotteryDrawStep(secondsToStart)} secondaryStep={getStep()} showProgressBunny />
+        <TopTextWrapper>
+          <StyledPrimaryText fontSize="20px" bold color='white'>
+            {timeUntilLotteryDraw}
+          </StyledPrimaryText>
+        </TopTextWrapper>
+        <BottomTextWrapper>
+          <Text color='rgb(189,189,189)'>⚡ Until Launch ⚡</Text>
+        </BottomTextWrapper>
+      </ProgressWrapper>
+      <div style={{ width: '33%' }}>{' '}</div>
+    </Flex>
   )
 }
 

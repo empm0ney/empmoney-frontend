@@ -494,28 +494,15 @@ const Home = () => {
                   fontSize='12px'
                   gutterBottom>
                   <div style={{ flexDirection: 'column', textAlign: 'left' }}>
-                    <div>EMP-LP</div>
-                    <b style={{ fontSize: '14px' }}>{strategyValue}%</b>
+                    <b style={{ fontSize: '14px' }}>{boardroomValue}%</b>
+                    <div>BOARDROOM</div>
                   </div>
                   <div style={{ width: '100%' }}>{' '}</div>
                   <div style={{ flexDirection: 'column', textAlign: 'right' }}>
-                    <div>ESHARE-LP</div>
-                    <b style={{ fontSize: '14px' }}>{100 - strategyValue}%</b>
+                    <b style={{ fontSize: '14px' }}>{100 - boardroomValue}%</b>
+                    <div>FARMS</div>
                   </div>
                 </Typography>
-                <Slider
-                  // size='large'
-                  aria-label="Zap ratio"
-                  defaultValue={80}
-                  getAriaValueText={(t) => `${t}%`}
-                  valueLabelDisplay="off"
-                  value={strategyValue}
-                  onChange={handleStrategyChange}
-                  step={5}
-                  marks
-                  min={60}
-                  max={100}
-                />
                 <Slider
                   // size='large'
                   aria-label="Stake boardroom"
@@ -529,6 +516,19 @@ const Home = () => {
                   min={0}
                   max={40}
                 />
+                 <Slider
+                  // size='large'
+                  aria-label="Zap ratio"
+                  defaultValue={80}
+                  getAriaValueText={(t) => `${t}%`}
+                  valueLabelDisplay="off"
+                  value={strategyValue}
+                  onChange={handleStrategyChange}
+                  step={5}
+                  marks
+                  min={60}
+                  max={100}
+                />
                 <Typography
                   flexDirection={'row'}
                   flexGrow={1}
@@ -538,13 +538,13 @@ const Home = () => {
                   fontSize='12px'
                   gutterBottom>
                   <div style={{ flexDirection: 'column', textAlign: 'left' }}>
-                    <b style={{ fontSize: '14px' }}>{boardroomValue}%</b>
-                    <div>BOARDROOM</div>
+                    <div>EMP-LP</div>
+                    <b style={{ fontSize: '14px' }}>{strategyValue}%</b>
                   </div>
                   <div style={{ width: '100%' }}>{' '}</div>
                   <div style={{ flexDirection: 'column', textAlign: 'right' }}>
-                    <b style={{ fontSize: '14px' }}>{100 - boardroomValue}%</b>
-                    <div>FARMS</div>
+                    <div>ESHARE-LP</div>
+                    <b style={{ fontSize: '14px' }}>{100 - strategyValue}%</b>
                   </div>
                 </Typography>
                 <Box mt={1}>

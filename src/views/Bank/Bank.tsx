@@ -23,6 +23,7 @@ import useNodeText from '../../hooks/useNodeText';
 import { getDisplayBalance } from '../../utils/formatBalance';
 import useClaimedBalance from '../../hooks/useClaimedBalance';
 import useStakedBalance from '../../hooks/useStakedBalance';
+import StartTimer from '../Detonator/components/StartTimer';
 
 const useStyles = makeStyles((theme) => ({
   gridItem: {
@@ -62,6 +63,8 @@ const Bank: React.FC = () => {
   }, []);
 
   const isMobile = width <= 768
+  const nodeStartTime = 1647021600;
+  const isNodeStart = bank.sectionInUI !== 3 || Date.now() / 1000 >= nodeStartTime;
   
   const handleChangeLockup = (event: any) => {
     const value = event.target.value;
@@ -78,7 +81,7 @@ const Bank: React.FC = () => {
     }
   });
 
-  return account && bank ? (
+  return account && bank && isNodeStart ? (
     <>
       <PageHeader
         icon="🏦"
@@ -219,6 +222,8 @@ const Bank: React.FC = () => {
     </>
   ) : !bank ? (
     <BankNotFound />
+  ) : !isNodeStart ? (
+    <StartTimer startTime={nodeStartTime} />
   ) : (
     <UnlockWallet />
   );
