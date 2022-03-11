@@ -18836,7 +18836,7 @@
     ]
   },
   "EmpMasterNode": {
-    "address": "0x647765861d5b7d5C05362CECe70808A00393F12d",
+    "address": "0x2266160cBd533017311156Bfa6300aDAc5bf3E81",
     "abi": [
       {
         "inputs": [
@@ -18865,6 +18865,25 @@
       {
         "inputs": [],
         "name": "MULTIPLIER",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "account",
+            "type": "address"
+          }
+        ],
+        "name": "allocPoints",
         "outputs": [
           {
             "internalType": "uint256",
@@ -18975,25 +18994,6 @@
         "inputs": [
           {
             "internalType": "address",
-            "name": "_sender",
-            "type": "address"
-          }
-        ],
-        "name": "excedesMaxPayout",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
             "name": "_user",
             "type": "address"
           }
@@ -19087,6 +19087,19 @@
         "type": "function"
       },
       {
+        "inputs": [],
+        "name": "getTotalNodes",
+        "outputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "",
+            "type": "uint256[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
         "inputs": [
           {
             "internalType": "address",
@@ -19100,6 +19113,25 @@
             "internalType": "uint256",
             "name": "",
             "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_sender",
+            "type": "address"
+          }
+        ],
+        "name": "isMaxPayout",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
           }
         ],
         "stateMutability": "view",
@@ -19323,11 +19355,6 @@
             "components": [
               {
                 "internalType": "uint256",
-                "name": "alloc_point",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
                 "name": "total_deposits",
                 "type": "uint256"
               },
@@ -19405,7 +19432,7 @@
       },
       {
         "inputs": [],
-        "name": "totalAllocPoint",
+        "name": "totalAllocPoints",
         "outputs": [
           {
             "internalType": "uint256",
@@ -19432,6 +19459,25 @@
       {
         "inputs": [],
         "name": "totalDistributeRewards",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "totalNodes",
         "outputs": [
           {
             "internalType": "uint256",
@@ -19549,11 +19595,6 @@
         ],
         "name": "users",
         "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "alloc_point",
-            "type": "uint256"
-          },
           {
             "internalType": "uint256",
             "name": "total_deposits",

@@ -63,7 +63,7 @@ const Bank: React.FC = () => {
   }, []);
 
   const isMobile = width <= 768
-  const nodeStartTime = 1647021600;
+  const nodeStartTime = 0;
   const isNodeStart = bank.sectionInUI !== 3 || Date.now() / 1000 >= nodeStartTime;
   
   const handleChangeLockup = (event: any) => {
@@ -75,7 +75,7 @@ const Bank: React.FC = () => {
 
   useEffect(() => {
     const poolId = localStorage.getItem(LOCK_ID)
-    if (poolId) {
+    if (bank.sectionInUI === 3 && poolId) {
       setPoolId(Number(poolId));
       bank.poolId = Number(poolId);
     }
