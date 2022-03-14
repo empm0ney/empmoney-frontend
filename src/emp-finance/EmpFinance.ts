@@ -290,8 +290,8 @@ export class EmpFinance {
     if (bank.sectionInUI === 3) {
       const [points, totalPoints, tierAmount, poolBalance, totalBalance, dripRate, dailyUserDrip, user, empStat] = await Promise.all([
         poolContract.tierAllocPoints(bank.poolId),
-        poolContract.tierAmounts(bank.poolId),
         poolContract.totalAllocPoints(),
+        poolContract.tierAmounts(bank.poolId),
         poolContract.getEmpBalancePool(),
         depositToken.balanceOf(bank.address),
         poolContract.dripRate(),

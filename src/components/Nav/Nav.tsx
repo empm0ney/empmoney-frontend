@@ -133,6 +133,9 @@ const Nav = () => {
               <Link to="/detonator" className={'navLink ' + classes.link}>
                 Detonator
               </Link>
+              <Link to="/farm/EmpMasterNode" className={'navLink ' + classes.link}>
+                Nodes
+              </Link>
               <Link to="/boardroomV2" className={'navLink ' + classes.link}>
                 Boardroom
               </Link>
@@ -164,9 +167,9 @@ const Nav = () => {
               style={{
                 flexGrow: '0',
                 paddingLeft: '0px',
-                paddingTop: '4px',
+                paddingTop: '0px',
                 fontSize: '16px',
-                paddingRight: '0px',
+                paddingRight: '6px',
                 height: '30px',
                 display: 'flex',
               }}
@@ -174,11 +177,11 @@ const Nav = () => {
               <div className="navTokenIcon emp"></div>{' '}
               <div className="navTokenPrice">${roundAndFormatNumber(Number(empPriceInDollars), 2)}</div>
               <div className="navTokenIcon bshare"></div>{' '}
-              <div className="navTokenPrice">${roundAndFormatNumber(Number(sharePriceInDollars), 2)}</div>
+              <div className="navTokenPrice">${roundAndFormatNumber(Number(sharePriceInDollars), 0)}</div>
               <div className="navTokenIcon btc"></div>{' '}
-              <div className="navTokenPrice">${roundAndFormatNumber(Number(btcPriceInDollars), 2)}</div>
+              <div className="navTokenPrice">${roundAndFormatNumber(Number(btcPriceInDollars), 0)}</div>
               <div className="navTokenIcon bnb"></div>{' '}
-              <div className="navTokenPrice">${roundAndFormatNumber(Number(bnbPriceInDollars), 2)}</div>
+              <div className="navTokenPrice">${roundAndFormatNumber(Number(bnbPriceInDollars), 0)}</div>
             </Box>
             <AccountButton text="Connect" />
           </>
@@ -228,6 +231,7 @@ const Nav = () => {
                 <ListItemLink primary="Home" to="/" />
                 <ListItemLink primary="Farm" to="/farm" />
                 <ListItemLink primary="Detonator" to="/detonator" />
+                <ListItemLink primary="Nodes" to="/farm/EmpMasterNode" />
                 <ListItemLink primary="Boardroom" to="/boardroomV2" />
                 <ListItemLink primary="Bond" to="/bond" />
                 {/* <ListItemLink primary="SBS" to="/sbs" /> */}

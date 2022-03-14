@@ -103,7 +103,7 @@ const Farm = () => {
                   </Grid>
                 </div>
 
-                <div hidden={activeBanks.filter((bank) => bank.sectionInUI === 3).length === 0}>
+                {/* <div hidden={activeBanks.filter((bank) => bank.sectionInUI === 3).length === 0}>
                   <Typography color="textPrimary" align="center" variant="h4" gutterBottom style={{marginTop: '20px'}}>
                     Generate EMP with Nodes
                   </Typography>
@@ -116,7 +116,7 @@ const Farm = () => {
                         </React.Fragment>
                       ))}
                   </Grid>
-                </div>
+                </div> */}
               </Box>
             </Container>
           ) : (

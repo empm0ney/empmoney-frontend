@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useWallet } from 'use-wallet'
 import { BaseLayout } from '../../components/layout'
-import { useTotalRewards } from '../../hooks/useDetonator'
+import { useGetUserInfoTotals, useTotalRewards } from '../../hooks/useDetonator'
 import YourPrizesCard from './components/YourPrizesCard'
 import UnlockWalletCard from './components/UnlockWalletCard'
 import TicketCard from './components/TicketCard'
@@ -35,8 +35,8 @@ const FirstCardColumnWrapper = styled.div`
 const NextDrawPage: React.FC = () => {
   const { account } = useWallet()
   const [width, setWidth] = useState(window.innerWidth);
-  const claimAmount = useTotalRewards()
-  const isAWin = claimAmount.gt(0)
+  const userTotals = useGetUserInfoTotals()
+  const isAWin = userTotals && userTotals.total_deposits && Number(userTotals.total_deposits) > 0;
 
   function handleWindowSizeChange() {
     setWidth(window.innerWidth);
