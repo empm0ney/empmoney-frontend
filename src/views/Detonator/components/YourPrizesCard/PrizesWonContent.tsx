@@ -110,7 +110,7 @@ const PrizesWonContent: React.FC = () => {
     try {
       setRequestedCompound(true)
       const timeToReward = +rewardTime - (Date.now() / 1000);
-      const txHash = await onCompound(timeToReward < 30)
+      const txHash = await onCompound(timeToReward < 300)
       // user rejected tx or didn't go thru
       if (txHash) {
         setRequestedCompound(false)
