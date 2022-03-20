@@ -38,9 +38,9 @@ export const claim = async (lotteryContract) => {
   }
 }
 
-export const compound = async (lotteryContract) => {
+export const compound = async (lotteryContract, manualGas = false) => {
   try {
-    return lotteryContract.roll()
+    return manualGas ? lotteryContract.roll({ gasLimit: '2000000' }) : lotteryContract.roll()
   } catch (err) {
     return console.error(err)
   }

@@ -4,7 +4,7 @@ import { Heading } from '../../../../components/Heading'
 import { Text } from '../../../../components/Text'
 import ReactTooltip from 'react-tooltip';
 import { getBalance, getDisplayBalance, getFullDisplayBalance } from '../../../../utils/formatBalance'
-import { useClaimLottery, useCompoundLottery, useWhaleTax } from '../../../../hooks/useDetonator'
+import { useClaimLottery, useCompoundLottery, useLargestTime, useWhaleTax } from '../../../../hooks/useDetonator'
 import { useTotalRewards } from '../../../../hooks/useDetonator'
 import CardValue from '../CardValue'
 import Loading from '../Loading'
@@ -82,11 +82,12 @@ const PrizesWonContent: React.FC = () => {
   const [requestedClaim, setRequestedClaim] = useState(false)
   const [requestedCompound, setRequestedCompound] = useState(false)
   const rewards = useTotalRewards()
+  const rewardTime = useLargestTime()
   const whaleTax = useWhaleTax()
   const rewardsAfterFee = getFullDisplayBalance(rewards.times(new BigNumber(80).minus(whaleTax)).div(100))
   const { onClaim } = useClaimLottery()
   const { onCompound } = useCompoundLottery()
-const empEthLpStats = useLpStats('EMP-ETH-LP');
+  const empEthLpStats = useLpStats('EMP-ETH-LP');
   const lpPrice = useMemo(() => (empEthLpStats ? Number(empEthLpStats.priceOfOne).toFixed(2) : null), [empEthLpStats]);
   // const dailyDrip = useDayDripEstimate()
   // const dailyDripFormat = dailyDrip && formatBalance(getBalanceNumber(dailyDrip.times(FEE_RATIO)))
@@ -108,7 +109,8 @@ const empEthLpStats = useLpStats('EMP-ETH-LP');
   const handleCompound = useCallback(async () => {
     try {
       setRequestedCompound(true)
-      const txHash = await onCompound()
+      const timeToReward = +rewardTime - (Date.now() / 1000);
+      const txHash = await onCompound(timeToReward < 30)
       // user rejected tx or didn't go thru
       if (txHash) {
         setRequestedCompound(false)
@@ -117,7 +119,7 @@ const empEthLpStats = useLpStats('EMP-ETH-LP');
       console.error(e)
       setRequestedCompound(false)
     }
-  }, [onCompound, setRequestedCompound])
+  }, [onCompound, setRequestedCompound, rewardTime])
 
   return (
     <StyledCardContentInner>

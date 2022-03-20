@@ -25,9 +25,9 @@ export const useClaimLottery = () => {
 export const useCompoundLottery = () => {
   const { Detonator } = useEmpFinance().contracts;
 
-  const handleCompound = useCallback(async () => {
+  const handleCompound = useCallback(async (manualGas = false) => {
     try {
-      const txHash = await compound(Detonator)
+      const txHash = await compound(Detonator, manualGas)
       return txHash
     } catch (e) {
       return false

@@ -143,16 +143,16 @@ const Bank: React.FC = () => {
           <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
             <Card className={classes.gridItem}>
               <CardContent style={{ textAlign: 'center' }}>
-                <Typography>Your APR</Typography>
-                <Typography>{bank.closedForStaking ? '0.00' : statsOnPool?.userYearlyAPR}%</Typography>
+                <Typography>Est Yearly EMP</Typography>
+                <Typography>{bank.closedForStaking ? '0.00' : statsOnPool?.userYearlyBurst}</Typography>
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
             <Card className={classes.gridItem}>
               <CardContent style={{ textAlign: 'center' }}>
-                <Typography>Your Daily APR</Typography>
-                <Typography>{bank.closedForStaking ? '0.00' : statsOnPool?.userDailyAPR}%</Typography>
+                <Typography>Est Daily EMP</Typography>
+                <Typography>{bank.closedForStaking ? '0.00' : statsOnPool?.userDailyBurst}</Typography>
               </CardContent>
             </Card>
           </Grid>

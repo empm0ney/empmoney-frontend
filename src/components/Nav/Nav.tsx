@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     color: '#1d48b6',
-    'background-color': '#08090d',
+    'background-color': 'rgb(8, 9, 13, 0.9)',
     // borderBottom: `1px solid ${theme.palette.divider}`,
     padding: '10px',
     marginBottom: '3rem',

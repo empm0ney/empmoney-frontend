@@ -288,7 +288,7 @@ export class EmpFinance {
     const depositTokenPrice = await this.getDepositTokenPriceInDollars(bank.depositTokenName, depositToken);
 
     if (bank.sectionInUI === 3) {
-      const [points, totalPoints, tierAmount, poolBalance, totalBalance, dripRate, dailyUserDrip, user, empStat] = await Promise.all([
+      const [points, totalPoints, tierAmount, poolBalance, totalBalance, dripRate, dailyUserDrip, empStat] = await Promise.all([
         poolContract.tierAllocPoints(bank.poolId),
         poolContract.totalAllocPoints(),
         poolContract.tierAmounts(bank.poolId),
@@ -296,11 +296,11 @@ export class EmpFinance {
         depositToken.balanceOf(bank.address),
         poolContract.dripRate(),
         poolContract.getDayDripEstimate(this.myAccount),
-        poolContract.users(this.myAccount),
+        // poolContract.users(this.myAccount),
         this.getEmpStat(),
       ]);
       const stakePrice = Number(depositTokenPrice) * Number(getDisplayBalance(tierAmount))
-      const userStakePrice = Number(depositTokenPrice) * Number(getDisplayBalance(user.total_deposits))
+      // const userStakePrice = Number(depositTokenPrice) * Number(getDisplayBalance(user.total_deposits))
 
       const dailyDrip = totalPoints && +totalPoints > 0 
         ? getDisplayBalance(poolBalance.mul(BigNumber.from(86400)).mul(points).div(totalPoints).div(dripRate)) 
@@ -311,18 +311,18 @@ export class EmpFinance {
       const dailyDripAPR = (dailyDripPricePerYear / stakePrice) * 100;
       const yearlyDripAPR = (yearlyDripPricePerYear / stakePrice) * 100;
       
-      const dailyDripUser = getDisplayBalance(dailyUserDrip);
+      const dailyDripUser = Number(getDisplayBalance(dailyUserDrip));
       const yearlyDripUser = Number(dailyDripUser) * 365;
-      const dailyDripUserPricePerYear = Number(empStat.priceInDollars) * Number(dailyDripUser);
-      const yearlyDripUserPricePerYear = Number(empStat.priceInDollars) * Number(yearlyDripUser);
-      const dailyDripUserAPR = (dailyDripUserPricePerYear / userStakePrice) * 100;
-      const yearlyDripUserAPR = (yearlyDripUserPricePerYear / userStakePrice) * 100;
+      // const dailyDripUserPricePerYear = Number(empStat.priceInDollars) * Number(dailyDripUser);
+      // const yearlyDripUserPricePerYear = Number(empStat.priceInDollars) * Number(yearlyDripUser);
+      // const dailyDripUserAPR = (dailyDripUserPricePerYear / userStakePrice) * 100;
+      // const yearlyDripUserAPR = (yearlyDripUserPricePerYear / userStakePrice) * 100;
       
       const TVL = Number(depositTokenPrice) * Number(getDisplayBalance(totalBalance, depositToken.decimal));
 
       return {
-        userDailyAPR: dailyDripUserAPR.toFixed(2).toString(),
-        userYearlyAPR: yearlyDripUserAPR.toFixed(2).toString(),
+        userDailyBurst: dailyDripUser.toFixed(2).toString(),
+        userYearlyBurst: yearlyDripUser.toFixed(2).toString(),
         dailyAPR: dailyDripAPR.toFixed(2).toString(),
         yearlyAPR: yearlyDripAPR.toFixed(2).toString(),
         TVL: TVL.toFixed(2).toString(),
