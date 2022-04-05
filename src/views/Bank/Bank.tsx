@@ -66,7 +66,7 @@ const Bank: React.FC = () => {
   const nodeStartTime = 0;
   const isNodeStart = bank.sectionInUI !== 3 || Date.now() / 1000 >= nodeStartTime;
   
-  const handleChangeLockup = (event: any) => {
+  const handleChangeNode = (event: any) => {
     const value = event.target.value;
     setPoolId(Number(value));
     bank.poolId = Number(value);
@@ -74,10 +74,14 @@ const Bank: React.FC = () => {
   }
 
   useEffect(() => {
+    if (bank.sectionInUI !== 3) return;
     const poolId = localStorage.getItem(LOCK_ID)
-    if (bank.sectionInUI === 3 && poolId) {
+    
+    if (poolId) {
       setPoolId(Number(poolId));
       bank.poolId = Number(poolId);
+    } else {
+      setPoolId(bank.poolId);
     }
   });
 
@@ -100,7 +104,7 @@ const Bank: React.FC = () => {
                 <Card className={classes.gridItem}>
                   <CardContent style={{ textAlign: 'center' }}>
                     <Typography>Node Type</Typography>
-                    <Select variant='outlined' onChange={handleChangeLockup} style={{ height: '2.5rem', color: '#1d48b6', fontSize: '16px', fontWeight: 'bold', textAlign: 'center', marginLeft: '1rem', marginBottom: '-16px' }} labelId="label" id="select" value={poolId}>
+                    <Select variant='outlined' onChange={handleChangeNode} style={{ height: '2.5rem', color: '#1d48b6', fontSize: '16px', fontWeight: 'bold', textAlign: 'center', marginLeft: '1rem', marginBottom: '-16px' }} labelId="label" id="select" value={poolId}>
                       <StyledMenuItem value={0}>{getNodeText(0)}</StyledMenuItem>
                       <StyledMenuItem value={1}>{getNodeText(1)}</StyledMenuItem>
                       <StyledMenuItem value={2}>{getNodeText(2)}</StyledMenuItem>

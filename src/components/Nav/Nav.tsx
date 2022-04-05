@@ -13,6 +13,8 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  Grid,
+  Container,
 } from '@material-ui/core';
 
 import ListItemLink from '../ListItemLink';
@@ -29,6 +31,10 @@ import AccountButton from './AccountButton';
 import empLogo from '../../assets/img/emp-logo-final.gif';
 import { roundAndFormatNumber } from '../../0x';
 import useBnbStats from '../../hooks/useBnbStats';
+import { ReactComponent as IconTelegram } from '../../assets/img/telegram.svg';
+import { ReactComponent as IconTwitter } from '../../assets/img/twitter.svg';
+import { ReactComponent as IconGithub } from '../../assets/img/github.svg';
+import { ReactComponent as IconDiscord } from '../../assets/img/discord.svg';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -59,14 +65,16 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
   },
   toolbarTitle: {
-    fontFamily: 'Rubik',
+    fontFamily: '"Poppins",sans-serif!important',
     fontSize: '0px',
     flexGrow: 1,
   },
   link: {
     textTransform: 'uppercase',
     color: '#1d48b6',
-    fontSize: '16px',
+    fontSize: '14px',
+    // fontWeight: 'bold',
+    fontFamily: '"Poppins",sans-serif!important',
     marginTop: '15px',
     margin: theme.spacing(10, 1, 1, 2),
     textDecoration: 'none',
@@ -80,6 +88,17 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       textDecoration: 'none',
     },
+  },
+  footer: {
+    position: 'absolute',
+    bottom: '0',
+    paddingTop: '15px',
+    paddingBottom: '15px',
+    width: '100%',
+    color: 'white',
+    backgroundColor: 'rgb(8, 9, 13, 0.9)',
+    textAlign: 'center',
+    height: '4.5rem',
   },
 }));
 
@@ -123,7 +142,7 @@ const Nav = () => {
                 <img alt="emp.money" src={empLogo} height="80px" />
               </Link>
             </Typography>
-            <Box style={{ paddingLeft: '0', paddingTop: '4px', fontSize: '1rem', flexGrow: '1' }}>
+            <Box style={{ paddingLeft: '0', paddingTop: '2px', fontSize: '1rem', flexGrow: '1' }}>
               <Link to="/" className={'navLink ' + classes.link}>
                 Home
               </Link>
@@ -168,20 +187,30 @@ const Nav = () => {
                 flexGrow: '0',
                 paddingLeft: '0px',
                 paddingTop: '0px',
-                fontSize: '16px',
+                fontSize: '14px',
+                // fontWeight: 'bold',
+                fontFamily: '"Poppins",sans-serif!important',
                 paddingRight: '6px',
                 height: '30px',
                 display: 'flex',
               }}
             >
-              <div className="navTokenIcon emp"></div>{' '}
-              <div className="navTokenPrice">${roundAndFormatNumber(Number(empPriceInDollars), 2)}</div>
-              <div className="navTokenIcon bshare"></div>{' '}
-              <div className="navTokenPrice">${roundAndFormatNumber(Number(sharePriceInDollars), 0)}</div>
-              <div className="navTokenIcon btc"></div>{' '}
-              <div className="navTokenPrice">${roundAndFormatNumber(Number(btcPriceInDollars), 0)}</div>
-              <div className="navTokenIcon bnb"></div>{' '}
-              <div className="navTokenPrice">${roundAndFormatNumber(Number(bnbPriceInDollars), 0)}</div>
+              <a href="https://dexscreener.com/bsc/0x84821bb588f049913dc579dc511e5e31eb22d5e4" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+                <div className="navTokenIcon emp"></div>{' '}
+                <div className="navTokenPrice">${roundAndFormatNumber(Number(empPriceInDollars), 2)}</div>
+              </a>
+              <a href="https://dexscreener.com/bsc/0x1747af98ebf0b22d500014c7dd52985d736337d2" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+                <div className="navTokenIcon bshare"></div>{' '}
+                <div className="navTokenPrice">${roundAndFormatNumber(Number(sharePriceInDollars), 0)}</div>
+              </a>
+              <a href="https://dexscreener.com/bsc/0x63b30de1a998e9e64fd58a21f68d323b9bcd8f85" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+                <div className="navTokenIcon btc"></div>{' '}
+                <div className="navTokenPrice">${roundAndFormatNumber(Number(btcPriceInDollars), 0)}</div>
+              </a>
+              <a href="https://dexscreener.com/bsc/0x58f876857a02d6762e0101bb5c46a8c1ed44dc16" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+                <div className="navTokenIcon bnb"></div>{' '}
+                <div className="navTokenPrice">${roundAndFormatNumber(Number(bnbPriceInDollars), 0)}</div>
+              </a>
             </Box>
             <AccountButton text="Connect" />
           </>
@@ -244,6 +273,53 @@ const Nav = () => {
                   <ListItemText>Docs</ListItemText>
                 </ListItem>
               </List>
+              <footer className={classes.footer}>
+                <Container maxWidth={false} style={{ padding: '0' }}>
+                  <Grid item style={{ textAlign: 'left', height: '20px', padding: '0' }}>
+                    <Box
+                      style={{
+                        flexGrow: '0',
+                        paddingLeft: '8px',
+                        paddingTop: '0px',
+                        fontSize: '14px',
+                        // fontWeight: 'bold',
+                        fontFamily: '"Poppins",sans-serif!important',
+                        height: '5px',
+                        display: 'flex',
+                      }}
+                    >
+                      <a href="https://dexscreener.com/bsc/0x84821bb588f049913dc579dc511e5e31eb22d5e4" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+                        <div className="navTokenIcon emp"></div>{' '}
+                        <div className="navTokenPrice">${roundAndFormatNumber(Number(empPriceInDollars), 2)}</div>
+                      </a>
+                      <a href="https://dexscreener.com/bsc/0x1747af98ebf0b22d500014c7dd52985d736337d2" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+                        <div className="navTokenIcon bshare"></div>{' '}
+                        <div className="navTokenPrice">${roundAndFormatNumber(Number(sharePriceInDollars), 0)}</div>
+                      </a>
+                    </Box>
+                    <div style={{ height: '45px' }}>{' '}</div>
+                    <div>
+                      <a
+                        href="https://twitter.com/empmoneybsc"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        className={classes.link}
+                      >
+                        <IconTwitter style={{ fill: '#dddfee' }} />
+                      </a>
+                      <a href="https://github.com/empm0ney/empmoney-frontend" rel="noopener noreferrer" target="_blank" className={classes.link}>
+                        <IconGithub style={{ fill: '#dddfee', height: '20px' }} />
+                      </a>
+                      <a href="https://t.me/empmoney" rel="noopener noreferrer" target="_blank" className={classes.link}>
+                        <IconTelegram style={{ fill: '#dddfee', height: '20px' }} />
+                      </a>
+                      <a href="https://discord.gg/9wDDa26Z6e" rel="noopener noreferrer" target="_blank" className={classes.link}>
+                        <IconDiscord style={{ fill: '#dddfee', height: '20px' }} />
+                      </a>
+                    </div>
+                  </Grid>
+                </Container>
+              </footer>
             </Drawer>
           </>
         )}

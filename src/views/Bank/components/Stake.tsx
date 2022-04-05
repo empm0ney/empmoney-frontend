@@ -31,6 +31,7 @@ import { Bank } from '../../../emp-finance';
 import useNodePrice from '../../../hooks/useNodePrice';
 import useNodeText from '../../../hooks/useNodeText';
 import useWallet from 'use-wallet';
+import { BigNumber } from 'ethers';
 
 interface StakeProps {
   bank: Bank;
@@ -54,7 +55,7 @@ const Stake: React.FC<StakeProps> = ({ bank }) => {
     Number(tokenPriceInDollars) * Number(getDisplayBalance(bank.sectionInUI !== 3 ? stakedBalance : nodePrice, bank.depositToken.decimal))
   ).toFixed(2);
   const { onStake } = useStake(bank);
-  const { onZap } = useZap(bank);
+  const { onZapIn } = useZap(bank);
   const { onWithdraw } = useWithdraw(bank);
 
   const [onPresentDeposit, onDismissDeposit] = useModal(
@@ -74,9 +75,9 @@ const Stake: React.FC<StakeProps> = ({ bank }) => {
   const [onPresentZap, onDissmissZap] = useModal(
     <ZapModal
       decimals={bank.depositToken.decimal}
-      onConfirm={(zappingToken, tokenName, amount) => {
+      onConfirm={(zappingToken, tokenName, amount, slippageBp) => {
         if (Number(amount) <= 0 || isNaN(Number(amount))) return;
-        onZap(zappingToken, tokenName, amount);
+        onZapIn(zappingToken, tokenName, amount, slippageBp, BigNumber.from(0), onStake);
         onDissmissZap();
       }}
       tokenName={bank.depositTokenName}

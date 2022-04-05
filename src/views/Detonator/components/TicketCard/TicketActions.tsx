@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import useApprove, { ApprovalState } from '../../../../hooks/useApprove'
 import useTokenBalance from '../../../../hooks/useTokenBalance'
 import { useWallet } from 'use-wallet'
-import { useGetUserInfoTotals } from '../../../../hooks/useDetonator'
+import { useDepositLottery, useGetUserInfoTotals } from '../../../../hooks/useDetonator'
 import BuyTicketModal from './BuyTicketModal'
 import useEmpFinance from '../../../../hooks/useEmpFinance'
 import useBank from '../../../../hooks/useBank'
@@ -46,6 +46,7 @@ const TicketCard: React.FC = () => {
   // const time = useCurrentTime()
   // const enableTimeFormat = time && getLotteryRewardTime(1628136000 - (time / 1000))
 
+  const { onDeposit } = useDepositLottery()
   const minRef = 0.15;
   const refLink =
     account && userInfo && +userInfo.total_deposits / 1e18 >= 0.15 && `https://emp.money/detonator?ref=${account}`
@@ -56,9 +57,9 @@ const TicketCard: React.FC = () => {
   const [onPresentZap, onDissmissZap] = useModal(
     <ZapModal
       decimals={bank.depositToken.decimal}
-      onConfirm={async (zappingToken, tokenName, amount) => {
+      onConfirm={async (zappingToken, tokenName, amount, slippageBp) => {
         if (Number(amount) <= 0 || isNaN(Number(amount))) return;
-        await onZapIn(zappingToken, tokenName, amount, lpBalance);
+        await onZapIn(zappingToken, tokenName, amount, slippageBp, lpBalance, onDeposit);
         onDissmissZap();
       }}
       tokenName={bank.depositTokenName}

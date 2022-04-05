@@ -5,16 +5,16 @@ import {Button} from '@material-ui/core';
 import Input, {InputProps} from '../Input';
 
 interface TokenInputProps extends InputProps {
-  label: string;
+  label?: string;
   onSelectMax?: () => void;
 }
 
 const PercentInput: React.FC<TokenInputProps> = ({label, onChange, onSelectMax, value}) => {
   return (
     <StyledTokenInput>
-      <StyledMaxText>{label}</StyledMaxText>
+      {label && <StyledMaxText>{label}</StyledMaxText>}
       <Input
-        endAdornment={
+        endAdornment={!!onSelectMax ? 
           <StyledTokenAdornmentWrapper>
             {/* <StyledTokenSymbol>{symbol}</StyledTokenSymbol> */}
             <StyledSpacer />
@@ -24,6 +24,7 @@ const PercentInput: React.FC<TokenInputProps> = ({label, onChange, onSelectMax, 
               </Button>
             </div>
           </StyledTokenAdornmentWrapper>
+          : null
         }
         onChange={onChange}
         placeholder="0"
@@ -32,7 +33,9 @@ const PercentInput: React.FC<TokenInputProps> = ({label, onChange, onSelectMax, 
     </StyledTokenInput>
   );
 };
-const StyledTokenInput = styled.div``;
+const StyledTokenInput = styled.div`
+  max-width: 3rem;
+`;
 
 const StyledSpacer = styled.div`
   width: ${(props) => props.theme.spacing[3]}px;

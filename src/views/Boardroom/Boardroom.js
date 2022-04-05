@@ -70,7 +70,7 @@ const Boardroom = () => {
       {!!account ? (
         !esharesActive ? <LaunchCountdown deadline={config.boardroomLaunchesAt} description='Home' descriptionLink='/' />
         : <>
-          <Typography color="textPrimary" align="center" variant="h3" gutterBottom>
+          <Typography color="#1d48b6" align="center" variant="h3" gutterBottom>
             Boardroom
           </Typography>
           <Alert variant="standard" severity="warning" style={{margin: '20px 8.5%' }}>

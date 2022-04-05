@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 
-import { Button, Select, MenuItem, InputLabel, withStyles } from '@material-ui/core';
+import { Button, Select, MenuItem, InputLabel, withStyles, Input } from '@material-ui/core';
 // import Button from '../../../components/Button'
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
@@ -17,15 +17,16 @@ import { useWallet } from 'use-wallet';
 import useApproveZapper, { ApprovalState } from '../../../hooks/useApproveZapper';
 import { EMP_TICKER, ESHARE_TICKER, BNB_TICKER, ETH_TICKER } from '../../../utils/constants';
 import { Alert } from '@material-ui/lab';
+import PercentInput from '../../../components/PercentInput';
 
 interface ZapProps extends ModalProps {
-  onConfirm: (zapAsset: string, lpName: string, amount: string) => void;
+  onConfirm: (zapAsset: string, lpName: string, amount: string, slippageBp: string) => void;
   tokenName?: string;
   decimals?: number;
   showEstimates?: boolean;
 }
 
-const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', decimals = 18, showEstimates = true }) => {
+const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', decimals = 18, showEstimates = false }) => {
   const empFinance = useEmpFinance();
   const { balance } = useWallet();
   const ftmBalance = (Number(balance) / 1e18).toFixed(4).toString();
@@ -33,6 +34,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
   const bshareBalance = useTokenBalance(empFinance.ESHARE);
   const btcBalance = useTokenBalance(empFinance.ETH);
   const [val, setVal] = useState('');
+  const [slippage, setSlippage] = useState('2');
   const [zappingToken, setZappingToken] = useState(BNB_TICKER);
   const [zappingTokenBalance, setZappingTokenBalance] = useState(ftmBalance);
   const [estimate, setEstimate] = useState({ token0: '0', token1: '0' }); // token0 will always be BNB in this case
@@ -68,18 +70,22 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
   const handleChange = async (e: any) => {
     if (e.currentTarget.value === '' || e.currentTarget.value === 0) {
       setVal(e.currentTarget.value);
-      setEstimate({ token0: '0', token1: '0' });
+      if (showEstimates) setEstimate({ token0: '0', token1: '0' });
     }
     if (!isNumeric(e.currentTarget.value)) return;
     setVal(e.currentTarget.value);
-    const estimateZap = await empFinance.estimateZapIn(zappingToken, tokenName, String(e.currentTarget.value));
-    setEstimate({ token0: estimateZap[0].toString(), token1: estimateZap[1].toString() });
+    if (showEstimates) {
+      const estimateZap = await empFinance.estimateZapIn(zappingToken, tokenName, String(e.currentTarget.value));
+      setEstimate({ token0: estimateZap[0].toString(), token1: estimateZap[1].toString() });
+    }
   };
 
   const handleSelectMax = async () => {
     setVal(zappingTokenBalance);
-    const estimateZap = await empFinance.estimateZapIn(zappingToken, tokenName, String(zappingTokenBalance));
-    setEstimate({ token0: estimateZap[0].toString(), token1: estimateZap[1].toString() });
+    if (showEstimates) {
+      const estimateZap = await empFinance.estimateZapIn(zappingToken, tokenName, String(zappingTokenBalance));
+      setEstimate({ token0: estimateZap[0].toString(), token1: estimateZap[1].toString() });
+    }
   };
 
   return (
@@ -87,8 +93,8 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
       <ModalTitle text={`Zap in ${tokenName}`} />
 
       <StyledActionSpacer />
-      <InputLabel style={{ color: '#1d48b6' }} id="label">
-        Select Token:
+      <InputLabel style={{ color: '#1d48b6', marginBottom: '-1rem' }} id="label">
+        Select Token
       </InputLabel>
       <br />
       <Select variant="outlined" onChange={handleChangeAsset} style={{ color: 'white', background: 'rgb(8, 9, 13, 1)' }} labelId="label" id="select" value={zappingToken}>
@@ -105,7 +111,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
         symbol={zappingToken}
       />
       <br />
-      {showEstimates && <><Label variant="yellow" text="Zap Estimations:" />
+      {showEstimates && <><Label variant="yellow" text="Zap Estimations" />
         <br />
         <StyledDescriptionText>
           {' '}
@@ -124,22 +130,36 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
             {Number(estimate.token1)} {tokenName.startsWith(ESHARE_TICKER) ? BNB_TICKER : ESHARE_TICKER}){' '}
           </StyledDescriptionText>}
       </>}
+      <InputLabel style={{ color: '#1d48b6', marginBottom: '1rem' }} id="label">
+        Slippage Tolerance
+      </InputLabel>
+      <Input
+        value={String(slippage)}
+        onPointerDown={() => setSlippage('')}
+        onBlur={() => !(slippage && isNumeric(slippage)) && setSlippage('2')}
+        onChange={(e: any) => setSlippage(!!e.currentTarget.value && isNumeric(e.currentTarget.value) ? e.currentTarget.value : '')}
+        placeholder="0"
+        endAdornment={<div style={{ marginBottom: '1px' }}>%</div>}
+        fullWidth={false}
+        style={{ maxWidth: '2.5rem', marginLeft: '14px'}}
+      />
+      %
       <ModalActions>
         <Button
           color="primary"
           variant="contained"
           onClick={() =>
-            approveZapperStatus !== ApprovalState.APPROVED ? approveZapper() : onConfirm(zappingToken, tokenName, val)
+            approveZapperStatus !== ApprovalState.APPROVED ? approveZapper() : onConfirm(zappingToken, tokenName, val, String(+slippage * 100))
           }
         >
-          {approveZapperStatus !== ApprovalState.APPROVED ? 'Approve' : "Let's go"}
+          {approveZapperStatus !== ApprovalState.APPROVED ? 'Approve' : "Zap"}
         </Button>
       </ModalActions>
 
-      <StyledActionSpacer />
+      {/* <StyledActionSpacer />
       <Alert variant="outlined" severity="info">
         New feature. Use at your own risk!
-      </Alert>
+      </Alert> */}
     </Modal>
   );
 };

@@ -169,9 +169,9 @@ const Home = () => {
   const [onPresentEmpZap, onDissmissEmpZap] = useModal(
     <ZapModal
       decimals={18}
-      onConfirm={(zappingToken, tokenName, amount) => {
+      onConfirm={(zappingToken, tokenName, amount, slippageBp) => {
         if (Number(amount) <= 0 || isNaN(Number(amount))) return;
-        empLpZap.onZap(zappingToken, tokenName, amount);
+        empLpZap.onZap(zappingToken, tokenName, amount, slippageBp);
         onDissmissEmpZap();
       }}
       tokenName={'EMP-ETH-LP'}
@@ -181,9 +181,9 @@ const Home = () => {
   const [onPresentEshareZap, onDissmissEshareZap] = useModal(
     <ZapModal
       decimals={18}
-      onConfirm={(zappingToken, tokenName, amount) => {
+      onConfirm={(zappingToken, tokenName, amount, slippageBp) => {
         if (Number(amount) <= 0 || isNaN(Number(amount))) return;
-        bshareLpZap.onZap(zappingToken, tokenName, amount);
+        bshareLpZap.onZap(zappingToken, tokenName, amount, slippageBp);
         onDissmissEshareZap();
       }}
       tokenName={'ESHARE-BNB-LP'}
@@ -201,7 +201,7 @@ const Home = () => {
           sm={4}
           style={{ display: 'flex', justifyContent: 'center', verticalAlign: 'middle', overflow: 'hidden' }}
         >
-          <img src={EmpImage} alt="emp-logo" style={{ maxHeight: '240px' }} />
+          <img src={EmpImage} alt="emp-logo" style={{ maxHeight: '300px' }} />
         </Grid>
         {/* Explanation text */}
         <Grid item xs={12} sm={8}>
@@ -255,7 +255,7 @@ const Home = () => {
             <CardContent align="center">
               <h2 style={{ paddingTop: '4px' }}>Total Value Locked</h2>
               <CountUp style={{ fontSize: '25px' }} end={TVL} separator="," prefix="$" />
-              <div style={{ paddingBottom: '18px' }}>{' '}</div>
+              <div style={{ paddingBottom: '0px' }}>{' '}</div>
             </CardContent>
           </Card>
         </Grid>
@@ -263,7 +263,7 @@ const Home = () => {
         {/* Wallet */}
         <Grid item xs={12} sm={8}>
           <Card style={{ height: '100%' }}>
-            <CardContent align="center" style={{ marginTop: '2.5%' }}>
+            <CardContent align="center" style={{ marginTop: '1.8%', padding: '16px' }}>
               {/* <h2 style={{ marginBottom: '20px' }}>Wallet Balance</h2> */}
               {/* <Button href="/boardroom" className="shinyButton" style={{margin: '10px'}}>
                 Stake Now

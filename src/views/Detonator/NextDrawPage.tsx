@@ -14,8 +14,8 @@ import WinningsCard from './components/WinningsCard'
 const Cards = styled(BaseLayout)<{ isMobile?: boolean }>`
   align-items: start;
   margin-bottom: 0px;
-  // padding-left: ${(props) => (props.isMobile ? 'initial' : '64px')};
-  // padding-right: ${(props) => (props.isMobile ? 'initial' : '64px')};
+  padding-left: ${(props) => (props.isMobile ? 'initial' : '64px')};
+  padding-right: ${(props) => (props.isMobile ? 'initial' : '64px')};
 
   & > div {
     grid-column: ${(props) => (props.isMobile ? 'span 12' : 'span 6')};

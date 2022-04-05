@@ -89,7 +89,7 @@ const HowItWorks = () => {
 
   return (
     <LayoutWrapper>
-      <Heading size="lg" as="h3" style={{ marginTop: '24px' }}>Yesterday's Winners</Heading>
+      <Heading size="lg" as="h3" color='#1d48b6' style={{ marginTop: '24px', textAlign: 'center' }}>Yesterday's Winners</Heading>
       {(!!pastLargestWinner && pastLargestWinner !== '0x0000000000000000000000000000000000000000') || pastRandomWinners.length > 0 ?
         <StlyedList isMobile={isMobile}>
           <Address isMobile={isMobile}>💰 {pastLargestWinner}</Address>

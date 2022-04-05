@@ -2,9 +2,10 @@
 import BigNumber from 'bignumber.js'
 
 export const deposit = async (lotteryContract, amount, account) => {
+  const REF_KEY = 'REF_KEY'
+
   try {
     const TREASURY_ADDRESS = '0xCa8015fB86217ED9a980C0c7B9F487a67d682D34'
-    const REF_KEY = 'REF_KEY'
     let ref = new RegExp('[?&]ref=([^&#]*)').exec(window.location.search);
     ref = ref && ref.length > 1 ? ref[1] : null
 
@@ -26,6 +27,7 @@ export const deposit = async (lotteryContract, amount, account) => {
     return tx
       
   } catch (err) {
+    if (localStorage.getItem(REF_KEY)) localStorage.removeItem(REF_KEY)
     return console.error(err)
   }
 }
