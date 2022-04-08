@@ -30,7 +30,7 @@ const useZap = (bank: Bank) => {
   ) {
     const zapTx = await empFinance.zapIn(zappingToken, tokenName, amount, slippageBp);
     await zapTx.wait();
-    const afterBalance = await empFinance.externalTokens['EMP-ETH-LP'].balanceOf(empFinance.myAccount);
+    const afterBalance = await empFinance.externalTokens[tokenName].balanceOf(empFinance.myAccount);
     return await onDeposit(new BigNumberJS(afterBalance.sub(startBalance).toString()).div(new BigNumberJS(10).pow(18)).toFixed());
   }
 

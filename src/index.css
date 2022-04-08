@@ -97,6 +97,18 @@ code {
   box-shadow: 0px 0px 5px 0px rgba(26, 107, 158, 1);
 }
 
+.shinyButtonTertiary {
+  margin-top: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  border-radius: 15px;
+  font-size: 1rem !important;
+  padding-left: 5px;
+  color: #dddfee !important;
+  box-shadow: 0px 0px 5px 0px white;
+}
+
 .zrx {
   margin-top: 5px;
   padding-top: 5px;
@@ -129,6 +141,11 @@ code {
 
 .shinyButton:hover {
   background-color: #1d48b6 !important;
+  color: #08090d !important;
+}
+
+.shinyButtonTertiary:hover {
+  background-color: #dddfee !important;
   color: #08090d !important;
 }
 

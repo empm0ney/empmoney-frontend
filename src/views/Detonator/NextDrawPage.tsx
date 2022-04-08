@@ -10,6 +10,7 @@ import TotalPrizesCard from './components/TotalPrizesCard'
 import HowItWorks from './components/HowItWorks'
 import LotteryCard from './components/LotteryCard'
 import WinningsCard from './components/WinningsCard'
+import LargestCard from './components/LargestCard'
 
 const Cards = styled(BaseLayout)<{ isMobile?: boolean }>`
   align-items: start;
@@ -56,6 +57,7 @@ const NextDrawPage: React.FC = () => {
         <div>
           <FirstCardColumnWrapper>
             <TotalPrizesCard />
+            {/* <LargestCard /> */}
             <LotteryCard />
             <WinningsCard />
           </FirstCardColumnWrapper>

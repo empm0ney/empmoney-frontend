@@ -206,7 +206,7 @@ const Home = () => {
         {/* Explanation text */}
         <Grid item xs={12} sm={8}>
           <Paper>
-            <Box p={4} style={{ textAlign: 'center', paddingBottom: '18px' }}>
+            <Box p={4} style={{ textAlign: 'center'}}>
               <h2>Welcome to Emp</h2>
               <p>
                 The algocoin that follows Ethereum's price! Now you can have high yields normally only found on risky assets, but with exposure to the world’s favorite cryptocurrency instead.
@@ -228,13 +228,22 @@ const Home = () => {
                 </a>{' '}
                 to find out more!
               </p>
+              <Button
+                target="_blank"
+                // size="medium"
+                href="https://emp-academy.thinkific.com/courses/Emp-Academy"
+                style={{ marginTop: '4px' }}
+                className={'shinyButtonTertiary ' + classes.button}
+              >
+                Free Academy
+              </Button>
             </Box>
           </Paper>
-          <div style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '-1rem' }}>
+          {/* <div style={{ textAlign: 'center', marginTop: '1rem', marginBottom: '-1rem' }}>
             <a href="https://emp-academy.thinkific.com/courses/Emp-Academy" target="_blank">
               <img src={AcademyBanner} alt="academy" style={{ width: '100%', maxHeight: '95px' }} />
             </a>
-          </div>
+          </div> */}
         </Grid>
 
         {/* <Grid container spacing={3}>
@@ -516,7 +525,7 @@ const Home = () => {
                   min={0}
                   max={40}
                 />
-                 <Slider
+                <Slider
                   // size='large'
                   aria-label="Zap ratio"
                   defaultValue={80}

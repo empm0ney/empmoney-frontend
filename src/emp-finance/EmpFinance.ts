@@ -1141,7 +1141,7 @@ export class EmpFinance {
         value: parseUnits(amount, 18),
         gasLimit: '1500000'
       };
-      return await ZapperV2.zapBNBToLP(lpToken.address, slippageBp, overrides);
+      return await ZapperV2.zapBNBToLP(lpToken.address, overrides);
 
     } else {
       let token: ERC20;
@@ -1156,7 +1156,6 @@ export class EmpFinance {
         token.address,
         parseUnits(amount, 18),
         lpToken.address,
-        slippageBp,
         { gasLimit: '1500000' }
       );
     }
@@ -1165,9 +1164,9 @@ export class EmpFinance {
   async zapStrategy(from: string, amount: string | BigNumber, percentEmpLP: string | number | BigNumber, gasLimit?: BigNumber): Promise<TransactionResponse> {
     const { Strategy } = this.contracts;
     if (gasLimit)
-      return await Strategy.zapStrategy(from, amount, percentEmpLP, 2 * 100, { gasLimit: gasLimit.toNumber() });
+      return await Strategy.zapStrategy(from, amount, percentEmpLP, { gasLimit: gasLimit.toNumber() });
     else
-      return await Strategy.zapStrategy(from, amount, percentEmpLP, 2 * 100);
+      return await Strategy.zapStrategy(from, amount, percentEmpLP);
   }
 
   async swapEBondToEShare(bbondAmount: BigNumber): Promise<TransactionResponse> {

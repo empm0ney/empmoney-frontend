@@ -171,10 +171,10 @@ const Nav = () => {
               {/* <Link color="textPrimary" to="/regulations" className={classes.link}>
                 Regulations
               </Link> */}
-              <a href="https://yieldwolf.finance/bsc/emp-money" className={'navLink ' + classes.link} rel="noopener" target="_blank">
+              <a href="https://yieldwolf.finance/bsc/emp-money" className={'navLink ' + classes.link} rel="noopener noreferrer" target="_blank">
                 AutoVaults
               </a>
-              <a href="https://empmoneyv2.gitbook.io/emp.money/" className={'navLink ' + classes.link} rel="noopener" target="_blank">
+              <a href="https://empmoneyv2.gitbook.io/emp.money/" className={'navLink ' + classes.link} rel="noopener noreferrer" target="_blank">
                 Docs
               </a>
               {/* <a href="https://empmoneyv2.gitbook.io/emp.money/" className={'navLink ' + classes.link} rel="noopener" target="_blank">
@@ -195,19 +195,19 @@ const Nav = () => {
                 display: 'flex',
               }}
             >
-              <a href="https://dexscreener.com/bsc/0x84821bb588f049913dc579dc511e5e31eb22d5e4" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+              <a href="https://dexscreener.com/bsc/0x84821bb588f049913dc579dc511e5e31eb22d5e4" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
                 <div className="navTokenIcon emp"></div>{' '}
                 <div className="navTokenPrice">${roundAndFormatNumber(Number(empPriceInDollars), 2)}</div>
               </a>
-              <a href="https://dexscreener.com/bsc/0x1747af98ebf0b22d500014c7dd52985d736337d2" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+              <a href="https://dexscreener.com/bsc/0x1747af98ebf0b22d500014c7dd52985d736337d2" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
                 <div className="navTokenIcon bshare"></div>{' '}
                 <div className="navTokenPrice">${roundAndFormatNumber(Number(sharePriceInDollars), 0)}</div>
               </a>
-              <a href="https://dexscreener.com/bsc/0x63b30de1a998e9e64fd58a21f68d323b9bcd8f85" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+              <a href="https://dexscreener.com/bsc/0x63b30de1a998e9e64fd58a21f68d323b9bcd8f85" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
                 <div className="navTokenIcon btc"></div>{' '}
                 <div className="navTokenPrice">${roundAndFormatNumber(Number(btcPriceInDollars), 0)}</div>
               </a>
-              <a href="https://dexscreener.com/bsc/0x58f876857a02d6762e0101bb5c46a8c1ed44dc16" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+              <a href="https://dexscreener.com/bsc/0x58f876857a02d6762e0101bb5c46a8c1ed44dc16" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
                 <div className="navTokenIcon bnb"></div>{' '}
                 <div className="navTokenPrice">${roundAndFormatNumber(Number(bnbPriceInDollars), 0)}</div>
               </a>
@@ -288,11 +288,11 @@ const Nav = () => {
                         display: 'flex',
                       }}
                     >
-                      <a href="https://dexscreener.com/bsc/0x84821bb588f049913dc579dc511e5e31eb22d5e4" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+                      <a href="https://dexscreener.com/bsc/0x84821bb588f049913dc579dc511e5e31eb22d5e4" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
                         <div className="navTokenIcon emp"></div>{' '}
                         <div className="navTokenPrice">${roundAndFormatNumber(Number(empPriceInDollars), 2)}</div>
                       </a>
-                      <a href="https://dexscreener.com/bsc/0x1747af98ebf0b22d500014c7dd52985d736337d2" target="_blank" style={{ display: 'flex', textDecoration: 'none' }}>
+                      <a href="https://dexscreener.com/bsc/0x1747af98ebf0b22d500014c7dd52985d736337d2" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
                         <div className="navTokenIcon bshare"></div>{' '}
                         <div className="navTokenPrice">${roundAndFormatNumber(Number(sharePriceInDollars), 0)}</div>
                       </a>

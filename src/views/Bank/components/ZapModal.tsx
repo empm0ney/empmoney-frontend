@@ -97,7 +97,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
         Select Token
       </InputLabel>
       <br />
-      <Select variant="outlined" onChange={handleChangeAsset} style={{ color: 'white', background: 'rgb(8, 9, 13, 1)' }} labelId="label" id="select" value={zappingToken}>
+      <Select variant="outlined" onChange={handleChangeAsset} style={{ color: 'white', background: 'rgb(8, 9, 13, 1, 0.9)' }} labelId="label" id="select" value={zappingToken}>
         <StyledMenuItem value={BNB_TICKER}>BNB</StyledMenuItem>
         <StyledMenuItem value={ETH_TICKER}>ETH</StyledMenuItem>
         <StyledMenuItem value={ESHARE_TICKER}>ESHARE</StyledMenuItem>
@@ -149,7 +149,9 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
           color="primary"
           variant="contained"
           onClick={() =>
-            approveZapperStatus !== ApprovalState.APPROVED ? approveZapper() : onConfirm(zappingToken, tokenName, val, String(+slippage * 100))
+            approveZapperStatus !== ApprovalState.APPROVED 
+              ? approveZapper() 
+              : onConfirm(zappingToken, tokenName, val, tokenName === 'ESHARE-BNB-LP' ? '10000' : String(+slippage * 100))
           }
         >
           {approveZapperStatus !== ApprovalState.APPROVED ? 'Approve' : "Zap"}

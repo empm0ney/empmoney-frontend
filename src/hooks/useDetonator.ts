@@ -571,6 +571,59 @@ export const useWhaleTax = () => {
   return whaleTax
 }
 
+export const useTopDayDeposits = (): any[] => {
+  const [users, setUsers] = useState([] as any[])
+  const empFinance = useEmpFinance();
+  const { Detonator } = empFinance.contracts;
+  const provider = getDefaultProvider();
+  const { fastRefresh } = useRefresh()
+
+  useEffect(() => {
+    const fetch = async () => {
+      const ethcallProvider = new Provider(provider, 56);
+      const detonator = new Contract(Detonator.address, Detonator.interface.format('full') as string[]);
+
+      const numUsers = Number(await getTotalUsers(Detonator));
+      if (!numUsers) return setUsers([]);
+
+      let calls = [];
+      for (let i = 0; i < numUsers; i++) {
+        calls.push(detonator.userIndices(i))
+      }
+
+      const userAddresses = await ethcallProvider.all(calls);
+      if (!userAddresses) return setUsers([]);
+      calls = [];
+
+      for (let i = 0; i < userAddresses.length; i++) {
+        calls.push(detonator.getDayDeposits(userAddresses[i]))
+      }
+
+      const dayDeposits = await ethcallProvider.all(calls);
+      if (!dayDeposits) return setUsers([]);
+
+      for (let i = 0; i < dayDeposits.length; i++) {
+        dayDeposits[i] = { address: calls[i].params[0], day_deposits: dayDeposits[i] };
+      }
+
+      const sortedUsers = dayDeposits.sort((d0: any, d1: any) => {
+        if (d0.day_deposits.gt(d1.day_deposits)) return -1;
+        if (d1.day_deposits.gt(d0.day_deposits)) return 1;
+        return 0;
+      });
+
+      return setUsers(sortedUsers)
+    }
+
+    if (Detonator && provider) {
+      fetch()
+    }
+  }, [setUsers, Detonator, provider, fastRefresh])
+
+  return users
+
+}
+
 export const useSortedUsers = (): any[] => {
   const [users, setUsers] = useState([] as any[])
   const empFinance = useEmpFinance();

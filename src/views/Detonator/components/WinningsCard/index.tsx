@@ -109,7 +109,7 @@ const WinningsCard = () => {
         <CardBody onClick={() => setShowFooter(!showFooter)}>
           <CardHeading style={{ marginBottom: '-13px' }}>
             <Left>
-              <Icon isMobile={isMobile}>🏅</Icon>
+              <Icon isMobile={isMobile}>💎</Icon>
               <PrizeCountWrapper>
                 <Text bold fontSize="14px" color="#1d48b6">
                   Your Winnings
