@@ -80,8 +80,8 @@ const TotalPrizesCard = () => {
   const empEthLpStats = useLpStats('EMP-ETH-LP');
   const lpPrice = useMemo(() => (empEthLpStats ? Number(empEthLpStats.priceOfOne).toFixed(2) : null), [empEthLpStats]);
 
-  const largestDepositor = useLargestDayDepositor()
-  const largestDeposit = getFullDisplayBalance(useLargestDeposit())
+  // const largestDepositor = useLargestDayDepositor()
+  // const largestDeposit = getFullDisplayBalance(useLargestDeposit())
 
   return (
     <Card>
@@ -108,9 +108,9 @@ const TotalPrizesCard = () => {
             totalUsers={totalUsers}
             totalDeposited={totalDeposited ? totalDeposited.toString() : '0'}
             totalRewards={totalRewards ? totalRewards.toString() : '0'}
-            largestPrize={largestPrize ? largestPrize.toString() : '0'}
-            largestDeposit={largestDeposit ? largestDeposit.toString() : '0'}
-            largestDepositor={largestDepositor && largestDepositor !== '0x0000000000000000000000000000000000000000' ? largestDepositor.toString() : 'None'}
+            // largestPrize={largestPrize ? largestPrize.toString() : '0'}
+            // largestDeposit={largestDeposit ? largestDeposit.toString() : '0'}
+            // largestDepositor={largestDepositor && largestDepositor !== '0x0000000000000000000000000000000000000000' ? largestDepositor.toString() : 'None'}
             glassPrice={lpPrice ? lpPrice.toString() : '0'}
           />
         </CardFooter>

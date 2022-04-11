@@ -57,7 +57,7 @@ const NextDrawPage: React.FC = () => {
         <div>
           <FirstCardColumnWrapper>
             <TotalPrizesCard />
-            {/* <LargestCard /> */}
+            <LargestCard />
             <LotteryCard />
             <WinningsCard />
           </FirstCardColumnWrapper>

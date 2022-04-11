@@ -7,16 +7,16 @@ export interface PrizeGridProps {
   totalUsers?: string | number
   totalDeposited?: string | number
   totalRewards?: string | number
-  largestPrize?: string | number
-  largestDeposit?: string | number
-  largestDepositor?: string
+  // largestPrize?: string | number
+  // largestDeposit?: string | number
+  // largestDepositor?: string
   glassPrice?: string | number
 }
 
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, auto);
+  grid-template-rows: repeat(3, auto);
 `
 
 const RightAlignedText = styled(Text)`
@@ -55,9 +55,9 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
   totalUsers = '0',
   totalDeposited = '0',
   totalRewards = '0',
-  largestPrize = '0',
-  largestDeposit = '0',
-  largestDepositor = 'None',
+  // largestPrize = '0',
+  // largestDeposit = '0',
+  // largestDepositor = 'None',
   glassPrice = '0',
 }) => {
   return (
@@ -86,7 +86,7 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
           <CardValue color='rgb(189,189,189)' value={+totalRewards * +glassPrice} fontSize="11px" decimals={0} bold={false} prefix="~$" />
         </RightAlignedText>
       </GridItem>
-      <GridItem>
+      {/* <GridItem>
         <Text color="white" bold fontSize="18px">
           Largest Prize
         </Text>
@@ -96,8 +96,8 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
           <CardValue value={Number(largestPrize)} fontSize="18px" decimals={2} bold={false} />
           <CardValue color='rgb(189,189,189)' value={+largestPrize * +glassPrice} fontSize="11px" decimals={0} bold={false} prefix="~$" />
         </RightAlignedText>
-      </GridItem>
-      <GridItem >
+      </GridItem> */}
+      {/* <GridItem >
         <Text color="white" bold fontSize="18px">
           Largest Deposit
         </Text>
@@ -107,7 +107,7 @@ const PrizeGrid: React.FC<PrizeGridProps> = ({
           <CardValue value={Number(largestDeposit)} fontSize="18px" decimals={2} bold={false} />
           <Text color='rgb(189,189,189)' fontSize="11px">{parseAddr(largestDepositor)} 💰 ~${(+largestDeposit * +glassPrice).toFixed(0)}</Text>
         </RightAlignedText>
-      </GridItem>
+      </GridItem> */}
       <GridItem marginBottom='0'>
         <Text color="white" bold fontSize="18px">
           Total Users

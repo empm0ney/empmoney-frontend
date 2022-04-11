@@ -54,7 +54,7 @@ const LotteryProgress = () => {
 
       <BottomTextWrapper>
         <Text color="rgb(189, 189, 189)">
-          Daily Draw @ 12:00am UTC<br />
+          Daily Prizes @ 12:00am UTC<br />
         </Text>
         {/* <StyledPrimaryText color="rgb(189, 189, 189)">
           Day Ends {timeUntilLotteryDraw}

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import Card from '../../../../components/Card'
 import { Text } from '../../../../components/Text'
-import { usePoolBalance, useTopDayDeposits } from '../../../../hooks/useDetonator'
+import { useLargestDayDepositor, useLargestDeposit, usePoolBalance, useTopDayDeposits } from '../../../../hooks/useDetonator'
 import { formatBalance, getBalance, getFullDisplayBalance } from '../../../../utils/formatBalance'
 import ExpandableSection from '../../../../components/ExpandableSection'
 import CardValue from '../CardValue'
@@ -71,8 +71,10 @@ const LargestCard = () => {
     return getFullDisplayBalance(new BigNumber(balance.toString()));
   }
 
-  const [showFooter, setShowFooter] = useState(false)
-  const topUsers = useTopDayDeposits();
+  const [showFooter, setShowFooter] = useState(true)
+  // const topUsers = useTopDayDeposits();
+  const largestDepositor = useLargestDayDepositor();
+  const largestDeposit = useLargestDeposit();
   const largestPrize = formatBalance(usePoolBalance().times(1).div(100));
 
   const empEthLpStats = useLpStats('EMP-ETH-LP');
@@ -107,7 +109,22 @@ const LargestCard = () => {
         {/* </div> */}
         <ExpandingWrapper showFooter={showFooter}>
           <CardFooter>
-            <Grid numRows={topUsers.length}>
+            {!!largestDepositor && largestDeposit.gt(0) &&
+              <Grid numRows={1}>
+                <GridItem>
+                  <Text bold fontSize="18px">
+                    {parseAddr(largestDepositor)} 🥇
+                  </Text>
+                </GridItem>
+                <GridItem marginBottom="0">
+                  <RightAlignedText>
+                    <CardValue value={Number(formatBalance(largestDeposit))} decimals={2} fontSize="18px" bold={false} />
+                    <CardValue color='rgb(189,189,189)' value={Number(formatBalance(largestDeposit)) * +lpPrice} fontSize="11px" decimals={2} bold={false} prefix="~$" />
+                  </RightAlignedText>
+                </GridItem>
+              </Grid>
+            }
+            {/* <Grid numRows={topUsers.length}>
               {topUsers.length > 0 &&
                 <>
                   <GridItem>
@@ -153,7 +170,7 @@ const LargestCard = () => {
                   </GridItem>
                 </>
               }
-            </Grid>
+            </Grid> */}
           </CardFooter>
         </ExpandingWrapper>
       </StyledCard>

@@ -18836,7 +18836,7 @@
     ]
   },
   "EmpMasterNode": {
-    "address": "0x2266160cBd533017311156Bfa6300aDAc5bf3E81",
+    "address": "0x7b4D612847Fa99975a408A42A8F2fd1f31e9a662",
     "abi": [
       {
         "inputs": [
@@ -18953,6 +18953,44 @@
         "type": "function"
       },
       {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "dripRateTwaps",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "dripRates",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
         "inputs": [],
         "name": "dripRewards",
         "outputs": [],
@@ -19018,6 +19056,19 @@
           }
         ],
         "name": "getDistributionRewards",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getDynamicDripRate",
         "outputs": [
           {
             "internalType": "uint256",
@@ -19185,6 +19236,84 @@
       {
         "inputs": [
           {
+            "internalType": "uint256",
+            "name": "_total_deposited",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_total_claimed",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_total_rewards",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_lastDripTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_totalDistributePoints",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_totalDistributeRewards",
+            "type": "uint256"
+          }
+        ],
+        "name": "migrateGlobals",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address[]",
+            "name": "_addrArray",
+            "type": "address[]"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "total_deposits",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "total_claims",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "last_distPoints",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct EmpMasterNode.User[]",
+            "name": "_userArray",
+            "type": "tuple[]"
+          },
+          {
+            "internalType": "uint256[][]",
+            "name": "_nodeArray",
+            "type": "uint256[][]"
+          }
+        ],
+        "name": "migrateUsers",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
             "internalType": "address",
             "name": "",
             "type": "address"
@@ -19231,14 +19360,32 @@
         "type": "function"
       },
       {
-        "inputs": [
+        "inputs": [],
+        "name": "oracle",
+        "outputs": [
           {
-            "internalType": "uint256",
-            "name": "rate",
-            "type": "uint256"
+            "internalType": "contract IOracle",
+            "name": "",
+            "type": "address"
           }
         ],
-        "name": "setDripRate",
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256[]",
+            "name": "_dripRateTwaps",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "_dripRates",
+            "type": "uint256[]"
+          }
+        ],
+        "name": "setDripRates",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -19296,6 +19443,19 @@
           }
         ],
         "name": "setNodes",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "contract IOracle",
+            "name": "_oracle",
+            "type": "address"
+          }
+        ],
+        "name": "setOracle",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
