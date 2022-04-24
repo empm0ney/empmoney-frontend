@@ -815,7 +815,7 @@ export class EmpFinance {
     const lastRewardsReceived = lastHistory[1];
     const epochRewardsPerShare = lastRewardsReceived / 1e18;
 
-    //Mgod formula
+    // Mgod formula
     const amountOfRewardsPerDay = epochRewardsPerShare * Number(empStat.priceInDollars) * 4;
     const boardroomTVL = Number(getDisplayBalance(boardroomtShareBalanceOf, this.ESHARE.decimal)) * Number(shareStat.priceInDollars);
     const realAPR = ((amountOfRewardsPerDay * 100) / boardroomTVL) * 365;
