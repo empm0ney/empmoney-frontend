@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 // import Button from '../../../../components/Button'
 import { Modal } from '../../widgets/Modal'
-import { formatBalance, getBalance, getFullDisplayBalance } from '../../../../utils/formatBalance'
+import { getDisplayBalance, getFullDisplayBalance } from '../../../../utils/formatBalance'
 import TicketInput from '../../../../components/TicketInput'
 import ModalActions from '../../../../components/ModalActions'
 import { useDepositLottery, useLargestDeposit } from '../../../../hooks/useDetonator'
@@ -35,11 +35,11 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
   // const minLargest = remainingToLargest && formatBalance(remainingToLargest.gt(0) ? getBalance(remainingToLargest) : 0, true)
 
   const fullBalance = useMemo(() => {
-    return getBalance(new BigNumber(max.toString()))
+    return getDisplayBalance(new BigNumber(max.toString()))
   }, [max])
 
   const maxTickets = useMemo(() => {
-    return getBalance(new BigNumber(max.toString()))
+    return getDisplayBalance(new BigNumber(max.toString()))
   }, [max])
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => setVal(e.currentTarget.value)
@@ -93,7 +93,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
               pendingTx ||
               parseInt(val) > Number(maxTickets) ||
               // parseInt(val) <= 0 ||
-              parseInt(val) > fullBalance
+              parseInt(val) > Number(fullBalance)
             }
             onClick={async () => {
               setPendingTx(true)

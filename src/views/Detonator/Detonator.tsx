@@ -10,7 +10,7 @@ import Page from '../../components/Page'
 import HomeImage from '../../assets/img/background2.jpg';
 import useWallet from 'use-wallet'
 import UnlockWallet from '../../components/UnlockWallet'
-import BannerAd from '../../assets/img/hydro-whales.jpg';
+import BannerAd from '../../assets/img/taco_banner.png';
 
 const BackgroundImage = createGlobalStyle`
   body {
@@ -33,6 +33,17 @@ const Detonator: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const { account } = useWallet();
   const [width, setWidth] = useState(window.innerWidth);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  
+  // function updatePosition() {
+  //   setScrollPosition(window.pageYOffset);
+  // }
+
+  // useEffect(() => {
+  //   window.addEventListener('scroll', updatePosition);
+  //   updatePosition();
+  //   return () => window.removeEventListener('scroll', updatePosition);
+  // }, []);
 
   function handleWindowSizeChange() {
     setWidth(window.innerWidth);
@@ -59,11 +70,11 @@ const Detonator: React.FC = () => {
         <Page>
           <BackgroundImage />
           {!!account ? (<>
-            <div style={{ textAlign: 'center', marginTop: '-48px', marginBottom: '2rem' }}>
-              <a href="https://hydrowhalesclub.com" target="_blank">
+            {scrollPosition == 0 && <div style={{ textAlign: 'center', marginTop: '-48px', marginBottom: '2rem' }}>
+              <a href="https://www.eltaconode.com/" target="_blank">
                 <img src={BannerAd} alt="emp-logo" style={{ width: isMobile ? '100%' : '60%', maxHeight: '82px' }} />
               </a>
-            </div>
+            </div>}
             <Hero />
             <Wrapper>
               <ButtonMenu activeIndex={activeIndex} onClick={handleClick} size="sm" variant="subtle">

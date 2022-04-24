@@ -1,4 +1,5 @@
 import { Button } from '@material-ui/core'
+import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 // import Button from '../Button'
@@ -28,7 +29,9 @@ const TicketInput: React.FC<TokenInputProps> = ({ max, symbol, availableSymbol, 
   const isMobile = width <= 768
   const ticketPrice = useLotteryMin()
   const remainingTickets = useNumDepositTicketsRemaining()
-  const numTickets = value && ticketPrice && remainingTickets ? Math.min(Math.floor(+value / getBalance(ticketPrice)), remainingTickets.toNumber()) : 0
+  const numTickets = value && ticketPrice && remainingTickets 
+    ? Math.min(Number(new BigNumber(value).div(getBalance(ticketPrice)).toFixed(0)), remainingTickets.toNumber()) 
+    : 0
 
   return (
     <StyledTokenInput>

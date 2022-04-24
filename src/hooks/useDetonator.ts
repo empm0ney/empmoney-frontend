@@ -4,7 +4,7 @@ import { useWallet } from 'use-wallet'
 import BigNumber from 'bignumber.js'
 import useEmpFinance from './useEmpFinance';
 import useRefresh from './useRefresh'
-import { claim, compound, deposit, getDepositMultiplier, getNumCompoundTicketsRemaining, getNumDepositTicketsRemaining, getNumTicketsTotal, getNumTicketsDay, getLotteryTime, getPastRandomWinners, getContractInfoTotals, getDayDripEstimate, getGlassBalance, getGlassBalancePool, getLargestDayDepositor, getTimeToReward, getTotalDeposited, getTotalRewards, getUserInfo, getUserInfoTotals, getLargestTime, getLotteryMin, getNumRandQualified, getTotalUsers, getDistributionRewards, getLargestTimeIncrement, getLotteryTimeIncrement, getPastTicketWinners, getDayDeposits, getDayTime, getDayTimeIncrement, getPastLargestDepositor, getLargestDeposit, getWhaleTax, getReferralRewards } from '../utils/detonatorUtils'
+import { claim, compound, deposit, getDepositMultiplier, getNumCompoundTicketsRemaining, getNumDepositTicketsRemaining, getNumTicketsTotal, getNumTicketsDay, getLotteryTime, getPastRandomWinners, getContractInfoTotals, getDayDripEstimate, getGlassBalance, getGlassBalancePool, getLargestDayDepositor, getTimeToReward, getTotalDeposited, getTotalRewards, getUserInfo, getUserInfoTotals, getLargestTime, getLotteryMin, getNumRandQualified, getTotalUsers, getDepositEvents, getDayDeposits, getDayTime, getDayTimeIncrement, getPastLargestDepositor, getLargestDeposit, getWhaleTax, getReferralRewards } from '../utils/detonatorUtils'
 import { getDefaultProvider } from '../utils/provider';
 
 export const useClaimLottery = () => {
@@ -449,6 +449,28 @@ export const useNumTicketsDay = () => {
   }, [fastRefresh, Detonator, setNumTickets, account])
 
   return numTickets
+}
+
+export const useDepositEvents = () => {
+  const [events, setEvents] = useState([])
+  const { Detonator } = useEmpFinance().contracts;
+  const { fastRefresh } = useRefresh()
+  const provider = getDefaultProvider();
+  
+  useEffect(() => {
+    const fetch = async () => {
+
+      const block = await provider.getBlockNumber();
+      const e = await getDepositEvents(Detonator, block - 4995, block)
+      setEvents(e)
+    }
+
+    if (Detonator && provider) {
+      fetch()
+    }
+  }, [fastRefresh, Detonator, provider])
+
+  return events
 }
 
 export const useGetContractInfo = () => {

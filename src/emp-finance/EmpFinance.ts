@@ -101,18 +101,14 @@ export class EmpFinance {
   //===================================================================
 
   async getEmpStat(): Promise<TokenStat> {
-    const { EmpRewardPool, EmpGenesisRewardPool } = this.contracts;
-    const [supply, empRewardPoolSupply, empRewardPoolSupply2, oldTreasurySupply, oldBoardroomSupply, priceInETH, priceOfOneETH] = await Promise.all([
+    const { EmpRewardPool, EmpGenesisRewardPool, TreasuryV2 } = this.contracts;
+    const [supply, circSupply, priceInETH, priceOfOneETH] = await Promise.all([
       this.EMP.totalSupply(),
-      this.EMP.balanceOf(EmpGenesisRewardPool.address),
-      this.EMP.balanceOf(EmpRewardPool.address),
-      this.EMP.balanceOf('0xA605b764Bc0C34Dc45dCF89e6225FF0492978F13'),
-      this.EMP.balanceOf('0xD90a4D22a3B406A7e9f59d2c295C2D8554CD88B0'),
+      TreasuryV2.getEmpCirculatingSupply(),
       this.getTokenPriceFromPancakeswapETH(this.EMP),
       this.getETHPriceFromPancakeswap()
     ]);
 
-    const empCirculatingSupply = supply.sub(empRewardPoolSupply).sub(empRewardPoolSupply2).sub(oldTreasurySupply).sub(oldBoardroomSupply);
     // const priceInBNB = await this.getTokenPriceFromPancakeswap(this.EMP);
     // const priceOfOneBNB = await this.getWBNBPriceFromPancakeswap();
     // const priceInDollars = await this.getTokenPriceFromPancakeswapEMPUSD();
@@ -123,7 +119,7 @@ export class EmpFinance {
       tokenInETH: priceInETH ? priceInETH.toString() : '0',
       priceInDollars: priceOfEmpInDollars,
       totalSupply: getDisplayBalance(supply, this.EMP.decimal, 0),
-      circulatingSupply: getDisplayBalance(empCirculatingSupply, this.EMP.decimal, 0),
+      circulatingSupply: getDisplayBalance(circSupply, this.EMP.decimal, 0),
     };
   }
 
@@ -808,19 +804,20 @@ export class EmpFinance {
 
   async getBoardroomAPR(version: number) {
     const Boardroom = this.currentBoardroom(version);
-    const latestSnapshotIndex = await Boardroom.latestSnapshotIndex();
+    const [latestSnapshotIndex, shareStat, empStat, boardroomtShareBalanceOf] = await Promise.all([
+      Boardroom.latestSnapshotIndex(),
+      this.getShareStat(),
+      this.getEmpStat(),
+      this.ESHARE.balanceOf(Boardroom.address),
+    ]);
+
     const lastHistory = await Boardroom.boardroomHistory(latestSnapshotIndex);
-
     const lastRewardsReceived = lastHistory[1];
-
-    const ESHAREPrice = (await this.getShareStat()).priceInDollars;
-    const EMPPrice = (await this.getEmpStat()).priceInDollars;
     const epochRewardsPerShare = lastRewardsReceived / 1e18;
 
     //Mgod formula
-    const amountOfRewardsPerDay = epochRewardsPerShare * Number(EMPPrice) * 4;
-    const boardroomtShareBalanceOf = await this.ESHARE.balanceOf(Boardroom.address);
-    const boardroomTVL = Number(getDisplayBalance(boardroomtShareBalanceOf, this.ESHARE.decimal)) * Number(ESHAREPrice);
+    const amountOfRewardsPerDay = epochRewardsPerShare * Number(empStat.priceInDollars) * 4;
+    const boardroomTVL = Number(getDisplayBalance(boardroomtShareBalanceOf, this.ESHARE.decimal)) * Number(shareStat.priceInDollars);
     const realAPR = ((amountOfRewardsPerDay * 100) / boardroomTVL) * 365;
     return realAPR;
   }

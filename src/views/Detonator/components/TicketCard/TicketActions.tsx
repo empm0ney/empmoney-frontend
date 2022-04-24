@@ -52,7 +52,9 @@ const TicketCard: React.FC = () => {
     account && userInfo && +userInfo.total_deposits / 1e18 >= 0.15 && `https://emp.money/detonator?ref=${account}`
 
   // const [onPresentApprove] = useModal(<PurchaseWarningModal />)
-  const [onPresentBuy] = useModal(<BuyTicketModal max={new BigNumber(lpBalance.toString()).toFixed(4, BigNumber.ROUND_DOWN)} tokenName="EMP-ETH-LP" />)
+  const [onPresentBuy] = useModal(
+    <BuyTicketModal max={new BigNumber(lpBalance.toString()).toFixed(4, BigNumber.ROUND_FLOOR)} tokenName="EMP-ETH-LP" />
+  )
   const { onZapIn } = useZap(bank);
   const [onPresentZap, onDissmissZap] = useModal(
     <ZapModal

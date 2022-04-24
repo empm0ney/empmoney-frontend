@@ -129,7 +129,7 @@ const WinningsCard = () => {
             <Grid>
               <GridItem>
                 <Text bold fontSize="18px">
-                  Largest Rewards
+                  Top Deposit Rewards
                 </Text>
               </GridItem>
               <GridItem marginBottom="0">

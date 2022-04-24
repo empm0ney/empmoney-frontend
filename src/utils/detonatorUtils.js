@@ -180,3 +180,7 @@ export const getPastTicketWinners = async (lotteryContract, timestamp) => {
   return lotteryContract.listLargestTicketWinners(timestamp)
 }
 
+export const getDepositEvents = async (contract, fromBlock, toBlock) => {
+  return contract.queryFilter(contract.filters.NewDeposit(), fromBlock, toBlock);
+}
+

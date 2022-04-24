@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Card from '../../../../components/Card'
 import { Text } from '../../../../components/Text'
 import { useLargestDayDepositor, useLargestDeposit, usePoolBalance, useTopDayDeposits } from '../../../../hooks/useDetonator'
-import { formatBalance, getBalance, getFullDisplayBalance } from '../../../../utils/formatBalance'
+import { getFullDisplayBalance } from '../../../../utils/formatBalance'
 import ExpandableSection from '../../../../components/ExpandableSection'
 import CardValue from '../CardValue'
 import { Heading } from '../../../../components/Heading'
@@ -113,7 +113,7 @@ const LargestCard = () => {
               <Grid numRows={1}>
                 <GridItem>
                   <Text bold fontSize="18px">
-                    {parseAddr(largestDepositor)} 🥇
+                    {parseAddr(largestDepositor)}
                   </Text>
                 </GridItem>
                 <GridItem marginBottom="0">

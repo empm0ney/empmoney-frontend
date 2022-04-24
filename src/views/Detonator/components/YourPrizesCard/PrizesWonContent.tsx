@@ -148,7 +148,7 @@ const PrizesWonContent: React.FC = () => {
         </Button>
         <span style={{ margin: '0 8px' }} />
         {/* <span style={{ marginTop: '16px' }} /> */}
-        <Button fullWidth className="shinyButtonSecondary" onClick={handleCompound} data-tip="15% Savings">
+        <Button fullWidth className="shinyButtonSecondary" onClick={handleCompound} data-tip="20% Savings">
           Compound
         </Button>
       </StyledCardActions>

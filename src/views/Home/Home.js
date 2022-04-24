@@ -206,13 +206,13 @@ const Home = () => {
         {/* Explanation text */}
         <Grid item xs={12} sm={8}>
           <Paper>
-            <Box p={4} style={{ textAlign: 'center'}}>
+            <Box p={4} style={{ textAlign: 'center' }}>
               <h2>Welcome to Emp</h2>
               <p>
                 The algocoin that follows Ethereum's price! Now you can have high yields normally only found on risky assets, but with exposure to the world’s favorite cryptocurrency instead.
               </p>
               <p>
-                <strong>EMP is pegged via algorithm to a 4,000:1 ratio to ETH. $40k ETH = $10 EMP PEG</strong>
+                <strong>EMP is pegged via algorithm to a 4,000:1 ratio to ETH. $4k ETH = $1 EMP PEG</strong>
                 {/* Stake your EMP-ETH LP in the Farm to earn ESHARE rewards. Then stake your earned ESHARE in the
                 Boardroom to earn more EMP! */}
               </p>
