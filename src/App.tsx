@@ -15,16 +15,17 @@ import config from './config';
 import Updaters from './state/Updaters';
 import Loader from './components/Loader';
 import Popups from './components/Popups';
-import Regulations from './views/Regulations/Regulations';
+// import Regulations from './views/Regulations/Regulations';
 import {RefreshContextProvider} from './contexts/RefreshContext';
 
 const Home = lazy(() => import('./views/Home'));
 const Farm = lazy(() => import('./views/Farm'));
-const Boardroom = lazy(() => import('./views/Boardroom'));
+// const Boardroom = lazy(() => import('./views/Boardroom'));
 const BoardroomV2 = lazy(() => import('./views/BoardroomV2'));
 const Bond = lazy(() => import('./views/Bond'));
+// const Stake = lazy(() => import('./views/Stake'));
 // const SBS = lazy(() => import('./views/Sbs'));
-const Liquidity = lazy(() => import('./views/Liquidity'));
+// const Liquidity = lazy(() => import('./views/Liquidity'));
 const Detonator = lazy(() => import('./views/Detonator'));
 
 const NoMatch = () => (
@@ -54,24 +55,27 @@ const App: React.FC = () => {
             <Route path="/farm">
               <Farm />
             </Route>
-            <Route path="/boardroom">
+            {/* <Route path="/boardroom">
               <Boardroom />
-            </Route>
+            </Route> */}
             <Route path="/boardroomV2">
               <BoardroomV2 />
             </Route>
             <Route path="/bond">
               <Bond />
             </Route>
+            {/* <Route path="/stake">
+              <Stake />
+            </Route> */}
             {/* <Route path="/sbs">
               <SBS />
             </Route> */}
-            <Route path="/regulations">
+            {/* <Route path="/regulations">
               <Regulations />
             </Route>
             <Route path="/liquidity">
               <Liquidity />
-            </Route>
+            </Route> */}
             <Route path="/detonator">
               <Detonator />
             </Route>
@@ -96,7 +100,7 @@ const Providers: React.FC = ({children}) => {
             walletlink: {
               url: config.defaultProvider,
               appName: 'emp.money',
-              appLogoUrl: 'https://raw.githubusercontent.com/empmoney/emp-assets/master/emp-512.png',
+              appLogoUrl: 'https://i.imgur.com/daY5tUl.png',
             },
           }}
         >

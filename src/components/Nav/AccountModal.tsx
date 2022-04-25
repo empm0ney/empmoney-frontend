@@ -26,14 +26,14 @@ const AccountModal: React.FC<ModalProps> = ({onDismiss}) => {
 
   return (
     <Modal>
-      <ModalTitle text="My Wallet" />
+      <ModalTitle text="Wallet Balances" />
 
       <Balances style={{display: 'flex', flexDirection: matches ? 'row' : 'column'}}>
         <StyledBalanceWrapper style={{paddingBottom: '15px'}}>
-          <TokenSymbol symbol="EMP" />
+          <TokenSymbol size={100} symbol="EMP" />
           <StyledBalance>
             <StyledValue>{displayEmpBalance}</StyledValue>
-            <Label text="EMP Available" color="#1d48b6" />
+            <Label text="EMP" color="#1d48b6" />
           </StyledBalance>
         </StyledBalanceWrapper>
 
@@ -41,7 +41,7 @@ const AccountModal: React.FC<ModalProps> = ({onDismiss}) => {
           <TokenSymbol symbol="ESHARE" />
           <StyledBalance>
             <StyledValue>{displayEshareBalance}</StyledValue>
-            <Label text="ESHARE Available" color="#1d48b6" />
+            <Label text="ESHARE" color="#1d48b6" />
           </StyledBalance>
         </StyledBalanceWrapper>
 
@@ -49,7 +49,7 @@ const AccountModal: React.FC<ModalProps> = ({onDismiss}) => {
           <TokenSymbol symbol="EBOND" />
           <StyledBalance>
             <StyledValue>{displayBbondBalance}</StyledValue>
-            <Label text="EBOND Available" color="#1d48b6" />
+            <Label text="EBOND" color="#1d48b6" />
           </StyledBalance>
         </StyledBalanceWrapper>
       </Balances>
