@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button} from '@material-ui/core';
 import {useWallet} from 'use-wallet';
 import useModal from '../../hooks/useModal';
@@ -19,6 +19,19 @@ const AccountButton: React.FC<AccountButtonProps> = ({text}) => {
   const {account} = useWallet();
   const [onPresentAccountModal] = useModal(<AccountModal />);
   const {ensName} = useENS(account);
+  const [width, setWidth] = useState(window.innerWidth);
+  
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    }
+  }, []);
+
+  const isMobile = width <= 768
 
   const [isWalletProviderOpen, setWalletProviderOpen] = useState(false);
 
@@ -42,7 +55,7 @@ const AccountButton: React.FC<AccountButtonProps> = ({text}) => {
         <Button onClick={onPresentAccountModal} className="shinyButtonSecondary">
           <div className="account">
             <Davatar size={20} address={account} />
-            <span>{ensName || shorten(account)}</span>
+            <span>{isMobile ? 'Wallet' : (ensName || shorten(account))}</span>
           </div>
         </Button>
       )}
