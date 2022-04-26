@@ -23,7 +23,7 @@ const Farm = lazy(() => import('./views/Farm'));
 // const Boardroom = lazy(() => import('./views/Boardroom'));
 const BoardroomV2 = lazy(() => import('./views/BoardroomV2'));
 const Bond = lazy(() => import('./views/Bond'));
-// const Stake = lazy(() => import('./views/Stake'));
+const Stake = lazy(() => import('./views/Stake'));
 // const SBS = lazy(() => import('./views/Sbs'));
 // const Liquidity = lazy(() => import('./views/Liquidity'));
 const Detonator = lazy(() => import('./views/Detonator'));
@@ -64,9 +64,9 @@ const App: React.FC = () => {
             <Route path="/bond">
               <Bond />
             </Route>
-            {/* <Route path="/stake">
+            <Route path="/stake">
               <Stake />
-            </Route> */}
+            </Route>
             {/* <Route path="/sbs">
               <SBS />
             </Route> */}

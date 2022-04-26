@@ -103,7 +103,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Nav = () => {
-  const matches = useMediaQuery('(min-width:900px)');
+  const matches = useMediaQuery('(min-width:1080px)');
+  const matchesLarge = useMediaQuery('(min-width:1200px)');
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -203,14 +204,14 @@ const Nav = () => {
                 <div className="navTokenIcon bshare"></div>{' '}
                 <div className="navTokenPrice">${roundAndFormatNumber(Number(sharePriceInDollars), 0)}</div>
               </a>
-              <a href="https://dexscreener.com/bsc/0x63b30de1a998e9e64fd58a21f68d323b9bcd8f85" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
+              {matchesLarge && <a href="https://dexscreener.com/bsc/0x63b30de1a998e9e64fd58a21f68d323b9bcd8f85" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
                 <div className="navTokenIcon btc"></div>{' '}
                 <div className="navTokenPrice">${roundAndFormatNumber(Number(btcPriceInDollars), 0)}</div>
-              </a>
-              <a href="https://dexscreener.com/bsc/0x58f876857a02d6762e0101bb5c46a8c1ed44dc16" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
+              </a>}
+              {matchesLarge && <a href="https://dexscreener.com/bsc/0x58f876857a02d6762e0101bb5c46a8c1ed44dc16" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
                 <div className="navTokenIcon bnb"></div>{' '}
                 <div className="navTokenPrice">${roundAndFormatNumber(Number(bnbPriceInDollars), 0)}</div>
-              </a>
+              </a>}
             </Box>
             <AccountButton text="Connect" />
           </>

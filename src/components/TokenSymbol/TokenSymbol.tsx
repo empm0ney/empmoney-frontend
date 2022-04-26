@@ -3,7 +3,7 @@ import React from 'react';
 //Graveyard ecosystem logos
 import empLogo from '../../assets/img/emp_animated.gif';
 import tShareLogo from '../../assets/img/eshares-final2.gif';
-import empLogoPNG from '../../assets/img/emp-final2.gif';
+import empLogoPNG from '../../assets/img/emp-new.png';
 import tShareLogoPNG from '../../assets/img/eshares-final2.gif';
 import tBondLogo from '../../assets/img/emp-bond-final.gif';
 import empNodePNG from '../../assets/img/detonator.png';
@@ -13,7 +13,7 @@ import empEshareLpLogo from '../../assets/img/emp-eshares-lp.png';
 import bshareFtmLpLogo from '../../assets/img/eshares-bnb-lp.png';
 
 import bnbLogo from '../../assets/img/bnb.png';
-import btcLogo from '../../assets/img/eth-logo.png';
+import btcLogo from '../../assets/img/eth-final.png';
 
 const logosBySymbol: {[title: string]: string} = {
   //Real tokens
