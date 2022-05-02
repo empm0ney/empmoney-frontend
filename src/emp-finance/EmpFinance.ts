@@ -1197,4 +1197,67 @@ export class EmpFinance {
       rateESharePerEmp: rateESharePerEmpBN.toString(),
     };
   }
+
+  async getTotalStakedEth(): Promise<BigNumber> {
+    const { EthStaking } = this.contracts;
+    return EthStaking.total_balance();
+  }
+ 
+  async getPendingPayoutEth(account: string): Promise<BigNumber> {
+    const { EthStaking } = this.contracts;
+    return EthStaking.pendingPayout(account);
+  }
+  
+  async getMaxStakedEth(): Promise<BigNumber> {
+    const { EthStaking } = this.contracts;
+    return EthStaking.maxBalance();
+  }
+  
+  async getUserEthStake(account: string): Promise<any> {
+    const { EthStaking } = this.contracts;
+    return EthStaking.users(account);
+  }
+  
+  async getTimeToUnlock(): Promise<BigNumber> {
+    const { EthStaking } = this.contracts;
+    const unlockTime = await EthStaking.timeToAvailable();
+    return unlockTime;
+  }
+  
+  async getTimeToLock(): Promise<BigNumber> {
+    const { EthStaking } = this.contracts;
+    const lockTime = await EthStaking.timeToUnavailable();
+    return lockTime;
+  }
+  
+  async getEthEpoch(): Promise<{unlocked: boolean, epoch: BigNumber}> {
+    const { EthStaking } = this.contracts;
+    const tuple = await EthStaking.checkEpoch();
+    return { unlocked: tuple[0], epoch: tuple[1] };
+  }
+  
+  async stakeEth(amount: BigNumber): Promise<TransactionResponse> {
+    const { EthStaking } = this.contracts;
+    return await EthStaking.stake(amount);
+  }
+  
+  async exitEth(earlyWithFee: boolean): Promise<TransactionResponse> {
+    const { EthStaking } = this.contracts;
+    return await EthStaking.exit(earlyWithFee);
+  }
+
+  async isWhitelisted(address: string): Promise<Boolean> {
+    const { EthStaking } = this.contracts;
+    return EthStaking.isWhitelisted(address);
+  }
+
+  async getUnlockTime(epoch: number): Promise<BigNumber> {
+    const { EthStaking } = this.contracts;
+    return EthStaking.startEpochs(epoch);
+  }
+  
+  async getLockTime(epoch: number): Promise<BigNumber> {
+    const { EthStaking } = this.contracts;
+    return EthStaking.endEpochs(epoch);
+  }
 }

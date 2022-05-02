@@ -9,6 +9,7 @@ import TokenInput from '../../../components/TokenInput';
 
 import {getFullDisplayBalance} from '../../../utils/formatBalance';
 import {BigNumber} from 'ethers';
+import { Alert } from '@material-ui/lab';
 
 interface DepositModalProps extends ModalProps {
   max: BigNumber;
@@ -44,6 +45,7 @@ const DepositModal: React.FC<DepositModalProps> = ({max, onConfirm, onDismiss, t
         max={fullBalance}
         symbol={tokenName}
       />
+      <Alert style={{ marginTop: '1rem' }} severity="info" variant="outlined">0.005 ETH Minimum</Alert>
       <ModalActions>
         <Button color="primary" variant="contained" onClick={() => onConfirm(val)}>
           Confirm

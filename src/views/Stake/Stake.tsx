@@ -5,7 +5,6 @@ import Stake from './components/Stake';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Box, Card, CardContent, Typography, Grid } from '@material-ui/core';
-import { roundAndFormatNumber } from '../../0x';
 
 import { Alert } from '@material-ui/lab';
 
@@ -15,6 +14,20 @@ import Page from '../../components/Page';
 import { createGlobalStyle } from 'styled-components';
 
 import HomeImage from '../../assets/img/background2.jpg';
+import useTotalStakedEth from '../../hooks/useTotalStakedEth';
+import { getDisplayBalance } from '../../utils/formatBalance';
+import ProgressCountdown from './components/ProgressCountdown';
+import moment from 'moment';
+import useTimeToUnlock from '../../hooks/useTimeToUnlock';
+import useTimeToLock from '../../hooks/useTimeToLock';
+import useEthMax from '../../hooks/useEthMax';
+import { Flex } from '../../components/Flex';
+import Harvest from './components/Harvest';
+import Spacer from '../../components/Spacer';
+import { BigNumber } from 'ethers';
+import StartTimer from '../Detonator/components/StartTimer';
+import useUnlockTime from '../../hooks/useUnlockTime';
+
 const BackgroundImage = createGlobalStyle`
 body {
   background: url(${HomeImage}) repeat !important;
@@ -35,85 +48,76 @@ const useStyles = makeStyles((theme) => ({
 const Staking = () => {
   const classes = useStyles();
   const { account } = useWallet();
-  const xbombBalance = 0
-  const xbombRate = Number(xbombBalance / 1000000000000000000).toFixed(4);
-  const xbombAPR = { TVL: 0 }
-  const xbombPrintApr = 0
-
-  const xbombPrintAprNice = useMemo(() => (xbombPrintApr ? Number(xbombPrintApr).toFixed(2) : null), [xbombPrintApr]);
-
-  const stakedTotalBombBalance = 0;
-  const bombTotalStaked = Number(stakedTotalBombBalance / 1000000000000000000).toFixed(0);
-  const xbombTVL = useMemo(() => (xbombAPR ? Number(xbombAPR.TVL).toFixed(0) : null), [xbombAPR]);
+  const totalBalance = getDisplayBalance(useTotalStakedEth(), 18, 2);
+  const untilUnlockTime = useTimeToUnlock();
+  const untilLockTime = useTimeToLock();
+  const unlockTime = new Date(untilUnlockTime.mul(1000).add(BigNumber.from(Date.now())).toNumber())
+  const lockTime = new Date(untilLockTime.mul(1000).add(BigNumber.from(Date.now())).toNumber())
+  const maxBalance = getDisplayBalance(useEthMax(), 18, 0);
+  const startTime = useUnlockTime(0).mul(1000).toNumber();
 
   return (
     <Page>
       <BackgroundImage />
       {!!account ? (
         <>
+          {startTime > 0 && Date.now() > startTime ?
+          <>
           <Typography align="center" color="textPrimary" variant="h3" gutterBottom>
             Ethereum Staking
           </Typography>
-          <Grid container justify="center">
-            <Box mt={3} style={{ width: '600px' }}>
-              <Alert variant="outlined" severity="info">
-                <b>3 month lock period</b>
-              </Alert>
-            </Box>
-          </Grid>
 
           <Box mt={5}>
             <Grid container justify="center" spacing={3}>
               <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                 <Card className={classes.gridItem}>
-                  <CardContent >
-                    <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}> =</Typography>
-                    <Typography>{Number(xbombRate)} EMP</Typography>
+                  <CardContent style={{ textAlign: 'center' }}>
+                    <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>Unlock Period</Typography>
+                    <Flex style={{ flex: 1, justifyContent: 'center', flexDirection: 'column' }}>
+                      {untilUnlockTime.eq(0)
+                        ? <b>- Now -</b>
+                        : <ProgressCountdown base={moment().toDate()} hideBar={true} deadline={unlockTime} />
+                      }
+                      {/* <div>-</div> */}
+                      {untilUnlockTime.eq(0)
+                        ? <ProgressCountdown base={moment().toDate()} hideBar={true} deadline={lockTime} />
+                        : <ProgressCountdown base={moment().toDate()} hideBar={true} deadline={new Date(unlockTime.getTime() + (432000 * 1000))} />
+                      }
+                    </Flex>
                   </CardContent>
                 </Card>
               </Grid>
-              {/* <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
-                <Card className={classes.gridItem}>
-                  <CardContent >
-                    <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>
-                      BOMB PEG <small>(TWAP)</small>
-                    </Typography>
-                    <Typography>{scalingFactor} BTC</Typography>
-                    <Typography>
-                      <small>per 10,000 BOMB</small>
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid> */}
-              {/* <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
-                <Card className={classes.gridItem}>
-                  <CardContent >
-                    <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>Historic APR</Typography>
-                    <Typography>{xbombYearlyAPR}%</Typography>
-                  </CardContent>
-                </Card>
-              </Grid> */}
               <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                 <Card className={classes.gridItem}>
-                  <CardContent >
-                    <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>APR (Minted BOMB)</Typography>
-                    <Typography>{xbombPrintAprNice}%</Typography>
+                  <CardContent style={{ textAlign: 'center' }}>
+                    <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>Lock Period</Typography>
+                    <Flex style={{ flex: 1, justifyContent: 'center', flexDirection: 'column' }}>
+                      {untilLockTime.eq(0)
+                        ? <b >- Now -</b>
+                        : <ProgressCountdown base={moment().toDate()} hideBar={true} deadline={lockTime} />
+                      }
+                      {/* <div>-</div> */}
+                      {untilLockTime.eq(0)
+                        ? <ProgressCountdown base={moment().toDate()} hideBar={true} deadline={unlockTime} />
+                        : <ProgressCountdown base={moment().toDate()} hideBar={true} deadline={new Date(lockTime.getTime() + (7776000 * 1000))} />
+                      }
+                    </Flex>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent style={{ textAlign: 'center' }}>
+                    <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>APR || APY</Typography>
+                    <Typography>76% || 100%</Typography>
                   </CardContent>
                 </Card>
               </Grid>
               <Grid item xs={12} md={2} lg={2}>
                 <Card className={classes.gridItem}>
-                  <CardContent >
-                    <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>BOMB Staked</Typography>
-                    <Typography>{roundAndFormatNumber(Number(bombTotalStaked), 0)}</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
-                <Card className={classes.gridItem}>
-                  <CardContent >
-                    <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>xBOMB TVL</Typography>
-                    <Typography>${roundAndFormatNumber(Number(xbombTVL), 2)}</Typography>
+                  <CardContent style={{ textAlign: 'center' }}>
+                    <Typography style={{ textTransform: 'uppercase', color: '#1d48b6' }}>ETH Staked</Typography>
+                    <Typography>{totalBalance} / {maxBalance} MAX</Typography>
                   </CardContent>
                 </Card>
               </Grid>
@@ -122,13 +126,14 @@ const Staking = () => {
             <Box mt={4}>
               <StyledBoardroom>
                 <StyledCardsWrapper>
-                  {/* <StyledCardWrapper>
-                    <Harvest />
-                  </StyledCardWrapper> */}
-                  {/* <Spacer /> */}
-
                   <StyledCardWrapper>
                     <Stake />
+                  </StyledCardWrapper>
+
+                  <Spacer />
+
+                  <StyledCardWrapper>
+                    <Harvest />
                   </StyledCardWrapper>
                 </StyledCardsWrapper>
               </StyledBoardroom>
@@ -136,27 +141,29 @@ const Staking = () => {
             <Box mt={4}>
               <StyledBoardroom>
                 <StyledCardsWrapper>
-                  {/* <StyledCardWrapper>
-                    <Harvest />
-                  </StyledCardWrapper> */}
-                  {/* <Spacer /> */}
                   <StyledCardWrapper>
                     <Box>
-                      <Card>
-                        <CardContent>
-                          <h2>More Info</h2>
-                          {/* <p><strong>We are currently depositing 10,000 BOMB per week into the staking pool until our BTC Single Staking service is launched.</strong></p> */}
-                          <p>xBOMB will be the governance token required to cast votes on protocol decisions.</p>
+                      <Card style={{ padding: '8px 24px' }}>
+                        <CardContent style={{ textAlign: 'center' }}>
+                          <h2>Details</h2>
                           <p>
-                            20% of all BOMB minted will be deposited into the xBOMB smart contract, increasing the
-                            amount of BOMB that can be redeemed for each xBOMB. Rewards will be deposited at random
-                            times to prevent abuse.
+                            Stake your BEP-20 ETH to earn 19% (fixed) on your principal per quarter.
                           </p>
                           <p>
-                            Functionality will be developed around xBOMB including using it as collateral to borrow
-                            other assets.
+                            Interest is paid in BEP-20 ETH and is claimable along with your principal after the 90 day "Lock Period" completes.
                           </p>
-                          <p>Reward structure subject to change based on community voting.</p>
+                          {/* <p>
+                            If you decide to abstain from claiming throughout the 5 day "Unlock Period" (after lock period), your principal & interest is automatically compounded and is again claimable after the next lock period.
+                          </p> */}
+                          <p>
+                            A 5 day unlock period will open after the lock period where you can claim your principal & earned interest.
+                          </p>
+                          <p>
+                            Alternatively, if you do not claim during the unlock period, your principal & interest will be automatically reinvested in the second 90 day lock period for compounded yield.
+                          </p>
+                          <i style={{ color: 'rgb(189,189,189)', fontSize: '12px' }}>
+                            Users have the ability to "Emergency Withdraw" during the lock period. However, this will incur a 50% fee and loss of any interest gained.
+                          </i>
                         </CardContent>
                       </Card>
                     </Box>
@@ -164,52 +171,11 @@ const Staking = () => {
                 </StyledCardsWrapper>
               </StyledBoardroom>
             </Box>
-            {/* <Grid container justify="center" spacing={3}>
-            <Grid item xs={4}>
-              <Card>
-                <CardContent >
-                  <Typography>Rewards</Typography>
-
-                </CardContent>
-                <CardActions style={{justifyContent: 'center'}}>
-                  <Button color="primary" variant="outlined">Claim Reward</Button>
-                </CardActions>
-                <CardContent >
-                  <Typography>Claim Countdown</Typography>
-                  <Typography>00:00:00</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={4}>
-              <Card>
-                <CardContent >
-                  <Typography>Stakings</Typography>
-                  <Typography>{getDisplayBalance(stakedBalance)}</Typography>
-                </CardContent>
-                <CardActions style={{justifyContent: 'center'}}>
-                  <Button>+</Button>
-                  <Button>-</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          </Grid> */}
           </Box>
-          {/* 
-          <Box mt={5}>
-            <Grid container justify="center" spacing={3} mt={10}>
-              <Button
-                disabled={stakedBombBalance.eq(0) || (!canWithdraw && !canClaimReward)}
-                onClick={onRedeem}
-                className={
-                  stakedBombBalance.eq(0) || (!canWithdraw && !canClaimReward)
-                    ? 'shinyButtonDisabledSecondary'
-                    : 'shinyButtonSecondary'
-                }
-              >
-                Claim &amp; Withdraw
-              </Button>
-            </Grid>
-          </Box> */}
+          </>
+          : 
+          <StartTimer startTime={startTime / 1000} />
+        }
         </>
       ) : (
         <UnlockWallet />

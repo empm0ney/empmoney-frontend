@@ -13,7 +13,8 @@ import empEshareLpLogo from '../../assets/img/emp-eshares-lp.png';
 import bshareFtmLpLogo from '../../assets/img/eshares-bnb-lp.png';
 
 import bnbLogo from '../../assets/img/bnb.png';
-import btcLogo from '../../assets/img/eth-final.png';
+import sethLogo from '../../assets/img/eth-final.png';
+import ethLogo from '../../assets/img/eth-logo.png';
 
 const logosBySymbol: {[title: string]: string} = {
   //Real tokens
@@ -29,8 +30,8 @@ const logosBySymbol: {[title: string]: string} = {
   ZOO: bnbLogo,
   CAKE: bnbLogo,
   SUSD: bnbLogo,
-  SETH: btcLogo,
-  ETH: btcLogo,
+  SETH: sethLogo,
+  ETH: ethLogo,
   SVL: bnbLogo,
   EMPNODE: empNodePNG,
   'ETH-BNB-LP': empFtmLpLogo,

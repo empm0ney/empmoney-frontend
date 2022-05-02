@@ -2,17 +2,12 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Box, Button, Card, CardContent } from '@material-ui/core';
-
-// import Button from '../../../components/Button';
-// import Card from '../../../components/Card';
-// import CardContent from '../../../components/CardContent';
 import CardIcon from '../../../components/CardIcon';
 import { AddIcon, RemoveIcon } from '../../../components/icons';
 import IconButton from '../../../components/IconButton';
 import Label from '../../../components/Label';
 import Value from '../../../components/Value';
-//import useXbombBalance from '../../../hooks/useXbombBalance';
-import useApprove, {ApprovalState} from '../../../hooks/useApprove';
+import useApprove, { ApprovalState } from '../../../hooks/useApprove';
 import useModal from '../../../hooks/useModal';
 import useTokenBalance from '../../../hooks/useTokenBalance';
 import MetamaskFox from '../../../assets/img/metamask-fox.svg';
@@ -20,19 +15,40 @@ import { getDisplayBalance } from '../../../utils/formatBalance';
 
 import DepositModal from './DepositModal';
 import useEmpFinance from '../../../hooks/useEmpFinance';
-//import useStakedTokenPriceInDollars from '../../../hooks/useStakedTokenPriceInDollars';   //May not be needed anymore.
 import TokenSymbol from '../../../components/TokenSymbol';
+import useUserEthStake from '../../../hooks/useUserEthStake';
+import useEthStats from '../../../hooks/useEthStats';
+import useStakeEth from '../../../hooks/useStakeEth';
+import useExitEth from '../../../hooks/useExitEth';
+import EarlyExitModal from './EarlyExitModal';
+import useWhitelistCheck from '../../../hooks/useWhitelistCheck';
+import useEpochEth from '../../../hooks/useEpochEth';
 
 const Stake: React.FC = () => {
   const empFinance = useEmpFinance();
   const [approveStatus, approve] = useApprove(empFinance.ETH, empFinance.contracts.EthStaking.address);
   const tokenBalance = useTokenBalance(empFinance.ETH);
+  const user = useUserEthStake();
+  const ethPrice = useEthStats();
+  const isWhitelisted = useWhitelistCheck();
+  const epoch = useEpochEth();
+  const { onStake } = useStakeEth();
+  const { onExit } = useExitEth();
+
+  const [onPresentExit, onDismissExit] = useModal(
+    <EarlyExitModal
+      onConfirm={() => {
+        onExit(true);
+        onDismissExit();
+      }}
+    />,
+  );
 
   const [onPresentDeposit, onDismissDeposit] = useModal(
     <DepositModal
       max={tokenBalance}
       onConfirm={(value) => {
-        // onStake(value);
+        onStake(value);
         onDismissDeposit();
       }}
       tokenName={'ETH'}
@@ -49,7 +65,7 @@ const Stake: React.FC = () => {
                 <TokenSymbol symbol="ETH" />
               </CardIcon>
 
-              <Button
+              {/* <Button
                 className={'shinyButton'}
                 onClick={() => {
                   empFinance.watchAssetInMetamask('ETH');
@@ -66,32 +82,45 @@ const Stake: React.FC = () => {
                 {' '}
                 <b>+</b>&nbsp;&nbsp;
                 <img alt="metamask fox" style={{ width: '20px', filter: 'grayscale(100%)' }} src={MetamaskFox} />
-              </Button>
-              <Value value={"0"} />
-              <Label text={'xBOMB Balance'} variant="yellow" />
-              <Label text={"0"} variant="yellow" />
+              </Button> */}
+              <Value value={getDisplayBalance(user.current_balance)} />
+              <Label text={`≈ $${(Number(getDisplayBalance(user.current_balance)) * Number(ethPrice)).toFixed(2)}`} variant="yellow" />
+              <Label text={'ETH Balance'} variant="yellow" />
             </StyledCardHeader>
             <StyledCardActions>
-              {approveStatus !== ApprovalState.APPROVED ? (
-                <Button
-                  disabled={approveStatus !== ApprovalState.NOT_APPROVED}
-                  className={approveStatus === ApprovalState.NOT_APPROVED ? 'shinyButton' : 'shinyButtonDisabled'}
-                  style={{ marginTop: '20px' }}
-                  onClick={approve}
-                >
-                  Approve ETH
-                </Button>
-              ) : (
-                <>
-                  <IconButton onClick={() => null}>
-                    <RemoveIcon color={'yellow'} />
-                  </IconButton>
-                  <StyledActionSpacer />
-                  <IconButton onClick={onPresentDeposit}>
-                    <AddIcon color={'yellow'} />
-                  </IconButton>
+              {epoch.unlocked ? <>
+                {approveStatus !== ApprovalState.APPROVED ? (
+                  <Button
+                    disabled={approveStatus !== ApprovalState.NOT_APPROVED || !isWhitelisted}
+                    className={approveStatus === ApprovalState.NOT_APPROVED && isWhitelisted ? 'shinyButton' : 'shinyButtonDisabled'}
+                    style={{ marginTop: '20px' }}
+                    onClick={approve}
+                  >
+                    {isWhitelisted ? 'Approve ETH' : 'Not Whitelisted'}
+                  </Button>
+                ) : (
+                  <>
+                    <IconButton onClick={onPresentExit}>
+                      <RemoveIcon color={'white'} />
+                    </IconButton>
+                    <StyledActionSpacer />
+                    <IconButton onClick={onPresentDeposit}>
+                      <AddIcon color={'white'} />
+                    </IconButton>
+                  </>
+                )}
+              </>
+                : <>
+                  <Button
+                    disabled={true}
+                    className={'shinyButtonDisabled'}
+                    style={{ marginTop: '20px' }}
+                    onClick={() => null}
+                  >
+                    Locked
+                  </Button>
                 </>
-              )}
+              }
             </StyledCardActions>
           </StyledCardContentInner>
         </CardContent>

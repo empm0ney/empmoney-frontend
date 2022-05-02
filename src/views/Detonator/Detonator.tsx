@@ -72,7 +72,7 @@ const Detonator: React.FC = () => {
           {!!account ? (<>
             {scrollPosition == 0 && <div style={{ textAlign: 'center', marginTop: '-48px', marginBottom: '2rem' }}>
               <a href="https://www.eltaconode.com/" target="_blank">
-                <img src={BannerAd} alt="emp-logo" style={{ width: isMobile ? '100%' : '60%', maxHeight: '82px' }} />
+                <img src={BannerAd} alt="banner-ad" style={{ width: isMobile ? '100%' : '60%', maxHeight: '82px' }} />
               </a>
             </div>}
             <Hero />

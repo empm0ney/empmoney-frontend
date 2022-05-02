@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 import { Button, Select, MenuItem, InputLabel, withStyles, Input } from '@material-ui/core';
 // import Button from '../../../components/Button'
@@ -16,8 +16,6 @@ import useEmpFinance from '../../../hooks/useEmpFinance';
 import { useWallet } from 'use-wallet';
 import useApproveZapper, { ApprovalState } from '../../../hooks/useApproveZapper';
 import { EMP_TICKER, ESHARE_TICKER, BNB_TICKER, ETH_TICKER } from '../../../utils/constants';
-import { Alert } from '@material-ui/lab';
-import PercentInput from '../../../components/PercentInput';
 
 interface ZapProps extends ModalProps {
   onConfirm: (zapAsset: string, lpName: string, amount: string, slippageBp: string) => void;
@@ -44,6 +42,21 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
   const empLPStats = useMemo(() => (empFtmLpStats ? empFtmLpStats : null), [empFtmLpStats]);
   const bshareLPStats = useMemo(() => (tShareFtmLpStats ? tShareFtmLpStats : null), [tShareFtmLpStats]);
   const ftmAmountPerLP = tokenName.startsWith(EMP_TICKER) ? empLPStats?.ftmAmount : bshareLPStats?.ftmAmount;
+  
+  useEffect(() => {
+    const lastTicker = localStorage.getItem('ZAP_TICKER');
+    if (lastTicker) {
+      if (lastTicker === ESHARE_TICKER)
+        setZappingTokenBalance(getDisplayBalance(bshareBalance, 18));
+      if (lastTicker === EMP_TICKER)
+        setZappingTokenBalance(getDisplayBalance(empBalance, 18));
+      if (lastTicker === ETH_TICKER)
+        setZappingTokenBalance(getDisplayBalance(btcBalance, 18));
+      
+      setZappingToken(lastTicker);
+    }
+  });
+  
   /**
    * Checks if a value is a valid number or not
    * @param n is the value to be evaluated for a number
@@ -65,6 +78,8 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
     if (event.target.value === ETH_TICKER) {
       setZappingTokenBalance(getDisplayBalance(btcBalance, decimals));
     }
+    
+    localStorage.setItem('ZAP_TICKER', String(value))
   };
 
   const handleChange = async (e: any) => {

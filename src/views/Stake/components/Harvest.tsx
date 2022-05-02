@@ -1,72 +1,81 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
-import {Box, Button, Card, CardContent, Typography} from '@material-ui/core';
-
-import TokenSymbol from '../../../components/TokenSymbol';
+import { Box, Button, Card, CardContent, Typography } from '@material-ui/core';
 import Label from '../../../components/Label';
 import Value from '../../../components/Value';
-import CardIcon from '../../../components/CardIcon';
-import useClaimRewardTimerBoardroom from '../../../hooks/boardroom/useClaimRewardTimerBoardroom';
-import useClaimRewardCheck from '../../../hooks/boardroom/useClaimRewardCheck';
 import ProgressCountdown from './ProgressCountdown';
-import useHarvestFromBoardroom from '../../../hooks/useHarvestFromBoardroom';
-import useEarningsOnBoardroom from '../../../hooks/useEarningsOnBoardroom';
-import {getDisplayBalance} from '../../../utils/formatBalance';
-import { BigNumber } from 'ethers';
+import { getDisplayBalance } from '../../../utils/formatBalance';
+import useEthStats from '../../../hooks/useEthStats';
+import useUserEthStake from '../../../hooks/useUserEthStake';
+import useTimeToUnlock from '../../../hooks/useTimeToUnlock';
+import usePendingPayoutEth from '../../../hooks/usePendingPayoutEth';
+import CardIcon from '../../../components/CardIcon';
+import useEpochEth from '../../../hooks/useEpochEth';
+import useExitEth from '../../../hooks/useExitEth';
+import ReactTooltip from 'react-tooltip';
 
 const Harvest: React.FC = () => {
   // const {onReward} = useHarvestFromBoardroom();
-  const earnings = BigNumber.from(0) // useEarningsOnBoardroom();
-  const canClaimReward = false // useClaimRewardCheck();
+  const user = useUserEthStake();
+  const ethPrice = useEthStats();
+  const timeToUnlock = useTimeToUnlock();
+  // const timeToLock = useEthUnlockTime();
+  const epoch = useEpochEth();
+  const canClaimReward = timeToUnlock.eq(0) && user.last_epoch.lt(epoch.epoch);
+  const pendingPayout = usePendingPayoutEth();
+  const expectedPayout = user.current_balance.mul(119).div(100);
+  const interest = canClaimReward ? pendingPayout.sub(user.current_balance) : expectedPayout.sub(user.current_balance);
+  // const nextUnlockTime = timeToUnlock.eq(0) 
+  //   ? timeToLock.toNumber() + (Date.now() / 1000) + 7776000
+  //   : timeToUnlock.toNumber();
 
-  const tokenPriceInDollars = 0
-  // useMemo(
-  //   () => (bombStats ? Number(bombStats.priceInDollars).toFixed(2) : null),
-  //   [bombStats],
-  // );
-
-  const earnedInDollars = 0 // (Number(tokenPriceInDollars) * Number(getDisplayBalance(earnings))).toFixed(2);
-
-  const {from, to} = {from: new Date(), to: new Date()} // useClaimRewardTimerBoardroom();
+  const { onExit } = useExitEth();
 
   return (
     <Box>
+      <ReactTooltip effect="solid" clickable type="dark" />
       <Card>
         <CardContent>
           <StyledCardContentInner>
             <StyledCardHeader>
               <CardIcon>
-                <TokenSymbol symbol="BOMB" />
+                <div style={{ fontSize: '42px' }}>{canClaimReward ? '🔓' : '🔒'}</div>
+                {/* <TokenSymbol symbol="ETH" /> */}
               </CardIcon>
-              <Value value={getDisplayBalance(earnings)} />
-              <Label text={`≈ $${earnedInDollars}`} variant="yellow" />
-              <Label text="BOMB Earned" variant="yellow" />
+              <Value value={getDisplayBalance(interest)} />
+              <Label text={`≈ $${(Number(getDisplayBalance(interest, 18, 2)) * Number(ethPrice)).toFixed(2)}`} variant="yellow" />
+              <Label text="ETH Earned" variant="yellow" />
             </StyledCardHeader>
             <StyledCardActions>
+              {/* <CardContent>
+                <Typography style={{ textAlign: 'center' }}>Claim possible in</Typography>
+                <ProgressCountdown hideBar={true} base={moment().toDate()} deadline={unlockTime} />
+              </CardContent> */}
               <Button
-                onClick={() => null}
-                className={earnings.eq(0) || !canClaimReward ? 'shinyButtonDisabled' : 'shinyButton'}
-                disabled={earnings.eq(0) || !canClaimReward}
+                onClick={() => onExit(false)}
+                className={!canClaimReward ? 'shinyButtonDisabled' : 'shinyButton'}
+                disabled={!canClaimReward}
+                // data-tip={getLotteryRewardTime(nextUnlockTime * 1000)}
               >
-                Claim Reward
+                Claim & Withdraw
               </Button>
             </StyledCardActions>
           </StyledCardContentInner>
         </CardContent>
       </Card>
-      <Box mt={2} style={{color: '#FFF'}}>
+      {/* <Box mt={2} style={{ color: '#FFF' }}>
         {canClaimReward ? (
           ''
         ) : (
           <Card>
             <CardContent>
-              <Typography style={{textAlign: 'center'}}>Claim possible in</Typography>
-              <ProgressCountdown hideBar={true} base={from} deadline={to} description="Claim available in" />
+              <Typography style={{ textAlign: 'center' }}>Claim possible in</Typography>
+              <ProgressCountdown hideBar={true} base={from} deadline={to} />
             </CardContent>
           </Card>
         )}
-      </Box>
+      </Box> */}
     </Box>
   );
 };

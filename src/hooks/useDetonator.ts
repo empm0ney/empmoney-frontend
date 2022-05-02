@@ -674,8 +674,11 @@ export const useSortedUsers = (): any[] => {
         calls.push(detonator.userInfoTotals(userAddresses[i]))
       }
 
-      const userTotals = await ethcallProvider.all(calls);
+      const half = Math.ceil(calls.length / 2);
+      const userTotals = await ethcallProvider.all(calls.slice(0, half));
       if (!userTotals) return setUsers([]);
+
+      userTotals.push(...(await ethcallProvider.all(calls.slice(-half))));
 
       for (let i = 0; i < userTotals.length; i++) {
         userTotals[i] = { address: calls[i].params[0], ...userTotals[i] };

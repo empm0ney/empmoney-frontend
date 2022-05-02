@@ -96,9 +96,9 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '15px',
     width: '100%',
     color: 'white',
-    backgroundColor: 'rgb(8, 9, 13, 0.9)',
+    // backgroundColor: 'rgb(8, 9, 13, 0.9)',
     textAlign: 'center',
-    height: '4.5rem',
+    height: '7.5rem',
   },
 }));
 
@@ -149,6 +149,9 @@ const Nav = () => {
               </Link>
               <Link to="/farm" className={'navLink ' + classes.link}>
                 Farm
+              </Link>
+              <Link to="/stake" className={'navLink ' + classes.link}>
+                Stake
               </Link>
               <Link to="/detonator" className={'navLink ' + classes.link}>
                 Detonator
@@ -260,6 +263,7 @@ const Nav = () => {
                 </ListItem>
                 <ListItemLink primary="Home" to="/" />
                 <ListItemLink primary="Farm" to="/farm" />
+                <ListItemLink primary="Stake" to="/stake" />
                 <ListItemLink primary="Detonator" to="/detonator" />
                 <ListItemLink primary="Nodes" to="/farm/EmpMasterNode" />
                 <ListItemLink primary="Boardroom" to="/boardroomV2" />
@@ -296,6 +300,28 @@ const Nav = () => {
                       <a href="https://dexscreener.com/bsc/0x1747af98ebf0b22d500014c7dd52985d736337d2" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
                         <div className="navTokenIcon bshare"></div>{' '}
                         <div className="navTokenPrice">${roundAndFormatNumber(Number(sharePriceInDollars), 0)}</div>
+                      </a>
+                    </Box>
+                    <div style={{ height: '40px' }}>{' '}</div>
+                    <Box
+                      style={{
+                        flexGrow: '0',
+                        paddingLeft: '8px',
+                        paddingTop: '0px',
+                        fontSize: '14px',
+                        // fontWeight: 'bold',
+                        fontFamily: '"Poppins",sans-serif!important',
+                        height: '5px',
+                        display: 'flex',
+                      }}
+                    >
+                      <a href="https://dexscreener.com/bsc/0x63b30de1a998e9e64fd58a21f68d323b9bcd8f85" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
+                        <div className="navTokenIcon btc"></div>{' '}
+                        <div className="navTokenPrice">${roundAndFormatNumber(Number(btcPriceInDollars), 0)}</div>
+                      </a>
+                      <a href="https://dexscreener.com/bsc/0x58f876857a02d6762e0101bb5c46a8c1ed44dc16" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', textDecoration: 'none' }}>
+                        <div className="navTokenIcon bnb"></div>{' '}
+                        <div className="navTokenPrice">${roundAndFormatNumber(Number(bnbPriceInDollars), 0)}</div>
                       </a>
                     </Box>
                     <div style={{ height: '45px' }}>{' '}</div>

@@ -53,7 +53,7 @@ const TicketCard: React.FC = () => {
 
   // const [onPresentApprove] = useModal(<PurchaseWarningModal />)
   const [onPresentBuy] = useModal(
-    <BuyTicketModal max={new BigNumber(lpBalance.toString()).toFixed(4, BigNumber.ROUND_FLOOR)} tokenName="EMP-ETH-LP" />
+    <BuyTicketModal max={new BigNumber(lpBalance.toString()).toFixed(2, BigNumber.ROUND_FLOOR)} tokenName="EMP-ETH-LP" />
   )
   const { onZapIn } = useZap(bank);
   const [onPresentZap, onDissmissZap] = useModal(

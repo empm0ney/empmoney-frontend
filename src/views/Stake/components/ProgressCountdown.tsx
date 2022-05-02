@@ -6,10 +6,9 @@ interface ProgressCountdownProps {
   base: Date;
   deadline: Date;
   hideBar?: boolean;
-  description: string;
 }
 
-const ProgressCountdown: React.FC<ProgressCountdownProps> = ({base, deadline, hideBar, description}) => {
+const ProgressCountdown: React.FC<ProgressCountdownProps> = ({base, deadline, hideBar}) => {
   const percentage =
     Date.now() >= deadline.getTime()
       ? 100
@@ -17,19 +16,18 @@ const ProgressCountdown: React.FC<ProgressCountdownProps> = ({base, deadline, hi
 
   const countdownRenderer = (countdownProps: CountdownRenderProps) => {
     const {days, hours, minutes, seconds} = countdownProps;
-    const h = String(days * 24 + hours);
+    const d = String(days);
+    const h = String(hours);
     const m = String(minutes);
     const s = String(seconds);
     return (
       <StyledCountdown>
-        {h.padStart(2, '0')}:{m.padStart(2, '0')}:{s.padStart(2, '0')}
+        {d.padStart(2, '0')}d:{h.padStart(2, '0')}h:{m.padStart(2, '0')}m
       </StyledCountdown>
     );
   };
   return (
-    // <Card>
     <StyledCardContentInner>
-      {/* <StyledDesc>{description}</StyledDesc> */}
       <Countdown key={new Date().getTime()} date={deadline} renderer={countdownRenderer} />
       {hideBar ? (
         ''
@@ -39,15 +37,13 @@ const ProgressCountdown: React.FC<ProgressCountdownProps> = ({base, deadline, hi
         </StyledProgressOuter>
       )}
     </StyledCardContentInner>
-    // </Card>
   );
 };
 
-const StyledCountdown = styled.p`
+const StyledCountdown = styled.div`
   // font-size: 14px;
-  font-weight: 700;
-  // color: ${(props) => props.theme.color.grey[100]};
-  margin: 0 0 6px 0;
+  // font-weight: 700;
+  // margin: 0 0 6px 0;
 `;
 
 const StyledProgressOuter = styled.div`
@@ -70,7 +66,6 @@ const StyledCardContentInner = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  // padding: ${(props) => props.theme.spacing[2]}px ${(props) => props.theme.spacing[4]}px;
 `;
 
 export default ProgressCountdown;

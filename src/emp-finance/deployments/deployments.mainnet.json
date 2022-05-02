@@ -2194,7 +2194,7 @@
     ]
   },
   "EthStaking": {
-    "address": "0x4843C8b1CD22eCD48ab968c495a0Fd6bbD00406C",
+    "address": "0x59f521E1c6bBcfc504B8f2AC536df4Dc483BAE98",
     "abi": [
       {
         "inputs": [
@@ -2375,6 +2375,19 @@
       },
       {
         "inputs": [],
+        "name": "POOL_ID",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
         "name": "ROUTER",
         "outputs": [
           {
@@ -2413,6 +2426,31 @@
         "type": "function"
       },
       {
+        "inputs": [],
+        "name": "adminClaim",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "transferIn",
+            "type": "bool"
+          }
+        ],
+        "name": "adminDeposit",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
         "inputs": [
           {
             "internalType": "uint256",
@@ -2445,6 +2483,19 @@
       },
       {
         "inputs": [],
+        "name": "bypassFarm",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
         "name": "checkEpoch",
         "outputs": [
           {
@@ -2462,9 +2513,21 @@
         "type": "function"
       },
       {
-        "inputs": [],
+        "inputs": [
+          {
+            "internalType": "bool",
+            "name": "claimFarm",
+            "type": "bool"
+          }
+        ],
         "name": "compoundFarm",
-        "outputs": [],
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
         "stateMutability": "nonpayable",
         "type": "function"
       },
@@ -2482,7 +2545,13 @@
         "type": "function"
       },
       {
-        "inputs": [],
+        "inputs": [
+          {
+            "internalType": "bool",
+            "name": "emergencyFromFarm",
+            "type": "bool"
+          }
+        ],
         "name": "emergencyExitAll",
         "outputs": [],
         "stateMutability": "nonpayable",
@@ -2595,8 +2664,27 @@
         "type": "function"
       },
       {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_account",
+            "type": "address"
+          }
+        ],
+        "name": "isWhitelisted",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
         "inputs": [],
-        "name": "maxDeposited",
+        "name": "maxBalance",
         "outputs": [
           {
             "internalType": "uint256",
@@ -2605,6 +2693,34 @@
           }
         ],
         "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "contract IERC20",
+            "name": "_eshare",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IFarm",
+            "name": "_farm",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_poolID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address[]",
+            "name": "_pathEshareEth",
+            "type": "address[]"
+          }
+        ],
+        "name": "migrateEshare",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
       },
       {
@@ -2727,6 +2843,19 @@
       {
         "inputs": [
           {
+            "internalType": "bool",
+            "name": "_bypassFarm",
+            "type": "bool"
+          }
+        ],
+        "name": "setBypassFarm",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
             "internalType": "uint256",
             "name": "_earlyExitFeeBp",
             "type": "uint256"
@@ -2772,11 +2901,11 @@
         "inputs": [
           {
             "internalType": "uint256",
-            "name": "_maxDeposited",
+            "name": "_maxBalance",
             "type": "uint256"
           }
         ],
-        "name": "setMaxDepsoited",
+        "name": "setMaxBalance",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -3124,7 +3253,7 @@
         "stateMutability": "payable",
         "type": "receive"
       }
-    ]    
+    ]
   },
   "Zapper": {
     "address": "0x1732Bb86dcd3D29e041Aa88fF8fee947c8ABAEd2",

@@ -5,10 +5,11 @@ import { Modal } from '../../widgets/Modal'
 import { getDisplayBalance, getFullDisplayBalance } from '../../../../utils/formatBalance'
 import TicketInput from '../../../../components/TicketInput'
 import ModalActions from '../../../../components/ModalActions'
-import { useDepositLottery, useLargestDeposit } from '../../../../hooks/useDetonator'
+import { useDepositLottery, useGetUserInfoTotals, useLargestDeposit } from '../../../../hooks/useDetonator'
 import { useDayDeposits, useLotteryMin, usePoolBalance } from '../../../../hooks/useDetonator'
 import { Button } from '@material-ui/core'
 import BigNumber from 'bignumber.js'
+import { Alert } from '@material-ui/lab'
 
 interface BuyTicketModalProps {
   max: string
@@ -23,10 +24,12 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
   const [, setRequestedBuy] = useState(false)
   const poolBalance = usePoolBalance()
   const ticketPrice = getFullDisplayBalance(useLotteryMin())
+  const userInfo = useGetUserInfoTotals()
+  const hasDeposited = userInfo && userInfo.total_deposits && Number(userInfo.total_deposits) > 0;
 
   const largestDeposit = useLargestDeposit()
   const min = poolBalance && poolBalance.times('0')
-  const minLargest = min && largestDeposit ? (min.gte(largestDeposit) 
+  const minLargest = min && largestDeposit ? (min.gte(largestDeposit)
     ? getFullDisplayBalance(min)
     : getFullDisplayBalance(largestDeposit)) : '0'
 
@@ -65,9 +68,6 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
 
   return (
     <Modal title="Enter amount to deposit" onDismiss={onDismiss}>
-      {/* <Announce>
-        Deposits are final. Your GLASS cannot be returned to you after depositing.
-      </Announce> */}
       <TicketInput
         value={val}
         onSelectMax={handleSelectMax}
@@ -81,6 +81,9 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
         <Tips>Daily Largest - Deposit more than {minLargest}</Tips>
         {/* <Tips>{TranslateString(999, '1 Ticket = 100 Million GLASS')}</Tips> */}
       </div>
+      {!hasDeposited && <Alert style={{ marginTop: '1rem' }} severity="info" variant="outlined">
+        Deposits are final. Principal cannot be withdrawn after depositing.
+      </Alert>}
       <div style={{ marginBottom: '-16px' }}>
         <ModalActions>
           <Button fullWidth className="shinyButton" onClick={onDismiss}>
@@ -127,8 +130,8 @@ const Final = styled.div`
   color: #1d48b6;
 `
 const Announce = styled.div`
-  margin-top: -8px;
-  margin-bottom: 16px;
+  // margin-top: -8px;
+  // margin-bottom: 16px;
   color: #ed4b9e;
   font-size: 14px;
   font-weight: 100;
