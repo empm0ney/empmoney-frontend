@@ -492,18 +492,20 @@ export class EmpFinance {
       totalValue += poolValue;
     }
 
-    const [shareStat, boardroomV2tShareBalance, lpStat, detonatorBalance] = await Promise.all([
+    const [shareStat, boardroomV2tShareBalance, lpStat, detonatorBalance, stakingBalanceLP] = await Promise.all([
       this.getShareStat(),
       this.ESHARE.balanceOf(this.currentBoardroom(1).address),
       this.getLPStat('EMP-ETH-LP'),
-      this.EMPETH_LP.balanceOf(this.contracts.Detonator.address)
+      this.EMPETH_LP.balanceOf(this.contracts.Detonator.address),
+      this.EMPETH_LP.balanceOf(this.contracts.EthStaking.address),
     ]);
     const ESHAREPrice = shareStat.priceInDollars;
     const LpPrice = lpStat.priceOfOne;
     const boardroomV2TVL = Number(getDisplayBalance(boardroomV2tShareBalance, this.ESHARE.decimal)) * Number(ESHAREPrice);
     const detonatorTVL = Number(getDisplayBalance(detonatorBalance, 18)) * Number(LpPrice);
+    const stakingTVL = Number(getDisplayBalance(stakingBalanceLP, 18)) * Number(LpPrice);
 
-    return totalValue + boardroomV2TVL + detonatorTVL;
+    return totalValue + boardroomV2TVL + detonatorTVL + stakingTVL;
   }
 
   /**

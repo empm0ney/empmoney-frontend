@@ -1,14 +1,14 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import {Button} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 // import Button from '../../../components/Button'
-import Modal, {ModalProps} from '../../../components/Modal';
+import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
 import ModalTitle from '../../../components/ModalTitle';
 import TokenInput from '../../../components/TokenInput';
 
-import {getFullDisplayBalance} from '../../../utils/formatBalance';
-import {BigNumber} from 'ethers';
+import { getFullDisplayBalance } from '../../../utils/formatBalance';
+import { BigNumber } from 'ethers';
 import { Alert } from '@material-ui/lab';
 
 interface DepositModalProps extends ModalProps {
@@ -17,7 +17,7 @@ interface DepositModalProps extends ModalProps {
   tokenName?: string;
 }
 
-const DepositModal: React.FC<DepositModalProps> = ({max, onConfirm, onDismiss, tokenName = ''}) => {
+const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '' }) => {
   const [val, setVal] = useState('');
 
   const fullBalance = useMemo(() => {
@@ -37,7 +37,10 @@ const DepositModal: React.FC<DepositModalProps> = ({max, onConfirm, onDismiss, t
 
   return (
     <Modal>
-      <ModalTitle text={`Deposit ${tokenName}`} />
+      <ModalTitle text={`Stake ${tokenName}`} />
+      <Alert style={{ marginTop: '1rem' }} severity="warning" variant="outlined">
+        Staked ETH & interest are locked for 90 days
+      </Alert>
       <TokenInput
         value={val}
         onSelectMax={handleSelectMax}
@@ -45,7 +48,9 @@ const DepositModal: React.FC<DepositModalProps> = ({max, onConfirm, onDismiss, t
         max={fullBalance}
         symbol={tokenName}
       />
-      <Alert style={{ marginTop: '1rem' }} severity="info" variant="outlined">0.005 ETH Minimum</Alert>
+      <div style={{ color: '#bdbdbd', marginTop: '8px', fontSize: '14px', fontWeight: 700, fontFamily: '"Poppins",sans-serif!important' }}>
+        0.005 Minimmum
+      </div>
       <ModalActions>
         <Button color="primary" variant="contained" onClick={() => onConfirm(val)}>
           Confirm

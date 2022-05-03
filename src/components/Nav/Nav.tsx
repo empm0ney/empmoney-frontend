@@ -103,8 +103,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Nav = () => {
-  const matches = useMediaQuery('(min-width:1080px)');
-  const matchesLarge = useMediaQuery('(min-width:1200px)');
+  const matches = useMediaQuery('(min-width:1200px)');
+  const matchesLarge = useMediaQuery('(min-width:1440px)');
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -229,12 +229,12 @@ const Nav = () => {
             >
               <MenuIcon />
             </IconButton>
-
             <img
               alt="emp.money"
               src={empLogo}
               style={{ height: '60px', marginTop: '5px', marginLeft: '10px', marginRight: '15px' }}
             />
+            <div style={{ margin: 'auto auto' }}>{' '}</div>
             <AccountButton text="Connect" />
             <Drawer
               className={classes.drawer}

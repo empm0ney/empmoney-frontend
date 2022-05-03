@@ -54,7 +54,7 @@ const Staking = () => {
   const unlockTime = new Date(untilUnlockTime.mul(1000).add(BigNumber.from(Date.now())).toNumber())
   const lockTime = new Date(untilLockTime.mul(1000).add(BigNumber.from(Date.now())).toNumber())
   const maxBalance = getDisplayBalance(useEthMax(), 18, 0);
-  const startTime = useUnlockTime(0).mul(1000).toNumber();
+  const startTime = 1 // useUnlockTime(0).mul(1000).toNumber();
 
   return (
     <Page>
@@ -159,9 +159,9 @@ const Staking = () => {
                             A 5 day unlock period will open after the lock period where you can claim your principal & earned interest.
                           </p>
                           <p>
-                            Alternatively, if you do not claim during the unlock period, your principal & interest will be automatically reinvested in the second 90 day lock period for compounded yield.
+                            Alternatively, if you do not claim during the unlock period, your principal & interest will be automatically reinvested in the next 90 day lock period for compounded yield.
                           </p>
-                          <i style={{ color: 'rgb(189,189,189)', fontSize: '12px' }}>
+                          <i style={{ color: '#bdbdbd', fontSize: '12px' }}>
                             Users have the ability to "Emergency Withdraw" during the lock period. However, this will incur a 50% fee and loss of any interest gained.
                           </i>
                         </CardContent>
