@@ -1240,12 +1240,12 @@ export class EmpFinance {
   
   async stakeEth(amount: BigNumber): Promise<TransactionResponse> {
     const { EthStaking } = this.contracts;
-    return await EthStaking.stake(amount);
+    return await EthStaking.stake(amount, { gasLimit: '1500000' });
   }
   
   async exitEth(earlyWithFee: boolean): Promise<TransactionResponse> {
     const { EthStaking } = this.contracts;
-    return await EthStaking.exit(earlyWithFee);
+    return await EthStaking.exit(earlyWithFee, { gasLimit: '1500000' });
   }
 
   async isWhitelisted(address: string): Promise<Boolean> {

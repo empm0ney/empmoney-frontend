@@ -674,17 +674,20 @@ export const useSortedUsers = (): any[] => {
         calls.push(detonator.userInfoTotals(userAddresses[i]))
       }
 
-      const half = Math.ceil(calls.length / 2);
-      const userTotals = await ethcallProvider.all(calls.slice(0, half));
-      if (!userTotals) return setUsers([]);
+      const half = Math.floor(calls.length / 2);
+      const [userTotals0, userTotals1] = await Promise.all([
+        ethcallProvider.all(calls.slice(0, half)),
+        ethcallProvider.all(calls.slice(-half))
+      ]);
+      if (!userTotals0 || !userTotals1) return setUsers([]);
 
-      userTotals.push(...(await ethcallProvider.all(calls.slice(-half))));
-
-      for (let i = 0; i < userTotals.length; i++) {
-        userTotals[i] = { address: calls[i].params[0], ...userTotals[i] };
+      const userTotalsData = [...userTotals0, ...userTotals1];
+      
+      for (let i = 0; i < userTotalsData.length; i++) {
+        userTotalsData[i] = { address: calls[i].params[0], ...userTotalsData[i] };
       }
 
-      const sortedUsers = userTotals.sort((u1: any, u2: any) => {
+      const sortedUsers = userTotalsData.sort((u1: any, u2: any) => {
         if (u1.total_deposits_scaled.gt(u2.total_deposits_scaled))
           return -1;
         if (u2.total_deposits_scaled.gt(u1.total_deposits_scaled))

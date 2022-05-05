@@ -14,18 +14,43 @@ import CardIcon from '../../../components/CardIcon';
 import useEpochEth from '../../../hooks/useEpochEth';
 import useExitEth from '../../../hooks/useExitEth';
 import ReactTooltip from 'react-tooltip';
+import { BigNumber } from 'ethers';
 
 const Harvest: React.FC = () => {
-  // const {onReward} = useHarvestFromBoardroom();
   const user = useUserEthStake();
   const ethPrice = useEthStats();
   const timeToUnlock = useTimeToUnlock();
   // const timeToLock = useEthUnlockTime();
   const epoch = useEpochEth();
   const canClaimReward = timeToUnlock.eq(0) && user.last_epoch.lt(epoch.epoch);
-  const pendingPayout = usePendingPayoutEth();
-  const expectedPayout = user.current_balance.mul(119).div(100);
-  const interest = canClaimReward ? pendingPayout.sub(user.current_balance) : expectedPayout.sub(user.current_balance);
+
+  const numEpochs = user.last_epoch.lt(epoch.epoch)
+    ? epoch.epoch.sub(user.last_epoch).toNumber() :
+    1;
+  const principal = user.current_balance;
+  let compoundInterest = BigNumber.from(0);
+  let compoundInterestNext = BigNumber.from(0);
+
+  // AUTO COMPOUNDS INTEREST
+  for (let i = 0; i < numEpochs; i++) {
+    compoundInterest = compoundInterest.add(
+      (principal.add(compoundInterest)).mul(1900).div(10000)
+    );
+  }
+  for (let i = 0; i < numEpochs + 1; i++) {
+    compoundInterestNext = compoundInterestNext.add(
+      (principal.add(compoundInterestNext)).mul(1900).div(10000)
+    );
+  }
+
+  const showNextEarnings = compoundInterestNext.gt(0) && user.last_epoch.lt(epoch.epoch) && epoch.epoch.lt(4);
+  const displayEarnings = showNextEarnings && !epoch.unlocked 
+    ? compoundInterestNext
+    : compoundInterest;
+
+  // const expectedPayout = principal.add(compoundInterest);
+  // const pendingPayout = usePendingPayoutEth();
+
   // const nextUnlockTime = timeToUnlock.eq(0) 
   //   ? timeToLock.toNumber() + (Date.now() / 1000) + 7776000
   //   : timeToUnlock.toNumber();
@@ -43,20 +68,22 @@ const Harvest: React.FC = () => {
                 <div style={{ fontSize: '42px' }}>{canClaimReward ? '🔓' : '🔒'}</div>
                 {/* <TokenSymbol symbol="ETH" /> */}
               </CardIcon>
-              <Value value={getDisplayBalance(interest)} />
-              <Label text={`≈ $${(Number(getDisplayBalance(interest, 18, 2)) * Number(ethPrice)).toFixed(2)}`} variant="yellow" />
+              <Value value={getDisplayBalance(displayEarnings)} />
+              <Label text={`≈ $${(Number(getDisplayBalance(displayEarnings, 18, 2)) * Number(ethPrice)).toFixed(2)}`} variant="yellow" />
               <Label text="ETH Earned" variant="yellow" />
             </StyledCardHeader>
+            {showNextEarnings && epoch.unlocked &&
+              <CardContent style={{ marginBottom: '-3rem' }}>
+                <Label text="Next Quarter Earnings" variant="primary" />
+                <Typography style={{ textAlign: 'center' }}>{getDisplayBalance(compoundInterestNext)} ETH</Typography>
+              </CardContent>
+            }
             <StyledCardActions>
-              {/* <CardContent>
-                <Typography style={{ textAlign: 'center' }}>Claim possible in</Typography>
-                <ProgressCountdown hideBar={true} base={moment().toDate()} deadline={unlockTime} />
-              </CardContent> */}
               <Button
                 onClick={() => onExit(false)}
                 className={!canClaimReward ? 'shinyButtonDisabled' : 'shinyButton'}
                 disabled={!canClaimReward}
-                // data-tip={getLotteryRewardTime(nextUnlockTime * 1000)}
+              // data-tip={getLotteryRewardTime(nextUnlockTime * 1000)}
               >
                 Claim & Withdraw
               </Button>
