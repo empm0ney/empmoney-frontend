@@ -147,19 +147,19 @@ const Staking = () => {
                         <CardContent style={{ textAlign: 'center' }}>
                           <h2>Details</h2>
                           <p>
-                            Stake your BEP-20 ETH to earn 19% (fixed) on your principal per quarter.
+                            Stake your BEP-20 ETH to earn <b style={{ textDecorationLine: 'underline' }}>19% fixed</b> on your principal per quarter (90 days).
                           </p>
                           <p>
-                            Interest is paid in BEP-20 ETH and is claimable along with your principal after the 90 day "Lock Period" completes.
+                            Interest is paid in BEP-20 ETH and is claimable along with your principal after the 90 day <b style={{ textDecorationLine: 'underline' }}>Lock Period</b> completes.
                           </p>
                           {/* <p>
                             If you decide to abstain from claiming throughout the 5 day "Unlock Period" (after lock period), your principal & interest is automatically compounded and is again claimable after the next lock period.
                           </p> */}
                           <p>
-                            A 5 day unlock period will open after the lock period where you can claim your principal & earned interest.
+                            A 5 day <b style={{ textDecorationLine: 'underline' }}>Unlock Period</b> will open after the lock period where you can claim your principal & earned interest.
                           </p>
                           <p>
-                            Alternatively, if you do not claim during the unlock period, your principal & interest will be automatically reinvested in the next 90 day lock period for compounded yield.
+                            Alternatively, if you do not claim during the unlock period, your principal & interest will automatically be reinvested in the next 90 day lock period for compounded yield.
                           </p>
                           <i style={{ color: '#bdbdbd', fontSize: '12px' }}>
                             Users have the ability to "Emergency Withdraw" during the lock period. However, this will incur a 50% fee and loss of any interest gained.
