@@ -2,7 +2,6 @@ import { ESHARE_TICKER, ETH_TICKER } from './../utils/constants';
 // import { Fetcher, Route, Token } from '@uniswap/sdk';
 //import { Fetcher as FetcherSpirit, Token as TokenSpirit } from '@spiritswap/sdk';
 import { Fetcher, Route, Token } from '@pancakeswap/sdk';
-import { Contract as MultiContract, Provider } from 'ethers-multicall';
 import { Configuration } from './config';
 import { ContractName, TokenStat, AllocationTime, LPStat, Bank, PoolStats, EShareSwapperStat, Call } from './types';
 import { BigNumber, Contract, ethers, EventFilter } from 'ethers';
@@ -14,7 +13,7 @@ import { getDefaultProvider } from '../utils/provider';
 import IUniswapV2PairABI from './IUniswapV2Pair.abi.json';
 import config, { bankDefinitions } from '../config';
 import moment from 'moment';
-import { Interface, parseUnits } from 'ethers/lib/utils';
+import { parseUnits } from 'ethers/lib/utils';
 import { BNB_TICKER, SPOOKY_ROUTER_ADDR, EMP_TICKER } from '../utils/constants';
 /**
  * An API module of Emp Money contracts.

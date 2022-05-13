@@ -22,7 +22,7 @@ export const deposit = async (lotteryContract, amount, account) => {
       return alert('Cannot refer yourself')
     }
 
-    const tx = await lotteryContract.deposit(new BigNumber(amount).times(new BigNumber(10).pow(18)).toFixed(), ref)
+    const tx = await lotteryContract.deposit(new BigNumber(amount).times(new BigNumber(10).pow(18)).toFixed(0), ref)
     if (ref !== TREASURY_ADDRESS) localStorage.setItem(REF_KEY, ref)
     return tx
       
@@ -34,7 +34,7 @@ export const deposit = async (lotteryContract, amount, account) => {
 
 export const claim = async (lotteryContract) => {
   try {
-    return lotteryContract.claim()
+    return lotteryContract.claim({ gasLimit: '1500000' })
   } catch (err) {
     return console.error(err)
   }
@@ -42,7 +42,7 @@ export const claim = async (lotteryContract) => {
 
 export const compound = async (lotteryContract, manualGas = false) => {
   try {
-    return manualGas ? lotteryContract.roll({ gasLimit: '2000000' }) : lotteryContract.roll()
+    return manualGas ? lotteryContract.roll({ gasLimit: '2000000' }) : lotteryContract.roll({ gasLimit: '1500000' })
   } catch (err) {
     return console.error(err)
   }

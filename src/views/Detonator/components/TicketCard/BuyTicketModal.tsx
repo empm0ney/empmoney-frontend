@@ -2,17 +2,18 @@ import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 // import Button from '../../../../components/Button'
 import { Modal } from '../../widgets/Modal'
-import { getDisplayBalance, getFullDisplayBalance } from '../../../../utils/formatBalance'
+import { getFullDisplayBalance } from '../../../../utils/formatBalance'
 import TicketInput from '../../../../components/TicketInput'
 import ModalActions from '../../../../components/ModalActions'
 import { useDepositLottery, useGetUserInfoTotals, useLargestDeposit } from '../../../../hooks/useDetonator'
-import { useDayDeposits, useLotteryMin, usePoolBalance } from '../../../../hooks/useDetonator'
+import { useLotteryMin, usePoolBalance } from '../../../../hooks/useDetonator'
 import { Button } from '@material-ui/core'
-import BigNumber from 'bignumber.js'
 import { Alert } from '@material-ui/lab'
+import { BigNumber } from 'ethers'
+import { BigNumber as BigNumberJS } from 'bignumber.js'
 
 interface BuyTicketModalProps {
-  max: string
+  max: BigNumber
   onConfirm?: (amount: string, numbers: Array<number>) => void
   onDismiss?: () => void
   tokenName?: string
@@ -38,11 +39,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
   // const minLargest = remainingToLargest && formatBalance(remainingToLargest.gt(0) ? getBalance(remainingToLargest) : 0, true)
 
   const fullBalance = useMemo(() => {
-    return getDisplayBalance(new BigNumber(max.toString()))
-  }, [max])
-
-  const maxTickets = useMemo(() => {
-    return getDisplayBalance(new BigNumber(max.toString()))
+    return new BigNumberJS(max.toString()).div(new BigNumberJS(10).pow(18)).toFixed(4, BigNumberJS.ROUND_DOWN)
   }, [max])
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => setVal(e.currentTarget.value)
@@ -60,11 +57,12 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
     } catch (e) {
       console.error(e)
     }
+
   }, [onDeposit, setRequestedBuy, val])
 
   const handleSelectMax = useCallback(() => {
-    setVal(maxTickets.toString())
-  }, [maxTickets])
+    setVal(fullBalance.toString())
+  }, [fullBalance])
 
   return (
     <Modal title="Enter amount to deposit" onDismiss={onDismiss}>
@@ -81,9 +79,10 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
         <Tips>Daily Largest - Deposit more than {minLargest}</Tips>
         {/* <Tips>{TranslateString(999, '1 Ticket = 100 Million GLASS')}</Tips> */}
       </div>
-      {!hasDeposited && <Alert style={{ marginTop: '1rem' }} severity="info" variant="outlined">
-        Deposits are final. Principal cannot be withdrawn after depositing.
-      </Alert>}
+      {!hasDeposited && userInfo && userInfo.total_deposits &&
+        <Alert style={{ marginTop: '1rem' }} severity="info" variant="outlined">
+          Deposits are final. Principal cannot be withdrawn after depositing.
+        </Alert>}
       <div style={{ marginBottom: '-16px' }}>
         <ModalActions>
           <Button fullWidth className="shinyButton" onClick={onDismiss}>
@@ -94,8 +93,6 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ max, onDismiss }) => {
             fullWidth
             disabled={
               pendingTx ||
-              parseInt(val) > Number(maxTickets) ||
-              // parseInt(val) <= 0 ||
               parseInt(val) > Number(fullBalance)
             }
             onClick={async () => {
