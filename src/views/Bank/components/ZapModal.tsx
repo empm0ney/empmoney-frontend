@@ -15,7 +15,7 @@ import useTokenBalance from '../../../hooks/useTokenBalance';
 import useEmpFinance from '../../../hooks/useEmpFinance';
 import { useWallet } from 'use-wallet';
 import useApproveZapper, { ApprovalState } from '../../../hooks/useApproveZapper';
-import { EMP_TICKER, ESHARE_TICKER, BNB_TICKER, ETH_TICKER } from '../../../utils/constants';
+import { EMP_TICKER, ESHARE_TICKER, BNB_TICKER, ETH_TICKER, BUSD_TICKER } from '../../../utils/constants';
 
 interface ZapProps extends ModalProps {
   onConfirm: (zapAsset: string, lpName: string, amount: string, slippageBp: string) => void;
@@ -30,7 +30,8 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
   const ftmBalance = (Number(balance) / 1e18).toFixed(4).toString();
   const empBalance = useTokenBalance(empFinance.EMP);
   const bshareBalance = useTokenBalance(empFinance.ESHARE);
-  const btcBalance = useTokenBalance(empFinance.ETH);
+  const ethBalance = useTokenBalance(empFinance.ETH);
+  const busdBalance = useTokenBalance(empFinance.BUSD);
   const [val, setVal] = useState('');
   const [slippage, setSlippage] = useState('2');
   const [zappingToken, setZappingToken] = useState(BNB_TICKER);
@@ -42,21 +43,24 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
   const empLPStats = useMemo(() => (empFtmLpStats ? empFtmLpStats : null), [empFtmLpStats]);
   const bshareLPStats = useMemo(() => (tShareFtmLpStats ? tShareFtmLpStats : null), [tShareFtmLpStats]);
   const ftmAmountPerLP = tokenName.startsWith(EMP_TICKER) ? empLPStats?.ftmAmount : bshareLPStats?.ftmAmount;
-  
+
   useEffect(() => {
     const lastTicker = localStorage.getItem('ZAP_TICKER');
-    if (lastTicker) {
+    if (!!lastTicker) {
+      setZappingToken(lastTicker);
+      setZappingTokenBalance(ftmBalance);
+
       if (lastTicker === ESHARE_TICKER)
         setZappingTokenBalance(getDisplayBalance(bshareBalance, 18));
       if (lastTicker === EMP_TICKER)
         setZappingTokenBalance(getDisplayBalance(empBalance, 18));
       if (lastTicker === ETH_TICKER)
-        setZappingTokenBalance(getDisplayBalance(btcBalance, 18));
-      
-      setZappingToken(lastTicker);
+        setZappingTokenBalance(getDisplayBalance(ethBalance, 18));
+      if (lastTicker === BUSD_TICKER)
+        setZappingTokenBalance(getDisplayBalance(busdBalance, 18));
     }
-  });
-  
+  }, [bshareBalance, empBalance, ethBalance, busdBalance, ftmBalance]);
+
   /**
    * Checks if a value is a valid number or not
    * @param n is the value to be evaluated for a number
@@ -66,20 +70,25 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   const handleChangeAsset = (event: any) => {
-    const value = event.target.value;
-    setZappingToken(value);
-    setZappingTokenBalance(ftmBalance);
-    if (event.target.value === ESHARE_TICKER) {
-      setZappingTokenBalance(getDisplayBalance(bshareBalance, decimals));
+    if (event.target.value != zappingToken) {
+
+      setZappingToken(event.target.value);
+      setZappingTokenBalance(ftmBalance);
+      if (event.target.value === ESHARE_TICKER) {
+        setZappingTokenBalance(getDisplayBalance(bshareBalance, decimals));
+      }
+      if (event.target.value === EMP_TICKER) {
+        setZappingTokenBalance(getDisplayBalance(empBalance, decimals));
+      }
+      if (event.target.value === ETH_TICKER) {
+        setZappingTokenBalance(getDisplayBalance(ethBalance, decimals));
+      }
+      if (event.target.value === BUSD_TICKER) {
+        setZappingTokenBalance(getDisplayBalance(busdBalance, decimals));
+      }
+
+      localStorage.setItem('ZAP_TICKER', event.target.value)
     }
-    if (event.target.value === EMP_TICKER) {
-      setZappingTokenBalance(getDisplayBalance(empBalance, decimals));
-    }
-    if (event.target.value === ETH_TICKER) {
-      setZappingTokenBalance(getDisplayBalance(btcBalance, decimals));
-    }
-    
-    localStorage.setItem('ZAP_TICKER', String(value))
   };
 
   const handleChange = async (e: any) => {
@@ -114,6 +123,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
       <br />
       <Select variant="outlined" onChange={handleChangeAsset} style={{ color: 'white', background: 'rgb(8, 9, 13, 1, 0.9)' }} labelId="label" id="select" value={zappingToken}>
         <StyledMenuItem value={BNB_TICKER}>BNB</StyledMenuItem>
+        <StyledMenuItem value={BUSD_TICKER}>BUSD</StyledMenuItem>
         <StyledMenuItem value={ETH_TICKER}>ETH</StyledMenuItem>
         <StyledMenuItem value={ESHARE_TICKER}>ESHARE</StyledMenuItem>
         <StyledMenuItem value={EMP_TICKER}>EMP</StyledMenuItem>
@@ -156,7 +166,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
         placeholder="0"
         endAdornment={<div style={{ marginBottom: '1px' }}>%</div>}
         fullWidth={false}
-        style={{ maxWidth: '2.5rem', marginLeft: '14px'}}
+        style={{ maxWidth: '2.5rem', marginLeft: '14px' }}
       />
       %
       <ModalActions>
@@ -164,9 +174,9 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
           color="primary"
           variant="contained"
           onClick={() =>
-            approveZapperStatus !== ApprovalState.APPROVED 
-              ? approveZapper() 
-              : onConfirm(zappingToken, tokenName, val, tokenName === 'ESHARE-BNB-LP' ? '10000' : String(+slippage * 100))
+            approveZapperStatus !== ApprovalState.APPROVED
+              ? approveZapper()
+              : onConfirm(zappingToken, tokenName, val, String(+slippage * 100))
           }
         >
           {approveZapperStatus !== ApprovalState.APPROVED ? 'Approve' : "Zap"}

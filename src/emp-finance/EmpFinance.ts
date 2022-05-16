@@ -1,4 +1,4 @@
-import { ESHARE_TICKER, ETH_TICKER } from './../utils/constants';
+import { BUSD_TICKER, ESHARE_TICKER, ETH_TICKER } from './../utils/constants';
 // import { Fetcher, Route, Token } from '@uniswap/sdk';
 //import { Fetcher as FetcherSpirit, Token as TokenSpirit } from '@spiritswap/sdk';
 import { Fetcher, Route, Token } from '@pancakeswap/sdk';
@@ -35,6 +35,7 @@ export class EmpFinance {
   EBOND: ERC20;
   BNB: ERC20;
   ETH: ERC20;
+  BUSD: ERC20;
 
   constructor(cfg: Configuration) {
     const { deployments, externalTokens } = cfg;
@@ -56,6 +57,7 @@ export class EmpFinance {
     // this.ESHAREBNB = new ERC20(externalTokens['ESHARE-BNB-LP'][0], provider, 'ESHARE-BNB-LP');
     this.BNB = this.externalTokens['WBNB'];
     this.ETH = this.externalTokens['ETH'];
+    this.BUSD = this.externalTokens['BUSD'];
 
     // Uniswap V2 Pair
     this.EMPETH_LP = new Contract(externalTokens['EMP-ETH-LP'][0], IUniswapV2PairABI, provider);
@@ -749,13 +751,13 @@ export class EmpFinance {
   async getWBNBPriceFromPancakeswap(): Promise<string> {
     const ready = await this.provider.ready;
     if (!ready) return;
-    const { WBNB, FUSDT } = this.externalTokens;
+    const { WBNB, BUSD } = this.externalTokens;
     try {
       const fusdt_wftm_lp_pair = this.externalTokens['USDT-BNB-LP'];
       let ftm_amount_BN = await WBNB.balanceOf(fusdt_wftm_lp_pair.address);
       let ftm_amount = Number(getFullDisplayBalance(ftm_amount_BN, WBNB.decimal));
-      let fusdt_amount_BN = await FUSDT.balanceOf(fusdt_wftm_lp_pair.address);
-      let fusdt_amount = Number(getFullDisplayBalance(fusdt_amount_BN, FUSDT.decimal));
+      let fusdt_amount_BN = await BUSD.balanceOf(fusdt_wftm_lp_pair.address);
+      let fusdt_amount = Number(getFullDisplayBalance(fusdt_amount_BN, BUSD.decimal));
       return (fusdt_amount / ftm_amount).toString();
     } catch (err) {
       console.error(`Failed to fetch token price of WBNB: ${err}`);
@@ -782,13 +784,13 @@ export class EmpFinance {
   // async getETHPriceFromPancakeswap(): Promise<string> {
   //   const ready = await this.provider.ready;
   //   if (!ready) return;
-  //   const { ETH, FUSDT } = this.externalTokens;
+  //   const { ETH, BUSD } = this.externalTokens;
   //   try {
   //     const fusdt_eth_lp_pair = this.externalTokens['USDT-ETH-LP'];
   //     let ftm_amount_BN = await ETH.balanceOf(fusdt_eth_lp_pair.address);
   //     let ftm_amount = Number(getFullDisplayBalance(ftm_amount_BN, ETH.decimal));
-  //     let fusdt_amount_BN = await FUSDT.balanceOf(fusdt_eth_lp_pair.address);
-  //     let fusdt_amount = Number(getFullDisplayBalance(fusdt_amount_BN, FUSDT.decimal));
+  //     let fusdt_amount_BN = await BUSD.balanceOf(fusdt_eth_lp_pair.address);
+  //     let fusdt_amount = Number(getFullDisplayBalance(fusdt_amount_BN, BUSD.decimal));
   //     console.log('ETH price', (fusdt_amount / ftm_amount).toString());
   //     return (fusdt_amount / ftm_amount).toString();
   //     console.log('ETH price');
@@ -1147,6 +1149,7 @@ export class EmpFinance {
         case EMP_TICKER: token = this.EMP; break;
         case ESHARE_TICKER: token = this.ESHARE; break;
         case ETH_TICKER: token = this.ETH; break;
+        case BUSD_TICKER: token = this.BUSD; break;
         default: token = null;
       }
 

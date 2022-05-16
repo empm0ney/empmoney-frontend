@@ -677,7 +677,7 @@ export const useSortedUsers = (): any[] => {
       const half = Math.floor(calls.length / 2);
       const [userTotals0, userTotals1] = await Promise.all([
         ethcallProvider.all(calls.slice(0, half)),
-        ethcallProvider.all(calls.slice(-half))
+        ethcallProvider.all(calls.slice(half, calls.length))
       ]);
       if (!userTotals0 || !userTotals1) return setUsers([]);
 

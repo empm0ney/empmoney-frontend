@@ -3,7 +3,7 @@ import {useCallback, useMemo} from 'react';
 import {useHasPendingApproval, useTransactionAdder} from '../state/transactions/hooks';
 import useAllowance from './useAllowance';
 import ERC20 from '../emp-finance/ERC20';
-import {BNB_TICKER, EMP_TICKER, ESHARE_TICKER, ETH_TICKER, ZAPPER_ROUTER_ADDR} from '../utils/constants';
+import {BNB_TICKER, BUSD_TICKER, EMP_TICKER, ESHARE_TICKER, ETH_TICKER, ZAPPER_ROUTER_ADDR} from '../utils/constants';
 import useEmpFinance from './useEmpFinance';
 
 const APPROVE_AMOUNT = ethers.constants.MaxUint256;
@@ -24,6 +24,7 @@ function useApproveZapper(zappingToken: string): [ApprovalState, () => Promise<v
   else if (zappingToken === EMP_TICKER) token = empFinance.EMP;
   else if (zappingToken === ESHARE_TICKER) token = empFinance.ESHARE;
   else if (zappingToken === ETH_TICKER) token = empFinance.externalTokens[ETH_TICKER];
+  else if (zappingToken === BUSD_TICKER) token = empFinance.externalTokens[BUSD_TICKER];
   const pendingApproval = useHasPendingApproval(token.address, ZAPPER_ROUTER_ADDR);
   const currentAllowance = useAllowance(token, ZAPPER_ROUTER_ADDR, pendingApproval);
 

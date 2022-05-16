@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useApprove, { ApprovalState } from '../../../../hooks/useApprove'
 import useTokenBalance from '../../../../hooks/useTokenBalance'
@@ -53,7 +53,7 @@ const TicketCard: React.FC = () => {
 
   // const [onPresentApprove] = useModal(<PurchaseWarningModal />)
   const [onPresentBuy] = useModal(
-    <BuyTicketModal max={new BigNumber(lpBalance.toString()).toFixed(2, BigNumber.ROUND_FLOOR)} tokenName="EMP-ETH-LP" />
+    <BuyTicketModal max={lpBalance} tokenName="EMP-ETH-LP" />
   )
   const { onZapIn } = useZap(bank);
   const [onPresentZap, onDissmissZap] = useModal(
@@ -69,15 +69,23 @@ const TicketCard: React.FC = () => {
     />,
   );
 
-  const REF_KEY = 'REF_KEY'
-  const regex = new RegExp('[?&]ref=([^&#]*)').exec(window.location.search)
-  const refExtract = regex && regex.length > 1 ? regex[1] : null
-  if (refExtract) {
-    const currentRef = localStorage.getItem(REF_KEY)
-    if (!currentRef || refExtract !== currentRef) {
-      localStorage.setItem(REF_KEY, refExtract)
+  const query = window.location.search;
+
+  useEffect(() => {
+    if (query) {
+      const REF_KEY = 'REF_KEY';
+      const regex = new RegExp('[?&]ref=([^&#]*)').exec(query);
+      const refExtract = regex && regex.length > 1 ? regex[1] : null;
+
+      if (refExtract) {
+        const currentRef = localStorage.getItem(REF_KEY);
+
+        if (!currentRef || refExtract !== currentRef) {
+          localStorage.setItem(REF_KEY, refExtract);
+        }
+      }
     }
-  }
+  }, [query]);
 
   const copyRef = () => {
     if (refLink) {
@@ -134,7 +142,7 @@ const TicketCard: React.FC = () => {
             Temporarily Disabled For Improvements {enableTimeFormat}
           </Text> */}
           <Flex flexDirection="row" flexGrow={1}>
-          <Button
+            <Button
               id="lottery-zap-start"
               fullWidth onClick={onPresentZap}
               className={"shinyButtonSecondary"}

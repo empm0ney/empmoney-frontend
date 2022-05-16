@@ -10,7 +10,7 @@ const configurations: {[env: string]: Configuration} = {
   //   deployments: require('./emp-finance/deployments/deployments.testing.json'),
   //   externalTokens: {
   //     WBNB: ['0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18],
-  //     FUSDT: ['0x55d398326f99059fF775485246999027B3197955', 18], // This is actually BUSD on mainnet not fusdt
+  //     BUSD: ['0x55d398326f99059fF775485246999027B3197955', 18], // This is actually BUSD on mainnet not fusdt
   //     ETH: ['0xd66c6b4f0be8ce5b39d52e0fd1344c389929b378', 18],
   //     ZOO: ['0x09e145a1d53c0045f41aeef25d8ff982ae74dd56', 0],
   //     SHIBA: ['0x9ba3e4f84a34df4e08c112e1a0ff148b81655615', 9],
@@ -31,7 +31,7 @@ const configurations: {[env: string]: Configuration} = {
     deployments: require('./emp-finance/deployments/deployments.mainnet.json'),
     externalTokens: {
       WBNB: ['0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18],
-      FUSDT: ['0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18], // This is actually BUSD on mainnet not fusdt
+      BUSD: ['0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18],
       ETH: ['0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18],
       SETH: ['0x1d28cd41fc594232D05F2AbdAFBb556E7F78Dc2a', 18],
       SUSD: ['0x12017c89444624C0268A1053467e22954F4fd362', 18],
@@ -63,7 +63,7 @@ const configurations: {[env: string]: Configuration} = {
     deployments: require('./emp-finance/deployments/deployments.mainnet.json'),
     externalTokens: {
       WBNB: ['0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18],
-      FUSDT: ['0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18], // This is actually BUSD on mainnet not fusdt
+      BUSD: ['0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', 18],
       ETH: ['0x2170Ed0880ac9A755fd29B2688956BD959F933F8', 18],
       SETH: ['0x1d28cd41fc594232D05F2AbdAFBb556E7F78Dc2a', 18],
       SUSD: ['0x12017c89444624C0268A1053467e22954F4fd362', 18],
