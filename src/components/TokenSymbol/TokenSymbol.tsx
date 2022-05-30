@@ -8,7 +8,7 @@ import tShareLogoPNG from '../../assets/img/eshares-final2.gif';
 import tBondLogo from '../../assets/img/emp-bond-final.gif';
 import empNodePNG from '../../assets/img/detonator.png';
 
-import empFtmLpLogo from '../../assets/img/emp-eth-lp.png';
+import empFtmLpLogo from '../../assets/img/animated-pair.gif';
 import empEshareLpLogo from '../../assets/img/emp-eshares-lp.png';
 import bshareFtmLpLogo from '../../assets/img/eshares-bnb-lp.png';
 

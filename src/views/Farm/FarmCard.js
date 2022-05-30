@@ -24,7 +24,7 @@ const FarmCard = ({bank}) => {
                 justifyContent: 'center',
               }}
             >
-              <TokenSymbol size={32} symbol={bank.sectionInUI !== 3 ? bank.depositTokenName : 'EMPNODE'} />
+              <TokenSymbol size={35} symbol={bank.sectionInUI !== 3 ? bank.depositTokenName : 'EMPNODE'} />
             </Box>
             <Typography variant="h5" component="h2">
               {bank.depositTokenName}

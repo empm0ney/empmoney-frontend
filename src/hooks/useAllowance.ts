@@ -7,7 +7,7 @@ import useRefresh from './useRefresh';
 const useAllowance = (token: ERC20, spender: string, pendingApproval?: boolean) => {
   const [allowance, setAllowance] = useState<BigNumber>(null);
   const { account } = useWallet();
-  const { instantRefresh } = useRefresh()
+  const { fastRefresh } = useRefresh()
 
   const fetchAllowance = useCallback(async () => {
     const allowance = await token.allowance(account, spender);
@@ -18,7 +18,7 @@ const useAllowance = (token: ERC20, spender: string, pendingApproval?: boolean) 
     if (account && spender && token) {
       fetchAllowance().catch((err) => console.error(`Failed to fetch allowance: ${err.stack}`));
     }
-  }, [account, spender, token, pendingApproval, fetchAllowance, instantRefresh]);
+  }, [account, spender, token, pendingApproval, fetchAllowance, fastRefresh]);
 
   return allowance;
 };

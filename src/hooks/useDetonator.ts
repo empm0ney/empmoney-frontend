@@ -665,16 +665,23 @@ export const useSortedUsers = (): any[] => {
       for (let i = 0; i < numUsers; i++) {
         calls.push(detonator.userIndices(i))
       }
+      
+      let half = Math.floor(calls.length / 2);
+      const [userAddresses0, userAddresses1] = await Promise.all([
+        ethcallProvider.all(calls.slice(0, half)),
+        ethcallProvider.all(calls.slice(half, calls.length))
+      ]);
 
-      const userAddresses = await ethcallProvider.all(calls);
-      if (!userAddresses) return setUsers([]);
+      if (!userAddresses0 || !userAddresses1) return setUsers([]);
+      
       calls = [];
+      const userAddressesData = [...userAddresses0, ...userAddresses1];
 
-      for (let i = 0; i < userAddresses.length; i++) {
-        calls.push(detonator.userInfoTotals(userAddresses[i]))
+      for (let i = 0; i < userAddressesData.length; i++) {
+        calls.push(detonator.userInfoTotals(userAddressesData[i]))
       }
 
-      const half = Math.floor(calls.length / 2);
+      half = Math.floor(calls.length / 2);
       const [userTotals0, userTotals1] = await Promise.all([
         ethcallProvider.all(calls.slice(0, half)),
         ethcallProvider.all(calls.slice(half, calls.length))

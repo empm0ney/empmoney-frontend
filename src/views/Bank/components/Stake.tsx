@@ -103,7 +103,7 @@ const Stake: React.FC<StakeProps> = ({ bank }) => {
         <StyledCardContentInner>
           <StyledCardHeader>
             <CardIcon>
-              <TokenSymbol symbol={bank.sectionInUI !== 3 ? bank.depositToken.symbol : 'EMPNODE'} size={54} />
+              <TokenSymbol symbol={bank.sectionInUI !== 3 ? bank.depositToken.symbol : 'EMPNODE'} size={80} />
             </CardIcon>
             <Value value={getDisplayBalance(bank.sectionInUI !== 3 ? stakedBalance : nodePrice, bank.depositToken.decimal, bank.sectionInUI === 3 ? 0 : 4)} />
 

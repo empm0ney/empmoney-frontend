@@ -31,7 +31,6 @@ import RugDocImage from '../../assets/img/rugdoc-badge.png';
 import ZrxGuardImage from '../../assets/img/0x-guard.png';
 
 import HomeImage from '../../assets/img/background2.jpg';
-import AcademyBanner from '../../assets/img/academy-button.png';
 import useStrategy from '../../hooks/useStrategy';
 import useApproveStrategy, { ApprovalState } from '../../hooks/useApproveStrategy';
 const BackgroundImage = createGlobalStyle`
