@@ -4,7 +4,7 @@ import { useWallet } from 'use-wallet'
 import BigNumber from 'bignumber.js'
 import useEmpFinance from './useEmpFinance';
 import useRefresh from './useRefresh'
-import { claim, compound, deposit, getDepositMultiplier, getNumCompoundTicketsRemaining, getNumDepositTicketsRemaining, getNumTicketsTotal, getNumTicketsDay, getLotteryTime, getPastRandomWinners, getContractInfoTotals, getDayDripEstimate, getGlassBalance, getGlassBalancePool, getLargestDayDepositor, getTimeToReward, getTotalDeposited, getTotalRewards, getUserInfo, getUserInfoTotals, getLargestTime, getLotteryMin, getNumRandQualified, getTotalUsers, getDepositEvents, getDayDeposits, getDayTime, getDayTimeIncrement, getPastLargestDepositor, getLargestDeposit, getWhaleTax, getReferralRewards } from '../utils/detonatorUtils'
+import { claim, compound, deposit, getDepositMultiplier, getNumCompoundTicketsRemaining, getNumDepositTicketsRemaining, getNumTicketsTotal, getLotteryTime, getPastRandomWinners, getContractInfoTotals, getDayDripEstimate, getGlassBalance, getGlassBalancePool, getLargestDayDepositor, getTimeToReward, getTotalDeposited, getTotalRewards, getUserInfo, getUserInfoTotals, getLargestTime, getLotteryMin, getNumRandQualified, getTotalUsers, getDepositEvents, getDayDeposits, getDayTime, getDayTimeIncrement, getPastLargestDepositor, getLargestDeposit, getWhaleTax, getReferralRewards } from '../utils/detonatorUtils'
 import { getDefaultProvider } from '../utils/provider';
 
 export const useClaimLottery = () => {
@@ -431,32 +431,12 @@ export const useNumTicketsTotal = () => {
   return numTickets
 }
 
-export const useNumTicketsDay = () => {
-  const [numTickets, setNumTickets] = useState(new BigNumber(0))
-  const { Detonator } = useEmpFinance().contracts;
-  const { account } = useWallet()
-  const { fastRefresh } = useRefresh()
-
-  useEffect(() => {
-    const fetchBalance = async () => {
-      const rewards = await getNumTicketsDay(Detonator, account)
-      setNumTickets(new BigNumber(rewards.toString()))
-    }
-
-    if (Detonator && account) {
-      fetchBalance()
-    }
-  }, [fastRefresh, Detonator, setNumTickets, account])
-
-  return numTickets
-}
-
 export const useDepositEvents = () => {
   const [events, setEvents] = useState([])
   const { Detonator } = useEmpFinance().contracts;
   const { fastRefresh } = useRefresh()
   const provider = getDefaultProvider();
-  
+
   useEffect(() => {
     const fetch = async () => {
 
@@ -649,49 +629,26 @@ export const useTopDayDeposits = (): any[] => {
 export const useSortedUsers = (): any[] => {
   const [users, setUsers] = useState([] as any[])
   const empFinance = useEmpFinance();
-  const { Detonator } = empFinance.contracts;
-  const provider = getDefaultProvider();
+  const { Detonator, DetonatorMultiCall } = empFinance.contracts;
 
   useEffect(() => {
     const fetch = async () => {
-      const ethcallProvider = new Provider(provider);
-      const detonator = new Contract(Detonator.address, Detonator.interface.format('full') as string[]);
-      await ethcallProvider.init(); // Only required when `chainId` is not provided in the `Provider` constructor
-
-      let calls = []
       const numUsers = +await getTotalUsers(Detonator);
       if (!numUsers) return setUsers([]);
 
-      for (let i = 0; i < numUsers; i++) {
-        calls.push(detonator.userIndices(i))
-      }
-      
-      let half = Math.floor(calls.length / 2);
-      const [userAddresses0, userAddresses1] = await Promise.all([
-        ethcallProvider.all(calls.slice(0, half)),
-        ethcallProvider.all(calls.slice(half, calls.length))
-      ]);
+      let i = 0;
+      const increment = 1000;
+      const userTotalsData = [];
 
-      if (!userAddresses0 || !userAddresses1) return setUsers([]);
-      
-      calls = [];
-      const userAddressesData = [...userAddresses0, ...userAddresses1];
+      while (i < +numUsers) {
+        const userIndicies: number[] = [];
+        const max = i + increment;
 
-      for (let i = 0; i < userAddressesData.length; i++) {
-        calls.push(detonator.userInfoTotals(userAddressesData[i]))
-      }
+        for (; i < max && i < +numUsers; i++) {
+          userIndicies.push(i);
+        }
 
-      half = Math.floor(calls.length / 2);
-      const [userTotals0, userTotals1] = await Promise.all([
-        ethcallProvider.all(calls.slice(0, half)),
-        ethcallProvider.all(calls.slice(half, calls.length))
-      ]);
-      if (!userTotals0 || !userTotals1) return setUsers([]);
-
-      const userTotalsData = [...userTotals0, ...userTotals1];
-      
-      for (let i = 0; i < userTotalsData.length; i++) {
-        userTotalsData[i] = { address: calls[i].params[0], ...userTotalsData[i] };
+        userTotalsData.push(...(await DetonatorMultiCall.getUsersTotals(userIndicies)));
       }
 
       const sortedUsers = userTotalsData.sort((u1: any, u2: any) => {
@@ -705,10 +662,10 @@ export const useSortedUsers = (): any[] => {
       return setUsers(sortedUsers)
     }
 
-    if (Detonator && provider) {
+    if (Detonator && DetonatorMultiCall) {
       fetch()
     }
-  }, [setUsers, Detonator, provider])
+  }, [setUsers, Detonator, DetonatorMultiCall])
 
   return users
 

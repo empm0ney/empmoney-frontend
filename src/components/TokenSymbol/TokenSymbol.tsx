@@ -11,6 +11,7 @@ import empNodePNG from '../../assets/img/detonator.png';
 import empFtmLpLogo from '../../assets/img/animated-pair.gif';
 import empEshareLpLogo from '../../assets/img/emp-eshares-lp.png';
 import bshareFtmLpLogo from '../../assets/img/eshares-bnb-lp.png';
+import bshareMdbLpLogo from '../../assets/img/eshares-mdb-lp.png';
 
 import bnbLogo from '../../assets/img/bnb.png';
 import sethLogo from '../../assets/img/eth-final.png';
@@ -40,6 +41,7 @@ const logosBySymbol: {[title: string]: string} = {
   'ESHARE-BNB-LP': bshareFtmLpLogo,
   'ESHARE-BNB-APELP': bshareFtmLpLogo,
   'EMP-ETH-APELP': empFtmLpLogo,
+  'ESHARE-MDB+ LP': bshareMdbLpLogo,
 };
 
 type LogoProps = {

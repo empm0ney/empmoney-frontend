@@ -108,10 +108,6 @@ export const getNumTicketsTotal = async (lotteryContract, account) => {
   return lotteryContract.numTicketsTotal(account)
 }
 
-export const getNumTicketsDay = async (lotteryContract, account) => {
-  return lotteryContract.numTicketsDay(account)
-}
-
 export const getNumDepositTicketsRemaining = async (lotteryContract, account) => {
   return lotteryContract.numDepositTicketsRemaining(account)
 }

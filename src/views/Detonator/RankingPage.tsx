@@ -69,7 +69,7 @@ const RankingPage: React.FC = () => {
   const sortedUsers = useSortedUsers()
   const totalDeposited = useTotalDeposited()
   const userRank =
-    sortedUsers.length > 0 && account && sortedUsers.findIndex((u) => u.address.toLowerCase() === account.toLowerCase()) + 1
+    sortedUsers.length > 0 && account && sortedUsers.findIndex((u) => u.key.toLowerCase() === account.toLowerCase()) + 1
   const userShare = userRank && totalDeposited && (+sortedUsers[userRank - 1].total_deposits / +totalDeposited) * 100
 
   const formatAmount = (amnt: number) =>
@@ -116,7 +116,7 @@ const RankingPage: React.FC = () => {
                   <StyledText isMobile={isMobile} >{`#${i + 1}`}</StyledText>
                 </GridItem>
                 <GridItem marginBottom="16px">
-                  <StyledText isMobile={isMobile} >{`${trimAddr(u?.address)}`}</StyledText>
+                  <StyledText isMobile={isMobile} >{`${trimAddr(u?.key)}`}</StyledText>
                 </GridItem>
                 <GridItem marginBottom="16px">
                   <StyledText isMobile={isMobile} >{formatAmount(+u?.total_deposits)}</StyledText>

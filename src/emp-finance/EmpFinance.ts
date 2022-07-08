@@ -401,12 +401,16 @@ export class EmpFinance {
     const rewardPerSecond = await poolContract.tSharePerSecond();
     if (depositTokenName === 'EMP-ETH-LP') {
       return rewardPerSecond.mul(550).div(1000);
+    } else if (depositTokenName === 'ESHARE-BNB-LP') {
+      return rewardPerSecond.mul(400).div(1000);
+    } else if (depositTokenName === 'ESHARE-MDB+ LP') {
+      return rewardPerSecond.mul(50).div(1000);
     } else if (depositTokenName === 'EMP-ESHARE-LP') {
-      return rewardPerSecond.mul(10).div(1000);
+      return rewardPerSecond.mul(0).div(1000);
     } else if (depositTokenName === 'EMP') {
       return rewardPerSecond.mul(0).div(1000)
     } else {
-      return rewardPerSecond.mul(440).div(1000);
+      return 0;
     }
   }
 
@@ -428,6 +432,8 @@ export class EmpFinance {
       } else if (tokenName === 'EMP-ESHARE-LP') {
         tokenPrice = await this.getLPTokenPrice(token, this.EMP, true);
       } else if (tokenName === 'ESHARE-BNB-LP') {
+        tokenPrice = await this.getLPTokenPrice(token, this.ESHARE, false);
+      } else if (tokenName === 'ESHARE-MDB+ LP') {
         tokenPrice = await this.getLPTokenPrice(token, this.ESHARE, false);
       } else if (tokenName === 'ESHARE-BNB-APELP') {
         tokenPrice = await this.getApeLPTokenPrice(token, this.ESHARE, false);
