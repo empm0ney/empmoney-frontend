@@ -399,16 +399,16 @@ export class EmpFinance {
       }
     }
     const rewardPerSecond = await poolContract.tSharePerSecond();
-    if (depositTokenName === 'EMP-ETH-LP') {
-      return rewardPerSecond.mul(550).div(1000);
-    } else if (depositTokenName === 'ESHARE-BNB-LP') {
-      return rewardPerSecond.mul(400).div(1000);
-    } else if (depositTokenName === 'ESHARE-MDB+ LP') {
-      return rewardPerSecond.mul(50).div(1000);
-    } else if (depositTokenName === 'EMP-ESHARE-LP') {
-      return rewardPerSecond.mul(0).div(1000);
-    } else if (depositTokenName === 'EMP') {
-      return rewardPerSecond.mul(0).div(1000)
+    if (depositTokenName === 'EMP-ETH-LP') { // 1
+      return rewardPerSecond.mul(550).div(1000); // 1
+    } else if (depositTokenName === 'ESHARE-BNB-LP') { // 0
+      return rewardPerSecond.mul(420).div(1000); // 0
+    } else if (depositTokenName === 'ESHARE-MDB+ LP') { // 4
+      return rewardPerSecond.mul(30).div(1000); // 4
+    } else if (depositTokenName === 'EMP-ESHARE-LP') { // 2
+      return rewardPerSecond.mul(0).div(1000); // 2
+    } else if (depositTokenName === 'EMP') { // 3
+      return rewardPerSecond.mul(0).div(1000) // 3
     } else {
       return 0;
     }
@@ -1139,14 +1139,17 @@ export class EmpFinance {
     return [estimate[0] / 1e18, estimate[1] / 1e18];
   }
   async zapIn(tokenName: string, lpName: string, amount: string, slippageBp: string): Promise<TransactionResponse> {
-    const { ZapperV2 } = this.contracts;
+    const { ZapperV2, ZapMDB } = this.contracts;
     const lpToken = this.externalTokens[lpName];
+    const isZapMDB = lpName === 'ESHARE-MDB+ LP';
     if (tokenName === BNB_TICKER) {
       let overrides = {
         value: parseUnits(amount, 18),
         gasLimit: '1500000'
       };
-      return await ZapperV2.zapBNBToLP(lpToken.address, overrides);
+      return isZapMDB 
+        ? await ZapMDB.zapBNBToLP(lpToken.address, 10000, overrides)
+        : await ZapperV2.zapBNBToLP(lpToken.address, overrides);
 
     } else {
       let token: ERC20;
@@ -1158,12 +1161,20 @@ export class EmpFinance {
         default: token = null;
       }
 
-      return await ZapperV2.zapTokenToLP(
-        token.address,
-        parseUnits(amount, 18),
-        lpToken.address,
-        { gasLimit: '1500000' }
-      );
+      return isZapMDB 
+        ? await ZapMDB.zapTokenToLP(
+          token.address,
+          parseUnits(amount, 18),
+          lpToken.address,
+          10000,
+          { gasLimit: '1500000' }
+        ) 
+        : await ZapperV2.zapTokenToLP(
+          token.address,
+          parseUnits(amount, 18),
+          lpToken.address,
+          { gasLimit: '1500000' }
+        );
     }
   }
 

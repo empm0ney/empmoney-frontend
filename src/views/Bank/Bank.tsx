@@ -247,7 +247,7 @@ const LPTokenHelpText: React.FC<{ bank: BankEntity }> = ({ bank }) => {
     pairName = 'EMP-ESHARE pair';
     uniswapUrl = 'https://pancakeswap.finance/add/' + bshareAddr + '/' + empAddr;
   } else if (bank.depositTokenName === 'ESHARE-MDB+ LP') {
-    pairName = 'ESHARE-MDB+ LP';
+    pairName = 'ESHARE-MDB+ pair';
     uniswapUrl = 'https://pancakeswap.finance/add/0x9f8BB16f49393eeA4331A39B69071759e54e16ea' + '/' + bshareAddr;
   } else {
     pairName = 'ESHARE-BNB pair';

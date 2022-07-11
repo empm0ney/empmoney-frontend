@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import Card from '../../../../components/Card'
 import { Text } from '../../../../components/Text'
-import { useLargestDayDepositor, useLargestDeposit, usePoolBalance } from '../../../../hooks/useDetonator'
+import { useLargestDayDepositor, useLargestDeposit, usePoolBalance, useTopDayDeposits } from '../../../../hooks/useDetonator'
 import { getFullDisplayBalance } from '../../../../utils/formatBalance'
 import ExpandableSection from '../../../../components/ExpandableSection'
 import CardValue from '../CardValue'
@@ -129,7 +129,7 @@ const LargestCard = () => {
                 <>
                   <GridItem>
                     <Text bold fontSize="18px">
-                    🥇 {parseAddr(topUsers[0].address)}
+                    🥇 {parseAddr(topUsers[0].key)}
                     </Text>
                   </GridItem>
                   <GridItem marginBottom="0">
@@ -144,7 +144,7 @@ const LargestCard = () => {
                 <>
                   <GridItem>
                     <Text bold fontSize="18px">
-                    🥈 {parseAddr(topUsers[1].address)}
+                    🥈 {parseAddr(topUsers[1].key)}
                     </Text>
                   </GridItem>
                   <GridItem marginBottom="0">
@@ -159,7 +159,7 @@ const LargestCard = () => {
                 <>
                   <GridItem>
                     <Text bold fontSize="18px">
-                    🥉 {parseAddr(topUsers[0].address)}
+                    🥉 {parseAddr(topUsers[0].key)}
                     </Text>
                   </GridItem>
                   <GridItem marginBottom="0">

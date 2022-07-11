@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Contract, Provider } from 'ethers-multicall';
 import { useWallet } from 'use-wallet'
 import BigNumber from 'bignumber.js'
 import useEmpFinance from './useEmpFinance';
@@ -576,51 +575,46 @@ export const useWhaleTax = () => {
 export const useTopDayDeposits = (): any[] => {
   const [users, setUsers] = useState([] as any[])
   const empFinance = useEmpFinance();
-  const { Detonator } = empFinance.contracts;
-  const provider = getDefaultProvider();
   const { fastRefresh } = useRefresh()
+
+  const { Detonator, DetonatorMultiCall } = empFinance.contracts;
 
   useEffect(() => {
     const fetch = async () => {
-      const ethcallProvider = new Provider(provider, 56);
-      const detonator = new Contract(Detonator.address, Detonator.interface.format('full') as string[]);
-
-      const numUsers = Number(await getTotalUsers(Detonator));
+      const numUsers = +await getTotalUsers(Detonator);
       if (!numUsers) return setUsers([]);
 
-      let calls = [];
-      for (let i = 0; i < numUsers; i++) {
-        calls.push(detonator.userIndices(i))
+      let i = 0;
+      const increment = 1000;
+      const userTotalsData = [];
+
+      while (i < +numUsers) {
+        const userIndicies: number[] = [];
+        const max = i + increment;
+
+        for (; i < max && i < +numUsers; i++) {
+          userIndicies.push(i);
+        }
+
+        userTotalsData.push(...(await DetonatorMultiCall.getDayDeposits(userIndicies)));
       }
 
-      const userAddresses = await ethcallProvider.all(calls);
-      if (!userAddresses) return setUsers([]);
-      calls = [];
-
-      for (let i = 0; i < userAddresses.length; i++) {
-        calls.push(detonator.getDayDeposits(userAddresses[i]))
-      }
-
-      const dayDeposits = await ethcallProvider.all(calls);
-      if (!dayDeposits) return setUsers([]);
-
-      for (let i = 0; i < dayDeposits.length; i++) {
-        dayDeposits[i] = { address: calls[i].params[0], day_deposits: dayDeposits[i] };
-      }
-
-      const sortedUsers = dayDeposits.sort((d0: any, d1: any) => {
-        if (d0.day_deposits.gt(d1.day_deposits)) return -1;
-        if (d1.day_deposits.gt(d0.day_deposits)) return 1;
+      const sortedUsers = userTotalsData.sort((u1: any, u2: any) => {
+        if (u1.day_deposits.gt(u2.day_deposits))
+          return -1;
+        if (u2.day_deposits.gt(u1.day_deposits))
+          return 1;
         return 0;
       });
 
       return setUsers(sortedUsers)
     }
 
-    if (Detonator && provider) {
+    if (Detonator && DetonatorMultiCall) {
       fetch()
     }
-  }, [setUsers, Detonator, provider, fastRefresh])
+  }, [setUsers, Detonator, DetonatorMultiCall, fastRefresh])
+
 
   return users
 

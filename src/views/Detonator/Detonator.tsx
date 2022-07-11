@@ -10,7 +10,7 @@ import Page from '../../components/Page'
 import HomeImage from '../../assets/img/background2.jpg';
 import useWallet from 'use-wallet'
 import UnlockWallet from '../../components/UnlockWallet'
-import BannerAd from '../../assets/img/ledger_banner.jpg';
+import BannerAd from '../../assets/img/ll_banner.jpg';
 
 const BackgroundImage = createGlobalStyle`
   body {
@@ -71,7 +71,7 @@ const Detonator: React.FC = () => {
           <BackgroundImage />
           {!!account ? (<>
             {scrollPosition == 0 && <div style={{ textAlign: 'center', marginTop: '-48px', marginBottom: '2rem' }}>
-              <a href="https://shop.ledger.com/pages/ledger-nano-s-plus?r=460712cb262d" target="_blank">
+              <a href="https://emp.liquidcapital.finance/" target="_blank">
                 <img src={BannerAd} alt="banner-ad" style={{ width: isMobile ? '100%' : '55%', maxHeight: '70px' }} />
               </a>
             </div>}

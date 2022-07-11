@@ -33,11 +33,12 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
   const ethBalance = useTokenBalance(empFinance.ETH);
   const busdBalance = useTokenBalance(empFinance.BUSD);
   const [val, setVal] = useState('');
-  const [slippage, setSlippage] = useState('2');
+  const [slippage, setSlippage] = useState('1');
   const [zappingToken, setZappingToken] = useState(BNB_TICKER);
   const [zappingTokenBalance, setZappingTokenBalance] = useState(ftmBalance);
   const [estimate, setEstimate] = useState({ token0: '0', token1: '0' }); // token0 will always be BNB in this case
-  const [approveZapperStatus, approveZapper] = useApproveZapper(zappingToken);
+  const isZapMDB = tokenName === 'ESHARE-MDB+ LP';
+  const [approveZapperStatus, approveZapper] = useApproveZapper(zappingToken, isZapMDB);
   const empFtmLpStats = useLpStats('EMP-ETH-LP');
   const tShareFtmLpStats = useLpStats('ESHARE-BNB-LP');
   const empLPStats = useMemo(() => (empFtmLpStats ? empFtmLpStats : null), [empFtmLpStats]);
@@ -126,7 +127,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
         <StyledMenuItem value={BUSD_TICKER}>BUSD</StyledMenuItem>
         <StyledMenuItem value={ETH_TICKER}>ETH</StyledMenuItem>
         <StyledMenuItem value={ESHARE_TICKER}>ESHARE</StyledMenuItem>
-        <StyledMenuItem value={EMP_TICKER}>EMP</StyledMenuItem>
+        {/* <StyledMenuItem value={EMP_TICKER}>EMP</StyledMenuItem> */}
       </Select>
       <TokenInput
         onSelectMax={handleSelectMax}
@@ -161,7 +162,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
       <Input
         value={String(slippage)}
         onPointerDown={() => setSlippage('')}
-        onBlur={() => !(slippage && isNumeric(slippage)) && setSlippage('2')}
+        onBlur={() => !(slippage && isNumeric(slippage)) && setSlippage('1')}
         onChange={(e: any) => setSlippage(!!e.currentTarget.value && isNumeric(e.currentTarget.value) ? e.currentTarget.value : '')}
         placeholder="0"
         endAdornment={<div style={{ marginBottom: '1px' }}>%</div>}

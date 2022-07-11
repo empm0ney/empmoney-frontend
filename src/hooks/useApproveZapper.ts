@@ -17,16 +17,20 @@ export enum ApprovalState {
 }
 
 // returns a variable indicating the state of the approval and a function which approves if necessary or early returns
-function useApproveZapper(zappingToken: string): [ApprovalState, () => Promise<void>] {
+function useApproveZapper(zappingToken: string, isZapMDB: boolean): [ApprovalState, () => Promise<void>] {
   const empFinance = useEmpFinance();
+  const zapperAddress = isZapMDB 
+    ? empFinance.config.deployments.ZapMDB.address 
+    : ZAPPER_ROUTER_ADDR;
+
   let token: ERC20;
   if (zappingToken === BNB_TICKER) token = empFinance.BNB;
   else if (zappingToken === EMP_TICKER) token = empFinance.EMP;
   else if (zappingToken === ESHARE_TICKER) token = empFinance.ESHARE;
   else if (zappingToken === ETH_TICKER) token = empFinance.externalTokens[ETH_TICKER];
   else if (zappingToken === BUSD_TICKER) token = empFinance.externalTokens[BUSD_TICKER];
-  const pendingApproval = useHasPendingApproval(token.address, ZAPPER_ROUTER_ADDR);
-  const currentAllowance = useAllowance(token, ZAPPER_ROUTER_ADDR, pendingApproval);
+  const pendingApproval = useHasPendingApproval(token.address, zapperAddress);
+  const currentAllowance = useAllowance(token, zapperAddress, pendingApproval);
 
   // check the current approval status
   const approvalState: ApprovalState = useMemo(() => {
@@ -50,15 +54,15 @@ function useApproveZapper(zappingToken: string): [ApprovalState, () => Promise<v
       return;
     }
 
-    const response = await token.approve(ZAPPER_ROUTER_ADDR, APPROVE_AMOUNT);
+    const response = await token.approve(zapperAddress, APPROVE_AMOUNT);
     addTransaction(response, {
       summary: `Approve ${token.symbol}`,
       approval: {
         tokenAddress: token.address,
-        spender: ZAPPER_ROUTER_ADDR,
+        spender: zapperAddress,
       },
     });
-  }, [approvalState, token, addTransaction]);
+  }, [approvalState, zapperAddress, token, addTransaction]);
 
   return [approvalState, approve];
 }

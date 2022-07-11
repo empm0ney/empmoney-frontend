@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     // backgroundColor: 'rgb(8, 9, 13, 0.9)',
     textAlign: 'center',
-    height: '7.5rem',
+    height: '5rem',
   },
 }));
 
@@ -302,8 +302,7 @@ const Nav = () => {
                         <div className="navTokenPrice">${roundAndFormatNumber(Number(sharePriceInDollars), 0)}</div>
                       </a>
                     </Box>
-                    <div style={{ height: '40px' }}>{' '}</div>
-                    <Box
+                    {/* <Box
                       style={{
                         flexGrow: '0',
                         paddingLeft: '8px',
@@ -323,7 +322,7 @@ const Nav = () => {
                         <div className="navTokenIcon bnb"></div>{' '}
                         <div className="navTokenPrice">${roundAndFormatNumber(Number(bnbPriceInDollars), 0)}</div>
                       </a>
-                    </Box>
+                    </Box> */}
                     <div style={{ height: '45px' }}>{' '}</div>
                     <div>
                       <a
