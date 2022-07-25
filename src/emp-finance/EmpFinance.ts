@@ -402,9 +402,9 @@ export class EmpFinance {
     if (depositTokenName === 'EMP-ETH-LP') { // 1
       return rewardPerSecond.mul(550).div(1000); // 1
     } else if (depositTokenName === 'ESHARE-BNB-LP') { // 0
-      return rewardPerSecond.mul(420).div(1000); // 0
+      return rewardPerSecond.mul(430).div(1000); // 0
     } else if (depositTokenName === 'ESHARE-MDB+ LP') { // 4
-      return rewardPerSecond.mul(30).div(1000); // 4
+      return rewardPerSecond.mul(20).div(1000); // 4
     } else if (depositTokenName === 'EMP-ESHARE-LP') { // 2
       return rewardPerSecond.mul(0).div(1000); // 2
     } else if (depositTokenName === 'EMP') { // 3

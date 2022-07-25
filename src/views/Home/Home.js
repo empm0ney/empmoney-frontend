@@ -230,6 +230,15 @@ const Home = () => {
               <Button
                 target="_blank"
                 // size="medium"
+                href="https://emp.money"
+                style={{ marginTop: '4px', marginRight: '16px' }}
+                className={'shinyButtonTertiary ' + classes.button}
+              >
+                NEW WEBSITE
+              </Button>
+              <Button
+                target="_blank"
+                // size="medium"
                 href="https://emp-academy.thinkific.com/courses/Emp-Academy"
                 style={{ marginTop: '4px' }}
                 className={'shinyButtonTertiary ' + classes.button}
