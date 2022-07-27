@@ -49,7 +49,7 @@ const TicketCard: React.FC = () => {
   const { onDeposit } = useDepositLottery()
   const minRef = 0.15;
   const refLink =
-    account && userInfo && +userInfo.total_deposits / 1e18 >= 0.15 && `https://emp.money/detonator?ref=${account}`
+    account && userInfo && +userInfo.total_deposits / 1e18 >= 0.15 && `${window.origin}/detonator?ref=${account}`
 
   // const [onPresentApprove] = useModal(<PurchaseWarningModal />)
   const [onPresentBuy] = useModal(
