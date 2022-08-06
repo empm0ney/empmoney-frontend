@@ -48,7 +48,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
         max={fullBalance}
         symbol={tokenName}
       />
-      <div style={{ color: '#bdbdbd', marginTop: '8px', fontSize: '14px', fontWeight: 700, fontFamily: '"Poppins",sans-serif!important' }}>
+      <div style={{ color: '#bdbdbd', marginTop: '8px', fontSize: '14px', fontWeight: 700, fontFamily: '"Kanit",sans-serif!important' }}>
         0.005 Minimmum
       </div>
       <ModalActions>

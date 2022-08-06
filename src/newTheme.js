@@ -33,7 +33,7 @@ const newTheme = createTheme({
   },
   typography: {
     color: '#2c2560',
-    fontFamily: ['"Poppins"', 'sans-serif'].join(','),
+    fontFamily: ['"Kanit"', 'sans-serif'].join(','),
   },
 });
 
